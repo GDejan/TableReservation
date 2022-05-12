@@ -1,0 +1,105 @@
+﻿<Page x:Class="TableReservation.AdminPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:TableReservation"
+      mc:Ignorable="d" 
+      d:DesignHeight="450" d:DesignWidth="800"
+      Title="AdminPage">
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+
+            <ColumnDefinition Width="10"></ColumnDefinition>
+            <ColumnDefinition Width="auto"></ColumnDefinition>
+            <ColumnDefinition Width="10"></ColumnDefinition>
+            <ColumnDefinition Width="auto"></ColumnDefinition>
+            <ColumnDefinition Width="10"></ColumnDefinition>
+            <ColumnDefinition Width="auto"></ColumnDefinition>
+            <ColumnDefinition Width="50"></ColumnDefinition>
+            <ColumnDefinition Width="auto"></ColumnDefinition>
+            <ColumnDefinition Width="10"></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="10"></RowDefinition>
+            <RowDefinition Height="auto"></RowDefinition>
+            <RowDefinition Height="auto"></RowDefinition>
+            <RowDefinition Height="auto"></RowDefinition>
+            <RowDefinition Height="auto"></RowDefinition>
+            <RowDefinition Height="auto"></RowDefinition>
+            <RowDefinition Height="auto"></RowDefinition>
+            <RowDefinition Height="auto"></RowDefinition>
+            <RowDefinition Height="10"></RowDefinition>
+            <RowDefinition Height="auto"></RowDefinition>
+            <RowDefinition Height="20"></RowDefinition>
+            <RowDefinition Height="auto"></RowDefinition>
+            <RowDefinition Height="10"></RowDefinition>
+            <RowDefinition Height="auto"></RowDefinition>
+            <RowDefinition Height="10"></RowDefinition>
+            <RowDefinition Height="auto"></RowDefinition>
+            <RowDefinition Height="10"></RowDefinition>
+            <RowDefinition Height="auto"></RowDefinition>
+            <RowDefinition Height="10"></RowDefinition>
+            <RowDefinition Height="auto"></RowDefinition>
+            <RowDefinition Height="10"></RowDefinition>
+            <RowDefinition Height="auto"></RowDefinition>
+            
+            <RowDefinition Height="10"></RowDefinition>
+        </Grid.RowDefinitions>
+        <Button x:Name="Logout" Grid.Column="1" Content="Logout" Click="Logout_Click" Grid.Row="1" Margin="0,3,0,3"></Button>
+
+        <Label Content="Old" Grid.Column="3" Grid.Row="1" FontSize="12" HorizontalAlignment="Center" ></Label>
+        <Label Content="New" Grid.Column="5" Grid.Row="1" FontSize="12" HorizontalAlignment="Center" ></Label>
+
+        <Label Content="Username" Grid.Column="1" Grid.Row="2" FontSize="12"></Label>
+        <Label Content="Password" Grid.Column="1" Grid.Row="3" FontSize="12"></Label>
+        <Label Content="Name" Grid.Column="1" Grid.Row="4" FontSize="12"></Label>
+        <Label Content="Surname" Grid.Column="1" Grid.Row="5" FontSize="12"></Label>
+        <Label Content="Id" Grid.Column="1" Grid.Row="7" FontSize="12"></Label>
+        <Label Content="Is Admin" Grid.Column="1" Grid.Row="6" FontSize="12"></Label>
+
+        <Label x:Name="OldUsername" Content="oldUsername" Grid.Column="3" Grid.Row="2" FontSize="12" HorizontalAlignment="Center"></Label>
+        <Label x:Name="OldName" Content="oldName" Grid.Column="3" Grid.Row="4" FontSize="12" HorizontalAlignment="Center"></Label>
+        <Label x:Name="OldSurname" Content="oldSurname" Grid.Column="3" Grid.Row="5" FontSize="12" HorizontalAlignment="Center"></Label>
+        <Label x:Name="OldIsAdmin" Content="oldIs Admin" Grid.Column="3" Grid.Row="6" FontSize="12" HorizontalAlignment="Center"></Label>
+        <CheckBox x:Name="NewIsAdmin" Grid.Column="5" Grid.Row="6" FontSize="12" Margin="0,5,0,5" HorizontalAlignment="Center"/>
+        <TextBox x:Name="OldId" Grid.Column="3" Grid.Row="7" FontSize="12" Margin="0,5,0,5"></TextBox>
+        <Button x:Name="GetUserByID" Grid.Column="5" Content="Get User by ID" Click="GetUserByID_Click" Grid.Row="7" Margin="0,5,0,5"></Button>
+
+        <TextBox x:Name="NewUsername" Grid.Column="5" Grid.Row="2" FontSize="12" Margin="0,5,0,5" ></TextBox>
+        <PasswordBox x:Name="NewPassword" Password="" Grid.Column="5"  Grid.Row="3" FontSize="12" Margin="0,5,0,5" ></PasswordBox>
+        <TextBox x:Name="NewName" Grid.Column="5" Grid.Row="4" FontSize="12" Margin="0,5,0,5" ></TextBox>
+        <TextBox x:Name="NewSurname" Grid.Column="5" Grid.Row="5" FontSize="12" Margin="0,5,0,5"></TextBox>
+
+        <Button x:Name="AddUser" Grid.Column="1" Content="Add User" Click="AddUser_Click" Grid.Row="9" Margin="0,0,0,0"></Button>
+        
+        <Button x:Name="ChangeUser" Grid.Column="3" Content="Change User" Click="ChangeUser_Click" Grid.Row="9" Margin="0,0,0,0"></Button>
+        <Button x:Name="RemoveUser" Grid.Column="5" Content="Remove User" Click="RemoveUser_Click" Grid.Row="9" Margin="0,0,0,0"></Button>
+
+        
+       
+        <Button x:Name="ListUsers" Grid.Column="1" Content="All Users" Click="ListUsers_Click" Grid.Row="11" Margin="0,0,0,0"></Button>
+        <Button x:Name="ListReservations" Grid.Column="1" Content="Reservations" Click="ListReservations_Click" Grid.Row="13" Margin="0,0,0,0"></Button>
+
+        <ListBox x:Name="Listbox" Grid.Column="6" Grid.Row="2" Grid.ColumnSpan="3" Grid.RowSpan="21" FontSize="12" d:ItemsSource="{d:SampleData ItemCount=5}" Margin="50,5,-413,10"></ListBox>
+
+        <Button x:Name="AddBuilding" Grid.Column="1" Content="Add Building" Click="AddBuilding_Click" Grid.Row="15" Margin="0,0,0,0"></Button>
+        <Button x:Name="RemoveBuilding" Grid.Column="3" Content="Remove Building" Click="RemoveBuilding_Click" Grid.Row="15" Margin="0,0,0,0"></Button>
+        <Button x:Name="ChangeBuilding" Grid.Column="5" Content="Change Building" Click="ChangeBuilding_Click" Grid.Row="15" Margin="0,0,0,0"></Button>
+
+        <Button x:Name="AddStorey" Grid.Column="1" Content="Add Storey" Click="AddStorey_Click" Grid.Row="17" Margin="0,0,0,0"></Button>
+        <Button x:Name="RemoveStorey" Grid.Column="3" Content="Remove Storey" Click="RemoveStorey_Click" Grid.Row="17" Margin="0,0,0,0"></Button>
+        <Button x:Name="ChangeStorey" Grid.Column="5" Content="Change Storey" Click="ChangeStorey_Click" Grid.Row="17" Margin="0,0,0,0"></Button>
+
+        <Button x:Name="AddRoom" Grid.Column="1" Content="Add Room" Click="AddRoom_Click" Grid.Row="19" Margin="0,0,0,0"></Button>
+        <Button x:Name="RemoveRoom" Grid.Column="3" Content="Remove Room" Click="RemoveRoom_Click" Grid.Row="19" Margin="0,0,0,0"></Button>
+        <Button x:Name="ChangeRoom" Grid.Column="5" Content="Change Room" Click="ChangeRoom_Click" Grid.Row="19" Margin="0,0,0,0"></Button>
+
+        <Button x:Name="AddDesk" Grid.Column="1" Content="Add Desk" Click="AddDesk_Click" Grid.Row="21" Margin="0,0,0,0"></Button>
+        <Button x:Name="RemoveDesk" Grid.Column="3" Content="Remove Desk" Click="RemoveDesk_Click" Grid.Row="21" Margin="0,0,0,0"></Button>
+        <Button x:Name="ChangeDesk" Grid.Column="5" Content="Change Desk" Click="ChangeDesk_Click" Grid.Row="21" Margin="0,0,0,0"></Button>
+
+
+    </Grid>
+</Page>
