@@ -12,6 +12,9 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using TableReservation.Classes.Reservations;
+using TableReservation.Classes.Users;
+using TableReservation.Views;
 
 namespace TableReservation
 {
@@ -20,9 +23,33 @@ namespace TableReservation
     /// </summary>
     public partial class UserPage : Page
     {
-        public UserPage(Classes.Users.SessionUser sessionUser)
+        public SessionUser SessionUser = new SessionUser();
+        public UserPage(SessionUser sessionUser)
         {
             InitializeComponent();
+            this.SessionUser = sessionUser;
         }
+
+        private void ReserveTable_Click(object sender, RoutedEventArgs e)
+        {
+            if (SessionUser.User.IsAdmin == false)
+            {
+                TableResWindow TableResWindow = new TableResWindow(this.SessionUser); 
+                TableResWindow.Show();
+
+            }
+        }
+
+
+
+
+        private void Logout_Click(object sender, RoutedEventArgs e)
+        {
+            this.Content = null;
+            SessionUser.IsActiv = false;
+            LoginPage LoginPage = new LoginPage();
+            this.NavigationService.Navigate(LoginPage);
+        }
+       
     }
 }

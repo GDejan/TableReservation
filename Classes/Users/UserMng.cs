@@ -10,11 +10,28 @@ namespace TableReservation.Classes.Users
 {
     internal class UserMng
     {
-        private DbUserMng DbUserMng = new DbUserMng();
-        private Checks Checks = new Checks();
+        private DbUserMng dbUserMng = new DbUserMng();
+        private Checks checks = new Checks();
         private List<User> users = new List<User>();
+        private Msgs Msgs = new Msgs();
         public UserMng()
         {
+        }
+        public User LogedUser(string username, string password)
+        {
+            PassHash PassHash = new PassHash(password);
+            string passwordHas = PassHash.HashPass;
+
+            if (checks.InputCheck(username))
+            {
+                users = dbUserMng.GetUser(username, passwordHas);
+
+                if (users.Count > 0)
+                {
+                    return users[0];
+                }
+            }
+            return null;
         }
 
         public bool NewUser(string name, string surname, string username, string password)
@@ -22,27 +39,26 @@ namespace TableReservation.Classes.Users
             PassHash PassHash = new PassHash(password);
             string passwordHas = PassHash.HashPass;
 
-            if (Checks.InputCheck(name) && Checks.InputCheck(surname) && Checks.InputCheck(username)) //check entry data
+            if (checks.InputCheck(name) && checks.InputCheck(surname) && checks.InputCheck(username)) //check entry data
             {
-                users = DbUserMng.SQLgetUser(username); //check if user is in database
+                users = dbUserMng.GetUser(username); //check if user is in database
 
                 if (users.Count == 0) //if is not in database -> create new entry
                 {
                     //!!!!!!//check if name and surname are equal - or use PC username for validation
 
-                    DbUserMng.SQLnewUser(new User(name, surname, username, passwordHas));
-                    MessageBox.Show(EnumMsgs.UserCreated, EnumMsgs.Ok, MessageBoxButton.OK);
+                    dbUserMng.NewUser(new User(name, surname, username, passwordHas));
+                    MessageBox.Show(Msgs.UserCreated + "->" + username.ToString(), Msgs.Ok, MessageBoxButton.OK);
                     return true;
                 }
                 else
                 {
-                    MessageBox.Show(EnumMsgs.UserExist, EnumMsgs.Error, MessageBoxButton.OK);
+                    MessageBox.Show(Msgs.UserExist + "->" + username.ToString(), Msgs.Error, MessageBoxButton.OK);
                     return false;
                 }
             }
             else
             {
-                MessageBox.Show(EnumMsgs.WrongInput, EnumMsgs.Error, MessageBoxButton.OK);
                 return false;
             }
         }
@@ -59,33 +75,28 @@ namespace TableReservation.Classes.Users
             if (surname != "") newsurname = surname; else newsurname = oldUser.Surname;
             if (isadmin != oldUser.IsAdmin) newisadmin = isadmin; else newisadmin = oldUser.IsAdmin;
 
-            if (Checks.InputCheck(newname) && Checks.InputCheck(newsurname) && Checks.InputCheck(newusername)) //check entry data
+            if (checks.InputCheck(newname) && checks.InputCheck(newsurname) && checks.InputCheck(newusername)) //check entry data
             {
-                users = DbUserMng.SQLgetUser(newusername);
+                users = dbUserMng.GetUser(newusername);
                 if ((users.Count == 0) || (newusername == oldUser.Username)) //if is not in database -> change entry
                 {
                     //!!!!!!//check if name and surname are equal - or use PC username for validation
 
-                    DbUserMng.SQLchangeUser(id, newname, newsurname, newusername, newisadmin);
-                    MessageBox.Show(EnumMsgs.UserChanged, EnumMsgs.Ok, MessageBoxButton.OK);
+                    dbUserMng.ChangeUser(id, newname, newsurname, newusername, newisadmin);
+                    MessageBox.Show(Msgs.UserChanged + "->" + oldUser.Name.ToString() + " to " + newname.ToString(), Msgs.Ok, MessageBoxButton.OK);
 
                 }
                 else
                 {
-                    MessageBox.Show(EnumMsgs.UserExist, EnumMsgs.Error, MessageBoxButton.OK);
+                    MessageBox.Show(Msgs.UserExist + "->" + username.ToString(), Msgs.Error, MessageBoxButton.OK);
                 }
             }
-            else
-            {
-                MessageBox.Show(EnumMsgs.WrongInput, EnumMsgs.Error, MessageBoxButton.OK);
-            }
-
         }
 
         public void RemoveUser(int id)
         {
-            DbUserMng.SQLremoveUser(id);
-            MessageBox.Show(EnumMsgs.UserRemoved, EnumMsgs.Ok, MessageBoxButton.OK);
+            dbUserMng.RemoveUser(id);
+            MessageBox.Show(Msgs.UserRemoved, Msgs.Ok, MessageBoxButton.OK);
         }
 
         public User getUserById(string id)
@@ -93,20 +104,20 @@ namespace TableReservation.Classes.Users
             try
             {
                 int ID = Int32.Parse(id);
-                users = DbUserMng.SQLgetUser(ID); //check if user is in database
+                users = dbUserMng.GetUser(ID); //check if user is in database
                 if (users.Count > 0) //if is in database -> check entry
                 {
                     return users[0];
                 }
                 else
                 {
-                    MessageBox.Show(EnumMsgs.UserDontExist, EnumMsgs.Error, MessageBoxButton.OK);
+                    MessageBox.Show(Msgs.UserDontExist + "->" + id.ToString(), Msgs.Error, MessageBoxButton.OK);
                     return null;
                 }
             }
             catch
             {
-                MessageBox.Show(EnumMsgs.WrongInput, EnumMsgs.Error, MessageBoxButton.OK);
+                MessageBox.Show(Msgs.WrongInput + "->" + id.ToString(), Msgs.Error, MessageBoxButton.OK);
                 return null;
             }
         }

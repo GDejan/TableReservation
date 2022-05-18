@@ -2,13 +2,16 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using System.Windows;
 using TableReservation.Classes.Users;
 
 namespace TableReservation.Helpers
 {
     internal class Checks
     {
+        private Msgs Msgs = new Msgs();
         public Checks()
         {
         }
@@ -16,18 +19,25 @@ namespace TableReservation.Helpers
         {
             if (!string.IsNullOrEmpty(Input))
             {
-                foreach (char c in Input)
+                if (Input.Length < 50)
                 {
-                    if (!(((((int)c >= 65) && (int)c <= 90) || (((int)c >= 97) && (int)c <= 122)) || (((int)c >= 48) && (int)c <= 57)))
+                    //if (!Regex.Match(Input, "^[a-zA-Z0-9][a-zA-Z0-9]*$").Success)
+                    if (!Regex.Match(Input, "^[0-9a-zA-Z][a-zA-Z0-9]*$").Success)
                     {
+                        MessageBox.Show(Msgs.WrongInput + " -> " + Input.ToString(), Msgs.Error, MessageBoxButton.OK);
                         return false;
-                        break;
                     }
+                    return true;
                 }
-                return true;
+                else 
+                {
+                    MessageBox.Show(Msgs.LengthInput + " -> " + Input.ToString(), Msgs.Error, MessageBoxButton.OK);
+                    return false;
+                }
             }
             else
             {
+                MessageBox.Show(Msgs.EmptyInput + Input.ToString(), Msgs.Error, MessageBoxButton.OK);
                 return false;
             }
         }

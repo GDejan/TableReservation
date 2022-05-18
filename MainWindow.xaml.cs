@@ -11,8 +11,7 @@ namespace TableReservation
         public MainWindow()
         {
             InitializeComponent();
-            LoginPage LoginPage = new LoginPage();
-            this.Content = LoginPage;
+            MainFrame.Navigate(new LoginPage());
         }
     }
 }

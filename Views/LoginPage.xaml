@@ -5,38 +5,25 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:TableReservation.Views"
       mc:Ignorable="d" 
-      d:DesignHeight="450" d:DesignWidth="800"
+      d:DesignHeight="100" d:DesignWidth="250"
       Title="LoginPage">
 
-        <Grid x:Name="GameGrid" Focusable="True">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="10"></ColumnDefinition>
-                <ColumnDefinition Width="auto"></ColumnDefinition>
-                <ColumnDefinition Width="auto"></ColumnDefinition>
-                <ColumnDefinition Width="auto"></ColumnDefinition>
-                <ColumnDefinition Width="auto"></ColumnDefinition>
-                <ColumnDefinition Width="auto"></ColumnDefinition>
-                <ColumnDefinition Width="auto"></ColumnDefinition>
-                <ColumnDefinition Width="auto"></ColumnDefinition>
-                <ColumnDefinition Width="auto"></ColumnDefinition>
-                <ColumnDefinition Width="10"></ColumnDefinition>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="10"></ColumnDefinition>
+            <ColumnDefinition Width="auto"></ColumnDefinition>
+            <ColumnDefinition Width="auto"></ColumnDefinition>
+            <ColumnDefinition Width="10"></ColumnDefinition>
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
-                <RowDefinition Height="10"></RowDefinition>
-                <RowDefinition Height="auto"></RowDefinition>
-                <RowDefinition Height="auto"></RowDefinition>
-                <RowDefinition Height="auto"></RowDefinition>
-                <RowDefinition Height="auto"></RowDefinition>
-                <RowDefinition Height="auto"></RowDefinition>
-                <RowDefinition Height="auto"></RowDefinition>
-                <RowDefinition Height="auto"></RowDefinition>
-                <RowDefinition Height="auto"></RowDefinition>
-                <RowDefinition Height="10"></RowDefinition>
+            <RowDefinition Height="10"></RowDefinition>
+            <RowDefinition Height="auto"></RowDefinition>
+            <RowDefinition Height="auto"></RowDefinition>
+            <RowDefinition Height="10"></RowDefinition>
             </Grid.RowDefinitions>
-            <TextBox x:Name="Username" Grid.Column="1" Text="Username" Grid.Row="1" Margin="0,0,0,0" ></TextBox>
-            <PasswordBox x:Name="Password" Password="password" Grid.Column="1" Grid.Row="2" Margin="0,0,0,0" ></PasswordBox>
-            <Button x:Name="LogIn" Grid.Column="2" Content="LogIn" Grid.Row="1" Click="LogIn_Click" Margin="0,0,0,0" ></Button>
-            <Button x:Name="Register" Grid.Column="2" Content="Register" Grid.Row="2" Click="Register_Click" Margin="0,0,0,0" ></Button>
-
-        </Grid>
+            <TextBox x:Name="Username" Grid.Column="1" Text="Username" Grid.Row="1" Margin="0,5,0,5" MinWidth="100"></TextBox>
+            <PasswordBox x:Name="Password" Password="password" Grid.Column="1" Grid.Row="2" Margin="0,5,0,5" MinWidth="100"></PasswordBox>
+            <Button x:Name="LogIn" Grid.Column="2" Content="LogIn" Grid.Row="1" Click="LogIn_Click" Margin="10,5,0,5" Width="65" Height="20"></Button>
+        <Button x:Name="Register" Grid.Column="2" Content="Register" Grid.Row="2" Click="Register_Click" Margin="10,5,0,5" Width="65" Height="20"></Button>
+    </Grid>
 </Page>

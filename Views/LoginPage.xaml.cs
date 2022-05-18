@@ -22,30 +22,31 @@ namespace TableReservation.Views
     /// </summary>
     public partial class LoginPage : Page
     {
+        private Msgs Msgs = new Msgs();
         public LoginPage()
         {
             InitializeComponent();
         }
         private void LogIn_Click(object sender, RoutedEventArgs e)
         {
-            SessionUser SessionUser = new SessionUser(new LogInUser().LogedUser(Username.Text, Password.Password));
+            SessionUser SessionUser = new SessionUser(new UserMng().LogedUser(Username.Text, Password.Password));
 
             if (SessionUser.User != null)
             {
                 if (SessionUser.User.IsAdmin != true)
                 {
-                    UserPage UserPage = new UserPage(SessionUser); //predati session usera na sljedeci window
-                    this.Content = UserPage;
+                    this.Content = null;
+                    this.NavigationService.Navigate(new UserPage(SessionUser));
                 }
                 else
                 {
-                    AdminPage AdminPage = new AdminPage(SessionUser); //predati session usera na sljedeci window
-                    this.Content = AdminPage;
+                    this.Content = null;
+                    this.NavigationService.Navigate(new AdminPage(SessionUser));
                 }
             }
             else
             {
-                MessageBox.Show(EnumMsgs.WrongUser, EnumMsgs.Error, MessageBoxButton.OK);
+                MessageBox.Show(Msgs.WrongUser, Msgs.Error, MessageBoxButton.OK);
             }
         }
 
@@ -53,8 +54,6 @@ namespace TableReservation.Views
         {
             UserRegWindow UserRegWindow = new UserRegWindow();
             UserRegWindow.Show();
-
         }
-
     }
 }

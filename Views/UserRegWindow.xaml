@@ -5,16 +5,12 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:TableReservation"
         mc:Ignorable="d"
-        Title="Registration Window" Height="220" Width="180">
+        Title="Registration Window" Height="220" Width="200">
 
 
     <Grid x:Name="Grid" Focusable="True">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="10"></ColumnDefinition>
-            <ColumnDefinition Width="auto"></ColumnDefinition>
-            <ColumnDefinition Width="10"></ColumnDefinition>
-            <ColumnDefinition Width="auto"></ColumnDefinition>
-            <ColumnDefinition Width="auto"></ColumnDefinition>
             <ColumnDefinition Width="auto"></ColumnDefinition>
             <ColumnDefinition Width="auto"></ColumnDefinition>
             <ColumnDefinition Width="auto"></ColumnDefinition>
@@ -26,7 +22,6 @@
             <RowDefinition Height="auto"></RowDefinition>
             <RowDefinition Height="auto"></RowDefinition>
             <RowDefinition Height="auto"></RowDefinition>
-            <RowDefinition Height="20"></RowDefinition>
             <RowDefinition Height="auto"></RowDefinition>
             <RowDefinition Height="auto"></RowDefinition>
             <RowDefinition Height="10"></RowDefinition>
@@ -37,12 +32,12 @@
         <Label Content="Name" Grid.Column="1" Grid.Row="3" FontSize="12"></Label>
         <Label Content="Surname" Grid.Column="1" Grid.Row="4" FontSize="12"></Label>
 
-        <TextBox x:Name="Username" Grid.Column="3" Grid.Row="1" FontSize="12" Margin="0,5,0,5" Grid.ColumnSpan="5"></TextBox>
-        <PasswordBox x:Name="Password" Password="password" Grid.Column="3"  Grid.Row="2" FontSize="12" Margin="0,5,0,5" Grid.ColumnSpan="5"></PasswordBox>
-        <TextBox x:Name="Name" Grid.Column="3" Grid.Row="3" FontSize="12" Margin="0,5,0,5" Grid.ColumnSpan="5" ></TextBox>
-        <TextBox x:Name="Surname" Grid.Column="3" Grid.Row="4" FontSize="12" Margin="0,5,0,5"  Grid.ColumnSpan="5"></TextBox>
+        <TextBox x:Name="Username" Grid.Column="2" Grid.Row="1" FontSize="12" Margin="10,5,0,5" MinWidth="100"></TextBox>
+        <PasswordBox x:Name="Password" Password="password" Grid.Column="2"  Grid.Row="2" FontSize="12" Margin="10,5,0,5" MinWidth="100"></PasswordBox>
+        <TextBox x:Name="Name" Grid.Column="2" Grid.Row="3" FontSize="12" Margin="10,5,0,5" MinWidth="100" ></TextBox>
+        <TextBox x:Name="Surname" Grid.Column="2" Grid.Row="4" FontSize="12" Margin="10,5,0,5" MinWidth="100"></TextBox>
 
-        <Button x:Name="Register" Grid.Column="1" Content="Register" Grid.Row="6" Click="Register_Click" Margin="0,0,0,0" Width="64" Height="20" ></Button>
-        <Button x:Name="Cancel" Grid.Column="3" Content="Cancel" Grid.Row="6" Click="Cancel_Click" Margin="0,0,0,0" Width="64" Height="20" ></Button>
+        <Button x:Name="Register" Grid.Column="1" Content="Register" Grid.Row="6" Click="Register_Click" Margin="0,5,0,0" Width="65" Height="20" ></Button>
+        <Button x:Name="Cancel" Grid.Column="2" Content="Cancel" Grid.Row="6" Click="Cancel_Click" Margin="10,5,5,0" Width="65" Height="20" ></Button>
     </Grid>
 </Window>
