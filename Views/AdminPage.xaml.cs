@@ -1,19 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using TableReservation.Classes;
+using TableReservation.Classes.Reservations;
 using TableReservation.Classes.Users;
 using TableReservation.Helpers;
 using TableReservation.Views;
@@ -26,7 +16,7 @@ namespace TableReservation
     public partial class AdminPage : Page
     {
         public SessionUser SessionUser = new SessionUser();
-        private int ID;       
+        
         private UserMng userMng = new UserMng();
         private User user = new User();
         private BuildMng buildMng = new BuildMng();
@@ -37,25 +27,77 @@ namespace TableReservation
         private Room room = new Room();
         private DeskMng deskMng = new DeskMng();
         private Desk desk = new Desk();
-        private Msgs Msgs = new Msgs();
+        private ResMng resMng = new ResMng();
+        private Msgs msgs = new Msgs();
+        private List<User> users = new List<User>();
         private List<Building> buildings = new List<Building>();
+        private List<Storey> storeys = new List<Storey>();
+        private List<Room> rooms = new List<Room>();
+        private List<Desk> desks= new List<Desk>();
+        private List<Reservation> reservations = new List<Reservation>();
+        private Checks checks = new Checks();
 
         public AdminPage(SessionUser sessionUser)
         {
             InitializeComponent();
             this.SessionUser = sessionUser;
         }
+        private void GetUserByID_Click(object sender, RoutedEventArgs e)
+        {
+            if (SessionUser.User.IsAdmin == true)
+            {
+                getUserById();
+            }
+        }
+        private void GetBuildingByID_Click(object sender, RoutedEventArgs e)
+        {
+            if (SessionUser.User.IsAdmin == true)
+            {
+                getBuildingById();
+            }
+        }
+        private void GetStoreyByID_Click(object sender, RoutedEventArgs e)
+        {
+            if (SessionUser.User.IsAdmin == true)
+            {
+                getStoreyById();
+            }
+        }
+        private void GetRoomByID_Click(object sender, RoutedEventArgs e)
+        {
+            if (SessionUser.User.IsAdmin == true)
+            {
+                getRoomById();
+            }
+        }
+        private void GetDeskByID_Click(object sender, RoutedEventArgs e)
+        {
+            if (SessionUser.User.IsAdmin == true)
+            {
+                getDeskById();
+            }
+        }
         private void AddUser_Click(object sender, RoutedEventArgs e)
         {
             if (SessionUser.User.IsAdmin == true) 
             {
-                var DialogResult = MessageBox.Show(Msgs.CheckNewValues, Msgs.Ok, MessageBoxButton.YesNo);
-                if (DialogResult == MessageBoxResult.Yes)
+                if ((checks.InputCheck(NewName.Text) == true) && (checks.InputCheck(NewSurname.Text)) == true && (checks.InputCheck(NewUsername.Text) == true))
                 {
-                    userMng.NewUser(NewName.Text, NewSurname.Text, NewUsername.Text, NewPassword.Password);
+                    if ((!string.IsNullOrEmpty(NewPassword.Password)))
+                    {
+                        var DialogResult = MessageBox.Show(msgs.CheckNewValues, msgs.Ok, MessageBoxButton.YesNo);
+                        if (DialogResult == MessageBoxResult.Yes)
+                        {
+                            PassHash passHash = new PassHash(NewPassword.Password);
+                            userMng.NewUser(new User(NewName.Text, NewSurname.Text, NewUsername.Text, passHash.HashedPassword, (bool)NewIsAdmin.IsChecked, true));
+                        }
+                    }
+                    else 
+                    {
+                        MessageBox.Show(msgs.EmptyInput, msgs.Error, MessageBoxButton.OK);
+                    }
                 }
             }
-            
         }
         private void ChangeUser_Click(object sender, RoutedEventArgs e)
         {
@@ -63,10 +105,28 @@ namespace TableReservation
             {
                 if (getUserById() == true)
                 {
-                    var DialogResult = MessageBox.Show(Msgs.CheckOldValues, Msgs.Ok, MessageBoxButton.YesNo);
-                    if (DialogResult == MessageBoxResult.Yes)
+                    if (!((user.Username == "admin") && (user.IsAdmin == true)))
                     {
-                        userMng.ChangeUser(ID, NewName.Text, NewSurname.Text, NewUsername.Text, (bool)NewIsAdmin.IsChecked, user);
+                        string newusername;
+                        string newname;
+                        string newsurname;
+
+                        if (NewUsername.Text != "") newusername = NewUsername.Text; else newusername = (string)OldUsername.Content;
+                        if (NewName.Text != "") newname = NewName.Text; else newname = (string)OldName.Content;
+                        if (NewSurname.Text != "") newsurname = NewSurname.Text; else newsurname = (string)OldSurname.Content;
+
+                        if ((checks.InputCheck(newusername) == true) && (checks.InputCheck(newname)) == true && (checks.InputCheck(newsurname) == true))
+                        {
+                            var DialogResult = MessageBox.Show(msgs.CheckOldValues, msgs.Ok, MessageBoxButton.YesNo);
+                            if (DialogResult == MessageBoxResult.Yes)
+                            {
+                                userMng.ChangeUser(new User(user.Id, newname, newsurname, newusername, (bool)NewIsAdmin.IsChecked), user);
+                            }
+                        }
+                    }
+                    else
+                    {
+                        MessageBox.Show(msgs.UserIsMaster, msgs.Ok, MessageBoxButton.OK);
                     }
                 }
             }          
@@ -77,140 +137,39 @@ namespace TableReservation
             {
                 if (getUserById()==true)
                 {
-                    var DialogResult = MessageBox.Show(Msgs.CheckOldValues, Msgs.Ok, MessageBoxButton.YesNo);
-                    if (DialogResult == MessageBoxResult.Yes)
+                    if (!((user.Username == "admin") && (user.IsAdmin == true)))
                     {
-                        userMng.RemoveUser(ID);
+                        if ((user.Username !=SessionUser.User.Username))
+                        {
+                            var DialogResult = MessageBox.Show(msgs.CheckOldValues, msgs.Ok, MessageBoxButton.YesNo);
+                            if (DialogResult == MessageBoxResult.Yes)
+                            {
+                                userMng.RemoveUser(user);
+                            }
+                        }
+                        else
+                        {
+                            MessageBox.Show(msgs.UserItSelf + "->" + user.Name.ToString(), msgs.Ok, MessageBoxButton.OK);
+                        }
+                    }
+                    else
+                    {
+                        MessageBox.Show(msgs.UserIsMaster, msgs.Ok, MessageBoxButton.OK);
                     }
                 }
             }
-        }
-        private void GetUserByID_Click(object sender, RoutedEventArgs e)
-        {
-            if (SessionUser.User.IsAdmin == true)
-            {
-                getUserById();
-            }
-        } 
-        private void GetBuildingByID_Click(object sender, RoutedEventArgs e)
-        {
-            if (SessionUser.User.IsAdmin == true)
-            {
-                getBuildingById();
-            }
-        }   
-        private void GetStoreyByID_Click(object sender, RoutedEventArgs e)
-        {
-            if (SessionUser.User.IsAdmin == true)
-            {
-                getStoreyById();
-            }
-        }   
-        private void GetRoomByID_Click(object sender, RoutedEventArgs e)
-        {
-            if (SessionUser.User.IsAdmin == true)
-            {
-                getRoomById();
-            }
-        }   
-        private void GetDeskByID_Click(object sender, RoutedEventArgs e)
-        {
-            if (SessionUser.User.IsAdmin == true)
-            {
-                getDeskById();
-            }
-        }
-        private bool getUserById()
-        {
-            ID = 0;
-            OldName.Content = "";
-            OldUsername.Content = "";
-            OldSurname.Content = "";
-            OldIsAdmin.Content = "";
-            user = userMng.getUserById(OldId.Text);
-            if (user!=null)
-            {
-                ID = user.Id;
-                OldName.Content = user.Name;
-                OldUsername.Content = user.Username;
-                OldSurname.Content = user.Surname;
-                OldIsAdmin.Content = user.IsAdmin;
-                return true;
-            }
-            return false;
-        }  
-        private bool getBuildingById()
-        {
-            ID = 0;
-            OldName.Content = "";
-            building = buildMng.getBuildById(OldId.Text);
-            if (building != null)
-            {
-                ID = building.Id;
-                OldName.Content = building.Name;
-                OldUsername.Content = "";
-                OldSurname.Content = "";
-                OldIsAdmin.Content = "";
-                return true;
-            }
-            return false;
-        }
-        private bool getStoreyById()
-        {
-            ID = 0;
-            OldName.Content = "";
-            storey = storeyMng.getStoreyById(OldId.Text);
-            if (storey != null)
-            {
-                ID = storey.Id;
-                OldName.Content = storey.Name;
-                OldUsername.Content = "";
-                OldSurname.Content = "";
-                OldIsAdmin.Content = "";
-                return true;
-            }
-            return false;
-        }
-        private bool getRoomById()
-        {
-            ID = 0;
-            OldName.Content = "";
-            room = roomMng.getRoomById(OldId.Text);
-            if (room != null)
-            {
-                ID = room.Id;
-                OldName.Content = room.Name;
-                OldUsername.Content = "";
-                OldSurname.Content = "";
-                OldIsAdmin.Content = "";
-                return true;
-            }
-            return false;
-        }
-        private bool getDeskById()
-        {
-            ID = 0;
-            OldName.Content = "";
-            desk = deskMng.getDeskById(OldId.Text);
-            if (desk != null)
-            {
-                ID = desk.Id;
-                OldName.Content = desk.Name;
-                OldUsername.Content = "";
-                OldSurname.Content = "";
-                OldIsAdmin.Content = "";
-                return true;
-            }
-            return false;
         }
         private void AddBuilding_Click(object sender, RoutedEventArgs e)
         {
             if(SessionUser.User.IsAdmin == true)
             {
-                var DialogResult = MessageBox.Show(Msgs.CheckNewValues, Msgs.Ok, MessageBoxButton.YesNo);
-                if (DialogResult == MessageBoxResult.Yes)
+                if (checks.InputCheck(NewName.Text) == true)
                 {
-                    buildMng.NewBuilding(NewName.Text);
+                    var DialogResult = MessageBox.Show(msgs.CheckNewValues, msgs.Ok, MessageBoxButton.YesNo);
+                    if (DialogResult == MessageBoxResult.Yes)
+                    {
+                        buildMng.NewBuilding(new Building(NewName.Text));
+                    }
                 }
             }
         }
@@ -218,12 +177,15 @@ namespace TableReservation
         {
             if (SessionUser.User.IsAdmin == true)
             {
-                if (getBuildingById() == true)
+                if (checks.InputCheck(NewName.Text) == true)
                 {
-                    var DialogResult = MessageBox.Show(Msgs.CheckOldValues, Msgs.Ok, MessageBoxButton.YesNo);
-                    if (DialogResult == MessageBoxResult.Yes)
+                    if (getBuildingById() == true)
                     {
-                        buildMng.ChangeBuilding(ID, NewName.Text, building);
+                        var DialogResult = MessageBox.Show(msgs.CheckValues, msgs.Ok, MessageBoxButton.YesNo);
+                        if (DialogResult == MessageBoxResult.Yes)
+                        {
+                            buildMng.ChangeBuilding(new Building(building.Id, NewName.Text), building);
+                        }
                     }
                 }
             }
@@ -234,10 +196,10 @@ namespace TableReservation
             {
                 if (getBuildingById() == true)
                 {
-                    var DialogResult = MessageBox.Show(Msgs.CheckOldValues, Msgs.Ok, MessageBoxButton.YesNo);
+                    var DialogResult = MessageBox.Show(msgs.CheckOldValues, msgs.Ok, MessageBoxButton.YesNo);
                     if (DialogResult == MessageBoxResult.Yes)
                     {
-                        buildMng.RemoveBuilding(ID);
+                        buildMng.RemoveBuilding(building);
                     }
                 }
             }
@@ -246,10 +208,13 @@ namespace TableReservation
         {
             if (SessionUser.User.IsAdmin == true)
             {
-                var DialogResult = MessageBox.Show(Msgs.CheckNewValues, Msgs.Ok, MessageBoxButton.YesNo);
-                if (DialogResult == MessageBoxResult.Yes)
+                if (checks.InputCheck(NewName.Text) == true)
                 {
-                    storeyMng.NewStorey(NewName.Text);
+                    var DialogResult = MessageBox.Show(msgs.CheckNewValues, msgs.Ok, MessageBoxButton.YesNo);
+                    if (DialogResult == MessageBoxResult.Yes)
+                    {
+                        storeyMng.NewStorey(new Storey(NewName.Text));
+                    }
                 }
             }
         }
@@ -257,12 +222,15 @@ namespace TableReservation
         {
             if (SessionUser.User.IsAdmin == true)
             {
-                if (getStoreyById() == true)
+                if (checks.InputCheck(NewName.Text) == true)
                 {
-                    var DialogResult = MessageBox.Show(Msgs.CheckOldValues, Msgs.Ok, MessageBoxButton.YesNo);
-                    if (DialogResult == MessageBoxResult.Yes)
+                    if (getStoreyById() == true)
                     {
-                        storeyMng.ChangeStorey(ID, NewName.Text, storey);
+                        var DialogResult = MessageBox.Show(msgs.CheckOldValues, msgs.Ok, MessageBoxButton.YesNo);
+                        if (DialogResult == MessageBoxResult.Yes)
+                        {
+                            storeyMng.ChangeStorey(new Storey(storey.Id, NewName.Text), storey);
+                        }
                     }
                 }
             }
@@ -273,10 +241,10 @@ namespace TableReservation
             {
                 if (getStoreyById() == true)
                 {
-                    var DialogResult = MessageBox.Show(Msgs.CheckOldValues, Msgs.Ok, MessageBoxButton.YesNo);
+                    var DialogResult = MessageBox.Show(msgs.CheckOldValues, msgs.Ok, MessageBoxButton.YesNo);
                     if (DialogResult == MessageBoxResult.Yes)
                     {
-                        storeyMng.RemoveStorey(ID);
+                        storeyMng.RemoveStorey(storey);
                     }
                 }
             }
@@ -285,10 +253,13 @@ namespace TableReservation
         {
             if (SessionUser.User.IsAdmin == true)
             {
-                var DialogResult = MessageBox.Show(Msgs.CheckNewValues, Msgs.Ok, MessageBoxButton.YesNo);
-                if (DialogResult == MessageBoxResult.Yes)
+                if (checks.InputCheck(NewName.Text) == true)
                 {
-                    roomMng.NewRoom(NewName.Text);
+                    var DialogResult = MessageBox.Show(msgs.CheckNewValues, msgs.Ok, MessageBoxButton.YesNo);
+                    if (DialogResult == MessageBoxResult.Yes)
+                    {
+                        roomMng.NewRoom(new Room(NewName.Text));
+                    }
                 }
             }
         }
@@ -296,12 +267,15 @@ namespace TableReservation
         {
             if (SessionUser.User.IsAdmin == true)
             {
-                if (getRoomById() == true)
+                if (checks.InputCheck(NewName.Text) == true)
                 {
-                    var DialogResult = MessageBox.Show(Msgs.CheckOldValues, Msgs.Ok, MessageBoxButton.YesNo);
-                    if (DialogResult == MessageBoxResult.Yes)
+                    if (getRoomById() == true)
                     {
-                        roomMng.ChangeRoom(ID, NewName.Text, room);
+                        var DialogResult = MessageBox.Show(msgs.CheckOldValues, msgs.Ok, MessageBoxButton.YesNo);
+                        if (DialogResult == MessageBoxResult.Yes)
+                        {
+                            roomMng.ChangeRoom(new Room(room.Id, NewName.Text), room);
+                        }
                     }
                 }
             }
@@ -312,10 +286,10 @@ namespace TableReservation
             {
                 if (getRoomById() == true)
                 {
-                    var DialogResult = MessageBox.Show(Msgs.CheckOldValues, Msgs.Ok, MessageBoxButton.YesNo);
+                    var DialogResult = MessageBox.Show(msgs.CheckOldValues, msgs.Ok, MessageBoxButton.YesNo);
                     if (DialogResult == MessageBoxResult.Yes)
                     {
-                        roomMng.RemoveRoom(ID);
+                        roomMng.RemoveRoom(room);
                     }
                 }
             }
@@ -324,10 +298,13 @@ namespace TableReservation
         {
             if (SessionUser.User.IsAdmin == true)
             {
-                var DialogResult = MessageBox.Show(Msgs.CheckNewValues, Msgs.Ok, MessageBoxButton.YesNo);
-                if (DialogResult == MessageBoxResult.Yes)
+                if (checks.InputCheck(NewName.Text) == true)
                 {
-                    deskMng.NewDesk(NewName.Text);
+                    var DialogResult = MessageBox.Show(msgs.CheckNewValues, msgs.Ok, MessageBoxButton.YesNo);
+                    if (DialogResult == MessageBoxResult.Yes)
+                    {
+                        deskMng.NewDesk(new Desk(NewName.Text));
+                    }
                 }
             }
         }
@@ -335,12 +312,15 @@ namespace TableReservation
         {
             if (SessionUser.User.IsAdmin == true)
             {
-                if (getDeskById() == true)
+                if (checks.InputCheck(NewName.Text) == true)
                 {
-                    var DialogResult = MessageBox.Show(Msgs.CheckOldValues, Msgs.Ok, MessageBoxButton.YesNo);
-                    if (DialogResult == MessageBoxResult.Yes)
+                    if (getDeskById() == true)
                     {
-                        deskMng.ChangeDesk(ID, NewName.Text, desk);
+                        var DialogResult = MessageBox.Show(msgs.CheckOldValues, msgs.Ok, MessageBoxButton.YesNo);
+                        if (DialogResult == MessageBoxResult.Yes)
+                        {
+                            deskMng.ChangeDesk(new Desk(desk.Id, NewName.Text), desk);
+                        }
                     }
                 }
             }
@@ -351,57 +331,188 @@ namespace TableReservation
             {
                 if (getDeskById() == true)
                 {
-                    var DialogResult = MessageBox.Show(Msgs.CheckOldValues, Msgs.Ok, MessageBoxButton.YesNo);
+                    var DialogResult = MessageBox.Show(msgs.CheckOldValues, msgs.Ok, MessageBoxButton.YesNo);
                     if (DialogResult == MessageBoxResult.Yes)
                     {
-                        deskMng.RemoveDesk(ID);
+                        deskMng.RemoveDesk(desk);
                     }
                 }
             }
         }
-
         private void ListUsers_Click(object sender, RoutedEventArgs e)
         {
-            
-            MessageBox.Show(Msgs.NotImplemented + SessionUser.User.Username, Msgs.Ok, MessageBoxButton.OK);
-        } 
+            if (SessionUser.User.IsAdmin == true)
+            {
+                Listbox.Items.Clear();
+                users = userMng.getAllUsers();
+                if (users != null)
+                {
+                    foreach (var item in users) Listbox.Items.Add(item);
+                }
+            }
+        }
         private void ListReservations_Click(object sender, RoutedEventArgs e)
         {
-            MessageBox.Show(Msgs.NotImplemented + SessionUser.User.Username, Msgs.Ok, MessageBoxButton.OK);
+            if (SessionUser.User.IsAdmin == true)
+            {
+                DateTime startTime = DateTime.Now.Date;
+                DateTime endTime = DateTime.Now.Date;
+                if (Startdate.SelectedDate != null)
+                {
+                    startTime = (DateTime)Startdate.SelectedDate;
+                }
+                if (Enddate.SelectedDate != null)
+                {
+                    endTime = (DateTime)Enddate.SelectedDate;
+                }
+                Listbox.Items.Clear();
+                reservations = resMng.getAllReservations(startTime, endTime);
+                if (reservations != null)
+                {
+                    foreach (var item in reservations) Listbox.Items.Add(item);
+                }
+            }
         }
         private void ListUBuildings_Click(object sender, RoutedEventArgs e)
         {
             if (SessionUser.User.IsAdmin == true)
             {
-                string itemstring = "";
                 Listbox.Items.Clear();
                 buildings = buildMng.getAllBuilds();
-                foreach (var item in buildings)
+                if (buildings != null)
                 {
-                    itemstring = item.Id + ":\t" + item.Name;
-                    Listbox.Items.Add(itemstring);
+                    foreach (var item in buildings) Listbox.Items.Add(item);
                 }
             }
-            MessageBox.Show(Msgs.NotImplemented + SessionUser.User.Username, Msgs.Ok, MessageBoxButton.OK);
         }
         private void ListStoreys_Click(object sender, RoutedEventArgs e)
         {
-            MessageBox.Show(Msgs.NotImplemented + SessionUser.User.Username, Msgs.Ok, MessageBoxButton.OK);
+            if (SessionUser.User.IsAdmin == true)
+            {
+                Listbox.Items.Clear();
+                storeys = storeyMng.getAllStoreys();
+                if (storeys != null)
+                {
+                    foreach (var item in storeys) Listbox.Items.Add(item);
+                }
+                
+            }
         }
         private void ListRooms_Click(object sender, RoutedEventArgs e)
         {
-            MessageBox.Show(Msgs.NotImplemented + SessionUser.User.Username, Msgs.Ok, MessageBoxButton.OK);
+            if (SessionUser.User.IsAdmin == true)
+            {
+                Listbox.Items.Clear();
+                rooms = roomMng.getAllRooms();
+                if (rooms != null)
+                {
+                    foreach (var item in rooms) Listbox.Items.Add(item);
+                }
+            }
         }
         private void ListDesks_Click(object sender, RoutedEventArgs e)
         {
-            MessageBox.Show(Msgs.NotImplemented + SessionUser.User.Username, Msgs.Ok, MessageBoxButton.OK);
+            if (SessionUser.User.IsAdmin == true)
+            {
+                Listbox.Items.Clear();
+                desks = deskMng.getAllDesks();
+                if (desk!=null)
+                {
+                    foreach (var item in desks) Listbox.Items.Add(item);
+                }
+            }
         }
         private void Logout_Click(object sender, RoutedEventArgs e)
         {
             this.Content = null;
             SessionUser.IsActiv=false;
-            LoginPage LoginPage = new LoginPage();
-            this.NavigationService.Navigate(LoginPage);
+            LoginPage loginPage = new LoginPage();
+            this.NavigationService.Navigate(loginPage);
         }
+        private void clearOldContent()
+        {
+            OldName.Content = "";
+            OldUsername.Content = "";
+            OldSurname.Content = "";
+            OldIsAdmin.Content = "";
+        }
+        private bool getUserById()
+        {
+            if (checks.InputCheckStringInt(OldId.Text))
+            {
+                clearOldContent();
+                user = userMng.getUserById(OldId.Text);
+                if (user != null)
+                {
+                    OldName.Content = user.Name;
+                    OldUsername.Content = user.Username;
+                    OldSurname.Content = user.Surname;
+                    OldIsAdmin.Content = user.IsAdmin;
+                    return true;
+                }
+                return false;
+            }
+            return false;
+        }
+        private bool getBuildingById()
+        {
+            if (checks.InputCheckStringInt(OldId.Text))
+            {
+                clearOldContent();
+                building = buildMng.getBuildById(OldId.Text);
+                if (building != null)
+                {
+                    OldName.Content = building.Name;
+                    return true;
+                }
+                return false;
+            }
+            return false;
+        }
+        private bool getStoreyById()
+        {
+            if (checks.InputCheckStringInt(OldId.Text))
+            {
+                clearOldContent();
+                storey = storeyMng.getStoreyById(OldId.Text);
+                if (storey != null)
+                {
+                    OldName.Content = storey.Name;
+                    return true;
+                }
+                return false;
+            }
+            return false;
+        }
+        private bool getRoomById()
+        {
+            if (checks.InputCheckStringInt(OldId.Text))
+            {
+                clearOldContent();
+                room = roomMng.getRoomById(OldId.Text);
+                if (room != null)
+                {
+                    OldName.Content = room.Name;
+                    return true;
+                }
+                return false;
+            }
+            return false;
+        }
+        private bool getDeskById()
+        {
+            if (checks.InputCheckStringInt(OldId.Text))
+            {
+                clearOldContent();
+                desk = deskMng.getDeskById(OldId.Text);
+                if (desk != null)
+                {
+                    OldName.Content = desk.Name;
+                    return true;
+                }
+                return false;
+            }
+            return false;
+        } 
     }
-}
+} 

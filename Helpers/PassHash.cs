@@ -9,7 +9,7 @@ namespace TableReservation.Classes.Users
 {
     internal class PassHash
     {
-        public string HashPass { get; set; }
+        public string HashedPassword { get; set; }
         public PassHash(string rawData) //hashing password
         {
             using (SHA256 sha256Hash = SHA256.Create())
@@ -21,7 +21,7 @@ namespace TableReservation.Classes.Users
                 {
                     builder.Append(bytes[i].ToString("x2"));
                 }
-                HashPass = builder.ToString();
+                HashedPassword = builder.ToString();
             }
         }       
 

@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using System.Windows;
 using TableReservation.Database;
 using TableReservation.Helpers;
@@ -14,128 +10,110 @@ namespace TableReservation.Classes
         private DbBuildMng dbBuildMng = new DbBuildMng();
         private Checks checks = new Checks();
         private List<Building> buildings = new List<Building>();
-        private Msgs Msgs = new Msgs();
+        private Msgs msgs = new Msgs();
 
         /// <summary>
         /// Add new building to the database
         /// </summary>
-        /// <param name="name">Name of a building</param>
+        /// <param name="building">object building</param>
         /// <returns>Returns a true if succeded or false if not</returns>
-        public bool NewBuilding(string name)
+        public bool NewBuilding(Building building)
         {
-            if (checks.InputCheck(name)) //check entry data
-            {
-                buildings = dbBuildMng.GetBuilding(name); //check if building is in database
+            buildings = dbBuildMng.GetBuilding(building); //check if building is in database
 
-                if (buildings.Count == 0) //if is not in database -> create new entry
-                {
-                    dbBuildMng.NewBuilding(new Building(name));
-                    MessageBox.Show(Msgs.BuildCreated + "->" + name.ToString(), Msgs.Ok, MessageBoxButton.OK);
-                    return true;
-                }
-                else
-                {
-                    MessageBox.Show(Msgs.BuildExist + "->" + name.ToString(), Msgs.Error, MessageBoxButton.OK);
-                    return false;
-                }
+            if (buildings.Count == 0) //if is not in database -> create new entry
+            {
+                dbBuildMng.NewBuilding(building);
+                MessageBox.Show(msgs.BuildCreated + "->" + building.Name.ToString(), msgs.Ok, MessageBoxButton.OK);
+                return true;
             }
             else
             {
+                MessageBox.Show(msgs.BuildExist + "->" + building.Name.ToString(), msgs.Error, MessageBoxButton.OK);
                 return false;
             }
         }
 
         /// <summary>
-        /// Change parameters of a existing building in database. If parameter is null then it takes old name
+        /// Change parameters of a existing building in database
         /// </summary>
-        /// <param name="id">id of a building in databas</param>
-        /// <param name="name">new name of a building</param>
-        /// <param name="oldBuilding"> old building object</param>
-        public void ChangeBuilding(int id, string name, Building oldBuilding)
+        /// <param name="newBuilding">new building as object</param>
+        /// <param name="oldBuilding">old building as object</param>
+        public void ChangeBuilding(Building newBuilding , Building oldBuilding)
         {
-            string newname = "";
-
-            if (name != "") newname = name; else newname = oldBuilding.Name;
-
-            if (checks.InputCheck(newname)) //check entry data
+            buildings = dbBuildMng.GetBuilding(newBuilding);
+            if (buildings.Count == 0)  //if new is not in database -> change entry
             {
-                buildings = dbBuildMng.GetBuilding(newname);
-                if ((buildings.Count == 0) || (newname == oldBuilding.Name)) //if is not in database -> change entry
-                {
-
-                    dbBuildMng.ChangeBuilding(id, newname);
-                    MessageBox.Show(Msgs.BuildChanged + "->" + oldBuilding.Name.ToString() + " to " + newname.ToString(), Msgs.Ok, MessageBoxButton.OK);
-
-                }
-                else
-                {
-                    MessageBox.Show(Msgs.BuildExist + "->" + name.ToString(), Msgs.Error, MessageBoxButton.OK);
-                }
+                dbBuildMng.ChangeBuilding(newBuilding);
+                MessageBox.Show(msgs.BuildChanged + "->" + oldBuilding.Name.ToString() + " to " + newBuilding.Name.ToString(), msgs.Ok, MessageBoxButton.OK);
+            }
+            else
+            {
+                MessageBox.Show(msgs.BuildExist + "->" + newBuilding.Name.ToString(), msgs.Error, MessageBoxButton.OK);
             }
         }
 
         /// <summary>
         /// Remove building from a database
         /// </summary>
-        /// <param name="id">id of a building in database</param>
-        public void RemoveBuilding(int id)
+        /// <param name="building">building as object</param>
+        public void RemoveBuilding(Building building)
         {
-            dbBuildMng.RemoveBuilding(id);
-            MessageBox.Show(Msgs.BuildRemoved + "->" + id.ToString(), Msgs.Ok, MessageBoxButton.OK);
+            buildings = dbBuildMng.GetBuilding(building.Id);
+
+            if (buildings.Count == 1)  //if is in database -> delete entry
+            {
+                dbBuildMng.RemoveBuilding(building);
+                MessageBox.Show(msgs.BuildRemoved + "->" + building.Name.ToString(), msgs.Ok, MessageBoxButton.OK);
+            }
+            else if (buildings.Count > 1)
+            {
+                MessageBox.Show(msgs.Wrong + " too many Ids", msgs.Error, MessageBoxButton.OK);
+            }
+            else
+            {
+                MessageBox.Show(msgs.BuildDontExist + "->" + building.Id.ToString(), msgs.Error, MessageBoxButton.OK);
+            }
         }
 
         /// <summary>
-        /// returns a building by id
+        /// returns a building by id (string)
         /// </summary>
         /// <param name="id">id of a building in database</param>
         /// <returns>returned building object</returns>
         public Building getBuildById(string id)
         {
-            try
+            if (checks.InputCheckStringInt(id))
             {
-                int ID = Int32.Parse(id);
-                buildings = dbBuildMng.GetBuilding(ID); //check if building is in database
-                if (buildings.Count > 0) //if is in database -> check entry
+                buildings = dbBuildMng.GetBuilding(int.Parse(id)); //check if building is in database
+                if (buildings!=null)
                 {
-                    return buildings[0];
+                    if (buildings.Count == 1) //if is in database -> check entry
+                    {
+                        return buildings[0];
+                    }
+                    else if (buildings.Count >= 1)
+                    {
+                        MessageBox.Show(msgs.Wrong + " too many Ids", msgs.Error, MessageBoxButton.OK);
+                        return null;
+                    }
+                    else
+                    {
+                        MessageBox.Show(msgs.BuildDontExist + "->" + id.ToString(), msgs.Error, MessageBoxButton.OK);
+                        return null;
+                    }
                 }
                 else
                 {
-                    MessageBox.Show(Msgs.BuildDontExist + "->" + id.ToString(), Msgs.Error, MessageBoxButton.OK);
                     return null;
                 }
             }
-            catch
-            {
-                MessageBox.Show(Msgs.WrongInput + "->" + id.ToString(), Msgs.Error, MessageBoxButton.OK);
-                return null;
-            }
-        }
-        /// <summary>
-        /// returns a building by name. Name has to be uniqe in database
-        /// </summary>
-        /// <param name="name">name of a building in database</param>
-        /// <returns>returned building object</returns>
-        public Building getBuildByName(string name)
-        {
-            if (checks.InputCheck(name)) //check entry data
-            {
-                buildings = dbBuildMng.GetBuilding(name); //check if building is in database
-                if (buildings.Count > 0) //if is in database -> check entry
-                {
-                    return buildings[0];
-                }
-                else
-                {
-                    MessageBox.Show(Msgs.BuildDontExist + "->" + name.ToString(), Msgs.Error, MessageBoxButton.OK);
-                    return null;
-                }
-            }
-            else
+            else 
             {
                 return null;
             }
         }
+
         /// <summary>
         /// list all buildinsg in a database
         /// </summary>
@@ -143,15 +121,23 @@ namespace TableReservation.Classes
         public List<Building> getAllBuilds()
         {
             buildings = dbBuildMng.GetAllBuildings(); //get all buildings from a database
-            if (buildings.Count > 0) //if is in database -> returen entries
+            if (buildings!=null)
             {
-                return buildings;
+                if (buildings.Count > 0) //if is in database -> returen entries
+                {
+                    return buildings;
+                }
+                else
+                {
+                    MessageBox.Show(msgs.BuildsDontExist, msgs.Error, MessageBoxButton.OK);
+                    return null;
+                }
             }
-            else
+            else 
             {
-                MessageBox.Show(Msgs.BuildsDontExist, Msgs.Error, MessageBoxButton.OK);
                 return null;
             }
+            
         }
     }
 }

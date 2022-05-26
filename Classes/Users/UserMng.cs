@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using TableReservation.Helpers;
 
@@ -13,115 +10,150 @@ namespace TableReservation.Classes.Users
         private DbUserMng dbUserMng = new DbUserMng();
         private Checks checks = new Checks();
         private List<User> users = new List<User>();
-        private Msgs Msgs = new Msgs();
-        public UserMng()
-        {
-        }
+        private Msgs msgs = new Msgs();
+
         public User LogedUser(string username, string password)
         {
-            PassHash PassHash = new PassHash(password);
-            string passwordHas = PassHash.HashPass;
-
-            if (checks.InputCheck(username))
+            if (checks.InputCheck(username) == true)
             {
-                users = dbUserMng.GetUser(username, passwordHas);
-
-                if (users.Count > 0)
+                if (!string.IsNullOrEmpty(password))
                 {
-                    return users[0];
+                    PassHash passHash = new PassHash(password);
+                    users = dbUserMng.GetUser(new User(username, passHash.HashedPassword));
+
+                    if (users.Count == 1) //if is in database -> check entry
+                    {
+                        return users[0];
+                    }
+                    else if (users.Count > 1)
+                    {
+                        MessageBox.Show(msgs.Wrong + " too many Ids", msgs.Error, MessageBoxButton.OK);
+                        return null;
+                    }
+                    else
+                    {
+                        MessageBox.Show(msgs.WrongUser, msgs.Error, MessageBoxButton.OK);
+                        return null;
+                    }
+                }
+                else 
+                {
+                    MessageBox.Show(msgs.EmptyInput, msgs.Error, MessageBoxButton.OK);
+                    return null;
                 }
             }
-            return null;
-        }
-
-        public bool NewUser(string name, string surname, string username, string password)
-        {
-            PassHash PassHash = new PassHash(password);
-            string passwordHas = PassHash.HashPass;
-
-            if (checks.InputCheck(name) && checks.InputCheck(surname) && checks.InputCheck(username)) //check entry data
+            else 
             {
-                users = dbUserMng.GetUser(username); //check if user is in database
+                return null;
+            }
+        }        
 
-                if (users.Count == 0) //if is not in database -> create new entry
-                {
-                    //!!!!!!//check if name and surname are equal - or use PC username for validation
+        public bool NewUser(User user)
+        {
+            users = dbUserMng.GetUserByUsername(user); //check if user is in database
 
-                    dbUserMng.NewUser(new User(name, surname, username, passwordHas));
-                    MessageBox.Show(Msgs.UserCreated + "->" + username.ToString(), Msgs.Ok, MessageBoxButton.OK);
-                    return true;
-                }
-                else
-                {
-                    MessageBox.Show(Msgs.UserExist + "->" + username.ToString(), Msgs.Error, MessageBoxButton.OK);
-                    return false;
-                }
+            if (users.Count == 0) //if is not in database -> create new entry
+            {
+                dbUserMng.NewUser(user);
+                MessageBox.Show(msgs.UserCreated + "->" + user.Username.ToString(), msgs.Ok, MessageBoxButton.OK);
+                return true;
             }
             else
             {
+                MessageBox.Show(msgs.UserExist + "->" + user.Username.ToString(), msgs.Error, MessageBoxButton.OK);
                 return false;
             }
         }
 
-        public void ChangeUser(int id, string name, string surname, string username, bool isadmin, User oldUser)
+        public bool ChangeUser(User newUser, User oldUser)
         {
-            string newusername = "";
-            string newname = "";
-            string newsurname = "";
-            bool newisadmin;
+            users = dbUserMng.GetUserByUsername(newUser);
+            if ((users.Count == 0)||(newUser.Username==oldUser.Username))  //if new is not in database -> change entry
 
-            if (username != "") newusername = username; else newusername = oldUser.Username;
-            if (name != "") newname = name; else newname = oldUser.Name;
-            if (surname != "") newsurname = surname; else newsurname = oldUser.Surname;
-            if (isadmin != oldUser.IsAdmin) newisadmin = isadmin; else newisadmin = oldUser.IsAdmin;
-
-            if (checks.InputCheck(newname) && checks.InputCheck(newsurname) && checks.InputCheck(newusername)) //check entry data
+                ///ili da je tzo isto trenutni user pa se smije promjeniti
             {
-                users = dbUserMng.GetUser(newusername);
-                if ((users.Count == 0) || (newusername == oldUser.Username)) //if is not in database -> change entry
-                {
-                    //!!!!!!//check if name and surname are equal - or use PC username for validation
-
-                    dbUserMng.ChangeUser(id, newname, newsurname, newusername, newisadmin);
-                    MessageBox.Show(Msgs.UserChanged + "->" + oldUser.Name.ToString() + " to " + newname.ToString(), Msgs.Ok, MessageBoxButton.OK);
-
-                }
-                else
-                {
-                    MessageBox.Show(Msgs.UserExist + "->" + username.ToString(), Msgs.Error, MessageBoxButton.OK);
-                }
+                dbUserMng.ChangeUser(newUser);
+                MessageBox.Show(msgs.UserChanged + "->" + oldUser.Name.ToString() + " to " + newUser.Name.ToString(), msgs.Ok, MessageBoxButton.OK);
+                return true;
+            }
+            else
+            {
+                MessageBox.Show(msgs.UserExist + "->" + newUser.Name.ToString(), msgs.Error, MessageBoxButton.OK);
+                return false;
             }
         }
 
-        public void RemoveUser(int id)
+        public void RemoveUser(User user)
         {
-            dbUserMng.RemoveUser(id);
-            MessageBox.Show(Msgs.UserRemoved, Msgs.Ok, MessageBoxButton.OK);
+            users = dbUserMng.GetUser(user.Id);
+
+            if (users.Count == 1)  //if is in database -> delete entry
+            {
+                dbUserMng.RemoveUser(user);
+                MessageBox.Show(msgs.UserRemoved + "->" + user.Username.ToString(), msgs.Ok, MessageBoxButton.OK);
+            }
+            else if (users.Count > 1)
+            {
+                MessageBox.Show(msgs.Wrong + " too many Ids", msgs.Error, MessageBoxButton.OK);
+            }
+            else
+            {
+                MessageBox.Show(msgs.UserDontExist + "->" + user.Id.ToString(), msgs.Error, MessageBoxButton.OK);
+            }
         }
 
         public User getUserById(string id)
         {
-            try
+            if (checks.InputCheckStringInt(id))
             {
-                int ID = Int32.Parse(id);
-                users = dbUserMng.GetUser(ID); //check if user is in database
-                if (users.Count > 0) //if is in database -> check entry
+                users = dbUserMng.GetUser(int.Parse(id)); //check if user is in database
+                if (users!=null)
                 {
-                    return users[0];
+                    if (users.Count == 1) //if is in database -> check entry
+                    {
+                        return users[0];
+                    }
+                    else if (users.Count >= 1)
+                    {
+                        MessageBox.Show(msgs.Wrong + " too many Ids", msgs.Error, MessageBoxButton.OK);
+                        return null;
+                    }
+                    else
+                    {
+                        MessageBox.Show(msgs.UserDontExist + "->" + id.ToString(), msgs.Error, MessageBoxButton.OK);
+                        return null;
+                    }
                 }
                 else
                 {
-                    MessageBox.Show(Msgs.UserDontExist + "->" + id.ToString(), Msgs.Error, MessageBoxButton.OK);
                     return null;
                 }
             }
-            catch
+            else
             {
-                MessageBox.Show(Msgs.WrongInput + "->" + id.ToString(), Msgs.Error, MessageBoxButton.OK);
                 return null;
             }
         }
+        public List<User> getAllUsers()
+        {
+            users = dbUserMng.GetAllUsers(); //get all storeys from a database
+            if (users!=null)
+            {
+                if (users.Count > 0) //if is in database -> returns entries
+                {
+                    return users;
+                }
+                else
+                {
+                    MessageBox.Show(msgs.UsersDontExist, msgs.Error, MessageBoxButton.OK);
+                    return null;
+                }
+            }
+            else
+            {
+                return null;
+            }
 
-
+        }
     }
 }

@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using System.Windows;
 using TableReservation.Database;
 using TableReservation.Helpers;
@@ -14,74 +10,70 @@ namespace TableReservation.Classes
         private DbRoomMng dbRoomMng = new DbRoomMng();
         private Checks checks = new Checks();
         private List<Room> rooms = new List<Room>();
-        private Msgs Msgs = new Msgs();
+        private Msgs msgs = new Msgs();
 
         /// <summary>
         /// Add new room to the database
         /// </summary>
-        /// <param name="name">Name of a room</param>
+        /// <param name="room">object room</param>
         /// <returns>Returns a true if succeded or false if not</returns>
-        public bool NewRoom(string name)
+        public bool NewRoom(Room room)
         {
-            if (checks.InputCheck(name)) //check entry data
-            {
-                rooms = dbRoomMng.GetRoom(name); //check if room is in database
+            rooms = dbRoomMng.GetRoom(room); //check if room is in database
 
-                if (rooms.Count == 0) //if is not in database -> create new entry
-                {
-                    dbRoomMng.NewRoom(new Room(name));
-                    MessageBox.Show(Msgs.RoomCreated + "->" + name.ToString(), Msgs.Ok, MessageBoxButton.OK);
-                    return true;
-                }
-                else
-                {
-                    MessageBox.Show(Msgs.RoomExist + "->" + name.ToString(), Msgs.Error, MessageBoxButton.OK);
-                    return false;
-                }
+            if (rooms.Count == 0) //if is not in database -> create new entry
+            {
+                dbRoomMng.NewRoom(room);
+                MessageBox.Show(msgs.RoomCreated + "->" + room.Name.ToString(), msgs.Ok, MessageBoxButton.OK);
+                return true;
             }
             else
             {
+                MessageBox.Show(msgs.RoomExist + "->" + room.Name.ToString(), msgs.Error, MessageBoxButton.OK);
                 return false;
             }
         }
 
         /// <summary>
-        /// Change parameters of a existing room in database. If parameter is null then it takes old name
+        /// Change parameters of a existing room in database
         /// </summary>
-        /// <param name="id">id of a room in databas</param>
-        /// <param name="name">new name of a room</param>
-        /// <param name="oldRoom">old room object</param>
-        public void ChangeRoom(int id, string name, Room oldRoom)
+        /// <param name="newRoom">new room as object</param>
+        /// <param name="oldRoom">old room as object</param>
+        public void ChangeRoom(Room newRoom, Room oldRoom)
         {
-            string newname = "";
-
-            if (name != "") newname = name; else newname = oldRoom.Name;
-
-            if (checks.InputCheck(newname)) //check entry data
+            rooms = dbRoomMng.GetRoom(newRoom);
+            if (rooms.Count == 0) //if is not in database -> change entry
             {
-                rooms = dbRoomMng.GetRoom(newname);
-                if ((rooms.Count == 0) || (newname == oldRoom.Name)) //if is not in database -> change entry
-                {
-
-                    dbRoomMng.ChangeRoom(id, newname);
-                    MessageBox.Show(Msgs.RoomChanged + "->" + oldRoom.Name.ToString() + " to " + newname.ToString(), Msgs.Ok, MessageBoxButton.OK);
-
-                }
-                else
-                {
-                    MessageBox.Show(Msgs.RoomExist + "->" + name.ToString(), Msgs.Error, MessageBoxButton.OK);
-                }
+                dbRoomMng.ChangeRoom(newRoom);
+                MessageBox.Show(msgs.RoomChanged + "->" + oldRoom.Name.ToString() + " to " + newRoom.Name.ToString(), msgs.Ok, MessageBoxButton.OK);
+            }
+            else
+            {
+                MessageBox.Show(msgs.RoomExist + "->" + newRoom.Name.ToString(), msgs.Error, MessageBoxButton.OK);
             }
         }
 
         /// <summary>
         /// Remove room from a database
         /// </summary>
-        /// <param name="id">id of a room in databas</param>
-        public void RemoveRoom(int id)
+        /// <param name="room">room as object</param>
+        public void RemoveRoom(Room room)
         {
-            dbRoomMng.RemoveRoom(id);
-            MessageBox.Show(Msgs.RoomRemoved + "->" + id.ToString(), Msgs.Ok, MessageBoxButton.OK);
+            rooms = dbRoomMng.GetRoom(room.Id);
+
+            if (rooms.Count == 1)  //if is in database -> delete entry
+            {
+                dbRoomMng.RemoveRoom(room);
+                MessageBox.Show(msgs.RoomRemoved + "->" + room.Name.ToString(), msgs.Ok, MessageBoxButton.OK);
+            }
+            else if (rooms.Count > 1)
+            {
+                MessageBox.Show(msgs.Wrong + " too many Ids", msgs.Error, MessageBoxButton.OK);
+            }
+            else
+            {
+                MessageBox.Show(msgs.RoomDontExist + "->" + room.Id.ToString(), msgs.Error, MessageBoxButton.OK);
+            }
         }
 
         /// <summary>
@@ -91,66 +83,58 @@ namespace TableReservation.Classes
         /// <returns>>returned room object</returns>
         public Room getRoomById(string id)
         {
-            try
+            if (checks.InputCheckStringInt(id))
             {
-                int ID = Int32.Parse(id);
-                rooms = dbRoomMng.GetRoom(ID); //check if room is in database
-                if (rooms.Count > 0) //if is in database -> check entry
+                rooms = dbRoomMng.GetRoom(int.Parse(id)); //check if room is in database3
+                if (rooms != null)
                 {
-                    return rooms[0];
+                    if (rooms.Count == 1) //if is in database -> check entry
+                    {
+                        return rooms[0];
+                    }
+                    else if (rooms.Count >= 1)
+                    {
+                        MessageBox.Show(msgs.Wrong + " too many Ids", msgs.Error, MessageBoxButton.OK);
+                        return null;
+                    }
+                    else
+                    {
+                        MessageBox.Show(msgs.RoomDontExist + "->" + id.ToString(), msgs.Error, MessageBoxButton.OK);
+                        return null;
+                    }
                 }
                 else
                 {
-                    MessageBox.Show(Msgs.RoomDontExist + "->" + id.ToString(), Msgs.Error, MessageBoxButton.OK);
                     return null;
                 }
             }
-            catch
+            else
             {
-                MessageBox.Show(Msgs.WrongInput + "->" + id+ToString(), Msgs.Error, MessageBoxButton.OK);
                 return null;
             }
         }
 
         /// <summary>
-        /// returns a room by name. Name has to be uniqe in database
+        /// list all rooms in a database
         /// </summary>
-        /// <param name="name">name of a room in databas</param>
-        /// <returns>>returned room object</returns>
-        public Room getRoomByName(string name)
+        /// <returns>list of rooms</returns>
+        public List<Room> getAllRooms()
         {
-            if (checks.InputCheck(name)) //check entry data
+            rooms = dbRoomMng.GetAllRooms(); //get all rooms from a database
+            if (rooms != null)
             {
-                rooms = dbRoomMng.GetRoom(name); //check if room is in database
-                if (rooms.Count > 0) //if is in database -> check entry
+                if (rooms.Count > 0) //if is in database -> returns entries
                 {
-                    return rooms[0];
+                    return rooms;
                 }
                 else
                 {
-                    MessageBox.Show(Msgs.RoomDontExist + "->" + name.ToString(), Msgs.Error, MessageBoxButton.OK);
+                    MessageBox.Show(msgs.RoomsDontExist, msgs.Error, MessageBoxButton.OK);
                     return null;
                 }
             }
             else
             {
-                return null;
-            }
-        }
-        /// <summary>
-        /// list all rooms in a database
-        /// </summary>
-        /// <returns>list of rooms</returns>
-        public List<Room> getAllBuilds()
-        {
-            rooms = dbRoomMng.GetAllRooms(); //get all rooms from a database
-            if (rooms.Count > 0) //if is in database -> returns entries
-            {
-                return rooms;
-            }
-            else
-            {
-                MessageBox.Show(Msgs.RoomsDontExist, Msgs.Error, MessageBoxButton.OK);
                 return null;
             }
         }

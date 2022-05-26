@@ -1,18 +1,20 @@
-﻿using System.Collections.Generic;
-
-namespace TableReservation.Classes
+﻿namespace TableReservation.Classes
 {
-    internal class Room
+    public class Room
     {
-        public int Id { get; }
+        public int Id { get; private set; }
         public string Name { get; set; }
-        List<Desk> Tables = new List<Desk>();
         public Room()
         {
         }
         public Room(string name)
         {
             this.Name = name;
+        }
+        public Room(int id, string name)
+            : this(name)
+        {
+            this.Id = id;
         }
     }
 }

@@ -1,16 +1,20 @@
 ﻿namespace TableReservation.Classes
 {
-    internal class Desk
+    public class Desk
     {
-        public int Id { get; }
+        public int Id { get; set; }
         public string Name { get; set; }
-        public User User { get; set; }
         public Desk()
         {
         }
         public Desk(string name)
         {
             this.Name = name;
+        }
+        public Desk(int id, string name)
+            :this(name)
+        {
+            this.Id = id;
         }
     }
 }

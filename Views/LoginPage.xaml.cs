@@ -22,37 +22,43 @@ namespace TableReservation.Views
     /// </summary>
     public partial class LoginPage : Page
     {
-        private Msgs Msgs = new Msgs();
+        private Checks checks = new Checks();
         public LoginPage()
         {
             InitializeComponent();
         }
         private void LogIn_Click(object sender, RoutedEventArgs e)
         {
-            SessionUser SessionUser = new SessionUser(new UserMng().LogedUser(Username.Text, Password.Password));
-
-            if (SessionUser.User != null)
+            if (checks.InputCheck(Username.Text))
             {
-                if (SessionUser.User.IsAdmin != true)
+                SessionUser SessionUser = new SessionUser(new UserMng().LogedUser(Username.Text, Password.Password));
+                if (SessionUser.User != null)
                 {
-                    this.Content = null;
-                    this.NavigationService.Navigate(new UserPage(SessionUser));
+                    if (SessionUser.User.IsAdmin != true)
+                    {
+                        this.Content = null;
+                        this.NavigationService.Navigate(new UserPage(SessionUser));
+                    }
+                    else
+                    {
+                        if (SessionUser.User.IsTemp == true)
+                        {
+                            ChangeTempPass ChangeTempPass = new ChangeTempPass(SessionUser);
+                            ChangeTempPass.Show();
+                        }
+                        else 
+                        {
+                            this.Content = null;
+                            this.NavigationService.Navigate(new AdminPage(SessionUser));
+                        }
+                    }
                 }
-                else
-                {
-                    this.Content = null;
-                    this.NavigationService.Navigate(new AdminPage(SessionUser));
-                }
-            }
-            else
-            {
-                MessageBox.Show(Msgs.WrongUser, Msgs.Error, MessageBoxButton.OK);
             }
         }
 
         private void Register_Click(object sender, RoutedEventArgs e)
         {
-            UserRegWindow UserRegWindow = new UserRegWindow();
+            UserRegWindow UserRegWindow = new UserRegWindow(Username.Text);
             UserRegWindow.Show();
         }
     }

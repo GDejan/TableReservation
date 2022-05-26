@@ -1,48 +1,45 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
+using TableReservation.Classes.Users;
 using TableReservation.Database;
 using TableReservation.Helpers;
-using TableReservation.Classes.Users;
 
 namespace TableReservation.Classes.Reservations
 {
     internal class ResMng
     {
-        private DbResMng DbResMng = new DbResMng();
-        private Checks Checks = new Checks();
-        private List<Reservation> Reservations = new List<Reservation>();
-        private Reservation Reservation = new Reservation();
-        private Msgs Msgs = new Msgs();
-        public ResMng()
+        private DbResMng dbResMng = new DbResMng();
+        private Checks checks = new Checks();
+        private List<Reservation> reservations = new List<Reservation>();
+        private Reservation reservation = new Reservation();
+        private Msgs msgs = new Msgs();
+
+
+        public bool NewReservation(DateTime date, SessionUser sessionuser, Building building, Storey storey, Room room, Desk desk)
         {
-        }
-        public bool NewReservation(DateOnly date, SessionUser sessionuser, string[] deskTags) 
-        {  
-            if (Checks.InputCheck(deskTags[0]) && Checks.InputCheck(deskTags[1]) && Checks.InputCheck(deskTags[2]) && Checks.InputCheck(deskTags[3])) //check entry data
+            if (checks.InputCheck(building.Id.ToString()) && checks.InputCheck(storey.Id.ToString()) && checks.InputCheck(room.Id.ToString()) && checks.InputCheck(desk.Id.ToString())) //check entry data
             {
-                Reservations = DbResMng.GetReservations(deskTags, date); //check if table reserved on a date 
-                if (Reservations.Count == 0) //if is not in database -> create new entry
+                reservations = dbResMng.GetReservations(building, storey, room, desk, date); //check if table reserved on a date 
+
+                if (reservations.Count == 0) //if is not in database -> create new entry
                 {
-                    Reservations = DbResMng.GetReservations(sessionuser.User.Username.ToString(), date); //check if user has 2 table reserved on a date 
-                    if (Reservations.Count == 0) //if is not in database -> create new entry
+                    reservations = dbResMng.GetReservations(sessionuser.User, date); //check if user has already table reserved on a date 
+                    if (reservations.Count == 0) //if is not in database -> create new entry
                     {
-                        DbResMng.NewReservation(Reservation);
-                        MessageBox.Show(Msgs.ResCreated, Msgs.Ok, MessageBoxButton.OK);
+                        dbResMng.NewReservation(new Reservation(building.Id, storey.Id, room.Id, desk.Id, sessionuser.User.Id, date));
+                        MessageBox.Show(msgs.ResCreated, msgs.Ok, MessageBoxButton.OK);
                         return true;
                     }
-                    else 
+                    else
                     {
+                        MessageBox.Show(msgs.DoubleRes, msgs.Error, MessageBoxButton.OK);
                         return false;
-                        MessageBox.Show(Msgs.DoubleRes, Msgs.Error, MessageBoxButton.OK);
-                    }                    
+                    }
                 }
                 else
                 {
-                    MessageBox.Show(Msgs.ResExist, Msgs.Error, MessageBoxButton.OK);
+                    MessageBox.Show(msgs.ResExist, msgs.Error, MessageBoxButton.OK);
                     return false;
                 }
             }
@@ -52,5 +49,70 @@ namespace TableReservation.Classes.Reservations
             }
         }
 
+        public void RemoveReservation(int id)
+        {
+            //DbResMng.RemoveReservation(id);
+            MessageBox.Show(msgs.ResRemoved + "->" + id.ToString(), msgs.Ok, MessageBoxButton.OK);
+        }
+        public List<Reservation> getAllReservations(DateTime starttime, DateTime endtime)
+        {
+            reservations = dbResMng.GetAllReservations(starttime, endtime); //get all storeys from a database
+            if (reservations!=null)
+            {
+                if (reservations.Count > 0) //if is in database -> returns entries
+                {
+                    return reservations;
+                }
+                else
+                {
+                    MessageBox.Show(msgs.ResNotExist, msgs.Error, MessageBoxButton.OK);
+                    return null;
+                }
+            }
+            else
+            {
+                return null;
+            }
+        }
+        public List<Reservation> getAllReservations(DateTime starttime, User user)
+        {
+            reservations = dbResMng.GetAllReservations(starttime, user); //get all storeys from a database
+            if (reservations != null)
+            {
+                if (reservations.Count > 0) //if is in database -> returns entries
+                {
+                    return reservations;
+                }
+                else
+                {
+                    return null;
+                }
+            }
+            else
+            {
+                return null;
+            }
+
+        }
+        public List<Reservation> getReservations(Building building, Storey storey, Room room, Desk desk, DateTime date)
+        {
+            reservations = dbResMng.GetReservations(building, storey, room, desk, date); //get all storeys from a database
+            if (reservations != null)
+            {
+                if (reservations.Count > 0) //if is in database -> returns entries
+                {
+                    return reservations;
+                }
+                else
+                {
+                    MessageBox.Show(msgs.ResNotExist, msgs.Error, MessageBoxButton.OK);
+                    return null;
+                }
+            }
+            else
+            {
+                return null;
+            }
+        }
     }
 }

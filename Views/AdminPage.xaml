@@ -6,9 +6,9 @@
       xmlns:local="clr-namespace:TableReservation"
       mc:Ignorable="d" 
       d:DesignHeight="650" d:DesignWidth="865"
-      Title="AdminPage">
+      Title="Admin Page">
 
-    <Grid>
+    <Grid x:Name="grid1">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="10"></ColumnDefinition>
             <ColumnDefinition Width="auto"></ColumnDefinition>
@@ -70,31 +70,31 @@
 
         <StackPanel Grid.Column="1" Grid.Row="2" Grid.RowSpan="1" Grid.ColumnSpan="2" Orientation="Horizontal" HorizontalAlignment="Stretch">
             <Label Content="Id"  FontSize="12" MinWidth="100" ></Label>
-            <TextBox x:Name="OldId"  FontSize="12" MinWidth="100" Margin="0,5,0,5"></TextBox>
+            <TextBox x:Name="OldId" ToolTip="Only Integer" FontSize="12" MinWidth="100" Margin="0,5,0,5"></TextBox>
         </StackPanel>
 
         <StackPanel Grid.Column="1" Grid.Row="3" Grid.RowSpan="1" Grid.ColumnSpan="2" Orientation="Horizontal" HorizontalAlignment="Stretch">
             <Label Content="Name"  FontSize="12"  MinWidth="100" HorizontalAlignment="Left"></Label>
             <Label x:Name="OldName" Content="oldName"  MinWidth="100" FontSize="12" HorizontalAlignment="Center" ></Label>
-            <TextBox x:Name="NewName" FontSize="12" MinWidth="100" Margin="10,5,0,5" ></TextBox>
+            <TextBox x:Name="NewName" ToolTip="Only alowed characters a-z, A-Z or 0-1" FontSize="12" MinWidth="100" Margin="10,5,0,5" ></TextBox>
         </StackPanel>
 
-        <StackPanel  Grid.Column="1" Grid.Row="4" Grid.RowSpan="1" Grid.ColumnSpan="2" Orientation="Horizontal" HorizontalAlignment="Stretch">
+        <StackPanel Grid.Column="1" Grid.Row="4" Grid.RowSpan="1" Grid.ColumnSpan="2" Orientation="Horizontal" HorizontalAlignment="Stretch">
+            <Label Content="Surname"   FontSize="12"  MinWidth="100" HorizontalAlignment="Left"></Label>
+            <Label x:Name="OldSurname" Content="oldSurname" MinWidth="100" FontSize="12" HorizontalAlignment="Center"></Label>
+            <TextBox x:Name="NewSurname" ToolTip="Only alowed characters a-z, A-Z or 0-1" FontSize="12" MinWidth="100" Margin="10,5,0,5"></TextBox>
+        </StackPanel>
+
+        <StackPanel  Grid.Column="1" Grid.Row="5" Grid.RowSpan="1" Grid.ColumnSpan="2" Orientation="Horizontal" HorizontalAlignment="Stretch">
             <Label Content="Username"  FontSize="12"  MinWidth="100" HorizontalAlignment="Left" ></Label>
             <Label x:Name="OldUsername" Content="oldUsername" MinWidth="100" FontSize="12" HorizontalAlignment="Center" ></Label>
-            <TextBox x:Name="NewUsername" FontSize="12" MinWidth="100" Margin="10,5,0,5" ></TextBox>
-        </StackPanel>
-
-        <StackPanel Grid.Column="1" Grid.Row="5" Grid.RowSpan="1" Grid.ColumnSpan="2" Orientation="Horizontal" HorizontalAlignment="Stretch">
-            <Label Content="Password" FontSize="12"  MinWidth="100" HorizontalAlignment="Left"></Label>
-            <Label Content="" FontSize="12" MinWidth="100" HorizontalAlignment="Center"></Label>
-            <PasswordBox x:Name="NewPassword" Password="" FontSize="12" MinWidth="100" Margin="10,5,0,5" ></PasswordBox>
+            <TextBox x:Name="NewUsername" ToolTip="Only alowed characters a-z, A-Z or 0-1" FontSize="12" MinWidth="100" Margin="10,5,0,5" ></TextBox>
         </StackPanel>
 
         <StackPanel Grid.Column="1" Grid.Row="6" Grid.RowSpan="1" Grid.ColumnSpan="2" Orientation="Horizontal" HorizontalAlignment="Stretch">
-            <Label Content="Surname"   FontSize="12"  MinWidth="100" HorizontalAlignment="Left"></Label>
-            <Label x:Name="OldSurname" Content="oldSurname" MinWidth="100" FontSize="12" HorizontalAlignment="Center"></Label>
-            <TextBox x:Name="NewSurname" FontSize="12" MinWidth="100" Margin="10,5,0,5"></TextBox>
+            <Label Content="Password" FontSize="12"  MinWidth="100" HorizontalAlignment="Left"></Label>
+            <Label Content="" FontSize="12" MinWidth="100" HorizontalAlignment="Center"></Label>
+            <PasswordBox x:Name="NewPassword" Password="" FontSize="12" MinWidth="100" Margin="10,5,0,5" ></PasswordBox>
         </StackPanel>
 
         <StackPanel Grid.Column="1" Grid.Row="7" Grid.RowSpan="1" Grid.ColumnSpan="2" Orientation="Horizontal" HorizontalAlignment="Stretch">
@@ -106,8 +106,8 @@
         <StackPanel Grid.Column="1" Grid.Row="9" Grid.ColumnSpan="1" Grid.RowSpan="1" Orientation="Horizontal" Margin="0,20,0,0" HorizontalAlignment="Stretch">
             <Label Content="User"  FontSize="12"  Margin="0,-10,0,0"></Label>
             <Button x:Name="AddUser" Content="Add" Click="AddUser_Click" MinHeight="20" MinWidth="85"  Margin="-34,10,0,0"></Button>
-            <Button x:Name="ChangeUser" Content="Change" Click="ChangeUser_Click"  MinHeight="20" MinWidth="85"  Margin="10,10,0,0"></Button>
             <Button x:Name="RemoveUser"  Content="Remove" Click="RemoveUser_Click"  MinHeight="20" MinWidth="85" Margin="10,10,0,0"></Button>
+            <Button x:Name="ChangeUser" Content="Change" Click="ChangeUser_Click"  MinHeight="20" MinWidth="85"  Margin="10,10,0,0"></Button>
             <Button x:Name="GetUserByID" Content="Get" Click="GetUserByID_Click"  MinHeight="20" MinWidth="85" Margin="10,10,0,0"></Button>
         </StackPanel>
 
@@ -145,14 +145,162 @@
 
         <StackPanel  Grid.Column="1" Grid.Row="14" Grid.ColumnSpan="8" Grid.RowSpan="1" Orientation="Horizontal" Margin="0,20,0,0" HorizontalAlignment="Stretch">
             <Button x:Name="ListUsers"  Content="All Users" Click="ListUsers_Click"  MinHeight="20" MinWidth="85" Margin="0,0,0,0"></Button>
-            <Button x:Name="ListReservations"  Content="Reservations" Click="ListReservations_Click"  MinHeight="20" MinWidth="85" Margin="10,0,0,0"></Button>
             <Button x:Name="ListBuilding"  Content="All Building" Click="ListUBuildings_Click"  MinHeight="20" MinWidth="85" Margin="10,0,0,0" ></Button>
             <Button x:Name="ListStorey"  Content="All Storey" Click="ListStoreys_Click"  MinHeight="20" MinWidth="85" Margin="10,0,0,0"></Button>
             <Button x:Name="ListRoom"  Content="All Room" Click="ListRooms_Click"  MinHeight="20" MinWidth="85" Margin="10,0,0,0"></Button>
             <Button x:Name="ListDesk"  Content="All Desk" Click="ListDesks_Click"  MinHeight="20" MinWidth="85" Margin="10,0,0,0"></Button>
+            <Button x:Name="ListReservations"  Content="Reservations" Click="ListReservations_Click"  MinHeight="20" MinWidth="85" Margin="40,0,0,0"></Button>
+            <DatePicker x:Name="Startdate" Margin="10,0,0,0">
+            <DatePicker.Style>
+                <Style TargetType="DatePicker">
+                    <Setter Property="IsDropDownOpen" Value="False"></Setter>
+                    <Style.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="IsDropDownOpen" Value="True"></Setter>
+                        </Trigger>
+                        <Trigger Property="IsMouseOver" Value="False">
+                            <Setter Property="IsDropDownOpen" Value="False"></Setter>
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+            </DatePicker.Style>
+        </DatePicker>
+            <DatePicker x:Name="Enddate" Margin="10,0,0,0" >
+                <DatePicker.Style>
+                    <Style TargetType="DatePicker">
+                        <Setter Property="IsDropDownOpen" Value="False"></Setter>
+                        <Style.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="IsDropDownOpen" Value="True"></Setter>
+                            </Trigger>
+                            <Trigger Property="IsMouseOver" Value="False">
+                                <Setter Property="IsDropDownOpen" Value="False"></Setter>
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                </DatePicker.Style>
+            </DatePicker>
         </StackPanel>
 
-        <ListBox x:Name="Listbox" Grid.Column="5" Grid.Row="1" Grid.ColumnSpan="3" Grid.RowSpan="13" FontSize="12" MinWidth="450" Margin="20,0,0,0"></ListBox>
+        <ListView x:Name="Listbox" MinWidth="570"  MaxWidth="500" MaxHeight="400" Grid.Column="5" Grid.Row="1" Grid.ColumnSpan="3" Grid.RowSpan="13" FontSize="12"  Margin="20,0,0,0" HorizontalContentAlignment="Stretch" ItemsSource="{Binding Items}" ScrollViewer.HorizontalScrollBarVisibility="Auto">
+            <ListView.View>
+                <GridView>
+                    <GridView.Columns>
+                        <GridViewColumn>
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding Id}"></TextBlock>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                            <GridViewColumn.Header>
+                                <TextBlock Text="Id  "></TextBlock>
+                            </GridViewColumn.Header>
+                        </GridViewColumn>
+                        <GridViewColumn>
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding Name}"></TextBlock>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                            <GridViewColumn.Header>
+                                <TextBlock Text="Name"></TextBlock>
+                            </GridViewColumn.Header>
+                        </GridViewColumn>
+                        <GridViewColumn>
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding Surname}"></TextBlock>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                            <GridViewColumn.Header>
+                                <TextBlock Text="Surname"></TextBlock>
+                            </GridViewColumn.Header>
+                        </GridViewColumn>
+                        <GridViewColumn>
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding Username}"></TextBlock>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                            <GridViewColumn.Header>
+                                <TextBlock Text="Username"></TextBlock>
+                            </GridViewColumn.Header>
+                        </GridViewColumn>
+                        <GridViewColumn>
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding IsAdmin}"></TextBlock>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                            <GridViewColumn.Header>
+                                <TextBlock Text="IsAdmin"></TextBlock>
+                            </GridViewColumn.Header>
+                        </GridViewColumn>
+                        <GridViewColumn>
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding BuildingId}"></TextBlock>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                            <GridViewColumn.Header>
+                                <TextBlock Text="BuildingId"></TextBlock>
+                            </GridViewColumn.Header>
+                        </GridViewColumn>
+                        <GridViewColumn>
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding StoreyId}"></TextBlock>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                            <GridViewColumn.Header>
+                                <TextBlock Text="StoreyId"></TextBlock>
+                            </GridViewColumn.Header>
+                        </GridViewColumn>
+                        <GridViewColumn>
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding RoomId}"></TextBlock>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                            <GridViewColumn.Header>
+                                <TextBlock Text="RoomId"></TextBlock>
+                            </GridViewColumn.Header>
+                        </GridViewColumn>
+                        <GridViewColumn>
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding DeskId}"></TextBlock>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                            <GridViewColumn.Header>
+                                <TextBlock Text="DeskId"></TextBlock>
+                            </GridViewColumn.Header>
+                        </GridViewColumn>
+                        <GridViewColumn>
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding UserId}"></TextBlock>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                            <GridViewColumn.Header>
+                                <TextBlock Text="UserId"></TextBlock>
+                            </GridViewColumn.Header>
+                        </GridViewColumn>
+                        <GridViewColumn>
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding ReservedAt}"></TextBlock>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                            <GridViewColumn.Header>
+                                <TextBlock Text="ReservedAt"></TextBlock>
+                            </GridViewColumn.Header>
+                        </GridViewColumn>
+                    </GridView.Columns>
+                </GridView>
+            </ListView.View>
+        </ListView>
+        
         <Button x:Name="Logout" Grid.Column="1" Grid.Row="15" Content="Logout" Click="Logout_Click" Height="20" Width="85" Margin="0,20,0,0" HorizontalAlignment="Left"></Button>
     </Grid>
 </Page>

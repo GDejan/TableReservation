@@ -14,16 +14,16 @@
             <ColumnDefinition Width="auto"></ColumnDefinition>
             <ColumnDefinition Width="auto"></ColumnDefinition>
             <ColumnDefinition Width="10"></ColumnDefinition>
-            </Grid.ColumnDefinitions>
-            <Grid.RowDefinitions>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
             <RowDefinition Height="10"></RowDefinition>
             <RowDefinition Height="auto"></RowDefinition>
             <RowDefinition Height="auto"></RowDefinition>
             <RowDefinition Height="10"></RowDefinition>
-            </Grid.RowDefinitions>
-            <TextBox x:Name="Username" Grid.Column="1" Text="Username" Grid.Row="1" Margin="0,5,0,5" MinWidth="100"></TextBox>
-            <PasswordBox x:Name="Password" Password="password" Grid.Column="1" Grid.Row="2" Margin="0,5,0,5" MinWidth="100"></PasswordBox>
-            <Button x:Name="LogIn" Grid.Column="2" Content="LogIn" Grid.Row="1" Click="LogIn_Click" Margin="10,5,0,5" Width="65" Height="20"></Button>
+        </Grid.RowDefinitions>
+        <TextBox x:Name="Username" ToolTip="Only alowed characters a-z, A-Z or 0-1" Grid.Column="1" Text="Username" Grid.Row="1" Margin="0,5,0,5" MinWidth="100"></TextBox>
+        <PasswordBox x:Name="Password" Password="password" Grid.Column="1" Grid.Row="2" Margin="0,5,0,5" MinWidth="100"></PasswordBox>
+        <Button x:Name="LogIn" Grid.Column="2" Content="LogIn" Grid.Row="1" Click="LogIn_Click" Margin="10,5,0,5" Width="65" Height="20"></Button>
         <Button x:Name="Register" Grid.Column="2" Content="Register" Grid.Row="2" Click="Register_Click" Margin="10,5,0,5" Width="65" Height="20"></Button>
     </Grid>
 </Page>

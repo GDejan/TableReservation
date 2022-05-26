@@ -2,52 +2,75 @@
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Linq;
+using System.Windows;
+using TableReservation.Helpers;
 
 namespace TableReservation.Classes
 {
     internal class DbUserMng
     {
+        private Msgs msgs = new Msgs();
         public void NewUser(User User) 
          {
             //set new user in database
             using (SqlConnection SQLconn = new SqlConnection(DbHelper.ConnectionString("connectionString")))
             {
-                SQLconn.Execute("dbo.procSetNewUser @Name, @Surname, @Username, @Password, @IsAdmin", User);
+                try
+                {
+                    SQLconn.Execute("dbo.procNewUser @Name, @Surname, @Username, @Password, @IsAdmin", User);
+                }
+                catch
+                {
+                    MessageBox.Show(msgs.Wrong + " error creating new user", msgs.Error, MessageBoxButton.OK);
+                }
             }
         }
-        public void ChangeUser(int id, string name, string surname, string username, bool isAdmin)
+        public void ChangeUser(User user)
         {
             //change existing user in database
             using (SqlConnection SQLconn = new SqlConnection(DbHelper.ConnectionString("connectionString")))
             {
-                SQLconn.Execute("dbo.procChangeUser @Id, @Name, @Surname, @Username, @IsAdmin", new { Id=id, Name=name, Surname=surname, UserName = username, IsAdmin=isAdmin });
+                try
+                {
+                    SQLconn.Execute("dbo.procChangeUser @Id, @Name, @Surname, @Username, @IsAdmin", user);
+                }
+                catch
+                {
+                    MessageBox.Show(msgs.Wrong + " error changing user", msgs.Error, MessageBoxButton.OK);
+                }
             }
         }
         
-        public void RemoveUser(int id)
+        public void RemoveUser(User user)
         {
             //remove existing user in database
             using (SqlConnection SQLconn = new SqlConnection(DbHelper.ConnectionString("connectionString")))
             {
-                SQLconn.Execute("dbo.procRemoveUser @Id", new {Id=id});
+                try
+                {
+                    SQLconn.Execute("dbo.procRemoveUser @Id", user);
+                }
+                catch
+                {
+                    MessageBox.Show(msgs.Wrong + " error removing user", msgs.Error, MessageBoxButton.OK);
+                }
             }
         }
 
-        public List<User> GetUser(string username, string password)
+        public List<User> GetAllUsers()
         {
-            //check login credentials in database
+            //check all users
             using (SqlConnection SQLconn = new SqlConnection(DbHelper.ConnectionString("connectionString")))
             {
-                return SQLconn.Query<User>("dbo.procGetUsersByUsernameAndPass @UserName, @PassWord", new { UserName = username, PassWord = password }).ToList();
-            }
-        }
-
-        public List<User> GetUser(string username)
-        {
-            //check if user exist by username
-            using (SqlConnection SQLconn = new SqlConnection(DbHelper.ConnectionString("connectionString")))
-            {
-                return SQLconn.Query<User>("dbo.procGetUsersByUsername @UserName", new { UserName = username}).ToList();
+                try
+                {
+                    return SQLconn.Query<User>("dbo.procGetAllUsers").ToList();
+                }
+                catch
+                {
+                    MessageBox.Show(msgs.Wrong + " error getting user", msgs.Error, MessageBoxButton.OK);
+                    return null;
+                }
             }
         }
         public List<User> GetUser(int id)
@@ -55,10 +78,48 @@ namespace TableReservation.Classes
             //check if user exist by id
             using (SqlConnection SQLconn = new SqlConnection(DbHelper.ConnectionString("connectionString")))
             {
-                return SQLconn.Query<User>("dbo.procGetUsersById @Id", new { Id= id}).ToList();
+                try
+                {
+                    return SQLconn.Query<User>("dbo.procGetUsersById @Id", new { Id = id }).ToList();
+                }
+                catch
+                {
+                    MessageBox.Show(msgs.Wrong + " error getting user", msgs.Error, MessageBoxButton.OK);
+                    return null;
+                }
             }
         }
-
-
+        public List<User> GetUser(User user)
+        {
+            //check login credentials in database
+            using (SqlConnection SQLconn = new SqlConnection(DbHelper.ConnectionString("connectionString")))
+            {
+                try
+                {
+                    return SQLconn.Query<User>("dbo.procGetUsersByUsernameAndPass @Username, @Password", user).ToList();
+                }
+                catch
+                {
+                    MessageBox.Show(msgs.Wrong + " error getting user", msgs.Error, MessageBoxButton.OK);
+                    return null;
+                }
+            }
+        }
+        public List<User> GetUserByUsername(User user)
+        {
+            //check if user exist by username
+            using (SqlConnection SQLconn = new SqlConnection(DbHelper.ConnectionString("connectionString")))
+            {
+                try
+                {
+                    return SQLconn.Query<User>("dbo.procGetUsersByUsername @Username", user).ToList();
+                }
+                catch
+                {
+                    MessageBox.Show(msgs.Wrong + " error getting user", msgs.Error, MessageBoxButton.OK);
+                    return null;
+                }
+            }
+        }
     }
 }
