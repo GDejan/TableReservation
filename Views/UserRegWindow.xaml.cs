@@ -21,16 +21,16 @@ namespace TableReservation
             Username.Text = username;
         }
 
-        private void Register_Click(object sender, RoutedEventArgs e)
+        private void register_Click(object sender, RoutedEventArgs e)
         {
             if ((checks.InputCheck(Name.Text)==true) && (checks.InputCheck(Surname.Text)) == true && (checks.InputCheck(Username.Text) == true))
             {
                 if ((!string.IsNullOrEmpty(Password.Password))&& (!string.IsNullOrEmpty(ConfirmPass.Password)))
                 {
-                    if (Password.Password == ConfirmPass.Password)
+                    if (Password.Password == ConfirmPass.Password) 
                     {
                         PassHash passHash = new PassHash(Password.Password);
-                        if (userMng.NewUser(new User(Name.Text, Surname.Text, Username.Text, passHash.HashedPassword)) == true)
+                        if (userMng.Create(new User(Name.Text, Surname.Text, Username.Text, passHash.HashedPassword,false,false)) == true)
                         {
                             this.Close();
                         }
@@ -47,7 +47,7 @@ namespace TableReservation
             }            
         }
 
-        private void Cancel_Click(object sender, RoutedEventArgs e)
+        private void cancel_Click(object sender, RoutedEventArgs e)
         {
             this.Close();
         }

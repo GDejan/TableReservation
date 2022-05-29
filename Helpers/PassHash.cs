@@ -10,7 +10,12 @@ namespace TableReservation.Classes.Users
     internal class PassHash
     {
         public string HashedPassword { get; set; }
-        public PassHash(string rawData) //hashing password
+
+        /// <summary>
+        /// Helper class for password hasing. storing values to HashedPassword property
+        /// </summary>
+        /// <param name="rawData">input password string</param>
+        public PassHash(string rawData)
         {
             using (SHA256 sha256Hash = SHA256.Create())
             {
@@ -24,6 +29,5 @@ namespace TableReservation.Classes.Users
                 HashedPassword = builder.ToString();
             }
         }       
-
     }
 }

@@ -35,11 +35,16 @@ namespace TableReservation.Views
         {
             Calendar.BlackoutDates.AddDatesInPast();
 
-            reservations = resMng.getReservations(building, storey, room, desk, DateTime.Now);
-            foreach (var item in reservations)
+            //treba traziti sve dane od danas nadalje
+            //reservations = resMng.getAllReservations(building, storey, room, desk, DateTime.Now);
+            if (reservations != null)
             {
-                Calendar.BlackoutDates.Add(new CalendarDateRange(item.ReservedAt));
+                foreach (var item in reservations)
+                {
+                    Calendar.BlackoutDates.Add(new CalendarDateRange(item.ReservedAt));
+                }
             }
+            
         }
         private void ReserveTable_Click(object sender, RoutedEventArgs e)
         {
@@ -48,8 +53,8 @@ namespace TableReservation.Views
                 SelectedDatesCollection selectedDates = Calendar.SelectedDates;
                 foreach (var item in selectedDates)
                 {
-                    DateTime Date = new DateTime(item.Date.Year, item.Date.Month, item.Date.Day);
-                    resMng.NewReservation(Date, SessionUser, building, storey, room, desk);
+                    DateTime date = new DateTime(item.Date.Year, item.Date.Month, item.Date.Day);
+                    resMng.Create(date, SessionUser, building, storey, room, desk);
                 }
             }
             this.Close();

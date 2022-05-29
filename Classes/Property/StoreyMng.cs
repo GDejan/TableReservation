@@ -17,13 +17,13 @@ namespace TableReservation.Classes
         /// </summary>
         /// <param name="storey">object storey</param>
         /// <returns>Returns a true if succeded or false if not</returns>
-        public bool NewStorey(Storey storey)
+        public bool Create(Storey storey)
         {
-            storeys = dbStoreyMng.GetStorey(storey); //check if storey is in database
+            storeys = dbStoreyMng.GetByName(storey); //check if storey is in database
 
             if (storeys.Count == 0) //if is not in database -> create new entry
             {
-                dbStoreyMng.NewStorey(storey);
+                dbStoreyMng.Create(storey);
                 MessageBox.Show(msgs.StoreyCreated + "->" + storey.Name.ToString(), msgs.Ok, MessageBoxButton.OK);
                 return true;
             }
@@ -39,17 +39,20 @@ namespace TableReservation.Classes
         /// </summary>
         /// <param name="newStorey">new name of a storey</param>
         /// <param name="oldStorey"> old storey object</param>
-        public void ChangeStorey(Storey newStorey, Storey oldStorey)
+        /// /// <returns>Returns a true if succeded or false if not</returns>
+        public bool Change(Storey newStorey, Storey oldStorey)
         {
-            storeys = dbStoreyMng.GetStorey(newStorey);
+            storeys = dbStoreyMng.GetByName(newStorey);
             if (storeys.Count == 0) //if is not in database -> change entry
             {
-                dbStoreyMng.ChangeStorey(newStorey);
+                dbStoreyMng.Change(newStorey);
                 MessageBox.Show(msgs.StoreyChanged + "->" + oldStorey.Name.ToString() + " to " + newStorey.Name.ToString(), msgs.Ok, MessageBoxButton.OK);
+                return true;
             }
             else
             {
                 MessageBox.Show(msgs.StoreyExist + "->" + newStorey.Name.ToString(), msgs.Error, MessageBoxButton.OK);
+                return false;
             }
         }
 
@@ -57,22 +60,26 @@ namespace TableReservation.Classes
         /// Remove storey from a database
         /// </summary>
         /// <param name="storey">storey as object</param>
-        public void RemoveStorey(Storey storey)
+        /// /// <returns>Returns a true if succeded or false if not</returns>
+        public bool Remove(Storey storey)
         {
-            storeys = dbStoreyMng.GetStorey(storey.Id);
+            storeys = dbStoreyMng.GetById(storey.Id);
 
             if (storeys.Count == 1)  //if is in database -> delete entry
             {
-                dbStoreyMng.RemoveStorey(storey);
+                dbStoreyMng.Remove(storey);
                 MessageBox.Show(msgs.StoreyRemoved + "->" + storey.Name.ToString(), msgs.Ok, MessageBoxButton.OK);
+                return true;
             }
             else if (storeys.Count > 1)
             {
                 MessageBox.Show(msgs.Wrong + " too many Ids", msgs.Error, MessageBoxButton.OK);
+                return false;
             }
             else
             {
                 MessageBox.Show(msgs.StoreyDontExist + "->" + storey.Id.ToString(), msgs.Error, MessageBoxButton.OK);
+                return false;
             }
 
         }
@@ -82,11 +89,11 @@ namespace TableReservation.Classes
         /// </summary>
         /// <param name="id">id of a storey in databas</param>
         /// <returns>returned storey object</returns>
-        public Storey getStoreyById(string id)
+        public Storey getById(string id)
         {
-            if (checks.InputCheckStringInt(id))
+            if (checks.InputCheckStringIntId(id))
             {
-                storeys = dbStoreyMng.GetStorey(int.Parse(id)); //check if storey is in database
+                storeys = dbStoreyMng.GetById(int.Parse(id)); //check if storey is in database
                 if (storeys != null)
                 {
                     if (storeys.Count == 1) //if is in database -> check entry
@@ -119,9 +126,9 @@ namespace TableReservation.Classes
         /// list all storeys in a database
         /// </summary>
         /// <returns>list of storeys</returns>
-        public List<Storey> getAllStoreys()
+        public List<Storey> getAll()
         {
-            storeys = dbStoreyMng.GetAllStoreys(); //get all storeys from a database
+            storeys = dbStoreyMng.GetAll(); //get all storeys from a database
             if (storeys != null)
             {
                 if (storeys.Count > 0) //if is in database -> returns entries

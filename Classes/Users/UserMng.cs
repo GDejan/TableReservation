@@ -19,7 +19,7 @@ namespace TableReservation.Classes.Users
                 if (!string.IsNullOrEmpty(password))
                 {
                     PassHash passHash = new PassHash(password);
-                    users = dbUserMng.GetUser(new User(username, passHash.HashedPassword));
+                    users = dbUserMng.LoginCheck(new User(username, passHash.HashedPassword));
 
                     if (users.Count == 1) //if is in database -> check entry
                     {
@@ -46,17 +46,25 @@ namespace TableReservation.Classes.Users
             {
                 return null;
             }
-        }        
+        }
 
-        public bool NewUser(User user)
+        /// <summary>
+        /// Add new user to the database
+        /// </summary>
+        /// <param name="user">object user</param>
+        /// <returns>Returns a true if succeded or false if not</returns>
+        public bool Create(User user)
         {
-            users = dbUserMng.GetUserByUsername(user); //check if user is in database
+            users = dbUserMng.GetByUsername(user); //check if user is in database
 
             if (users.Count == 0) //if is not in database -> create new entry
             {
-                dbUserMng.NewUser(user);
-                MessageBox.Show(msgs.UserCreated + "->" + user.Username.ToString(), msgs.Ok, MessageBoxButton.OK);
-                return true;
+                if (dbUserMng.Create(user))
+                {
+                    MessageBox.Show(msgs.UserCreated + "->" + user.Username.ToString(), msgs.Ok, MessageBoxButton.OK);
+                    return true;
+                }
+                return false;
             }
             else
             {
@@ -65,16 +73,22 @@ namespace TableReservation.Classes.Users
             }
         }
 
-        public bool ChangeUser(User newUser, User oldUser)
+        /// <summary>
+        /// Change parameters of a existing user in database
+        /// </summary>
+        /// <param name="newUser">new name of a storey</param>
+        /// <param name="oldUser"> old storey object</param>
+        public bool Change(User newUser, User oldUser)
         {
-            users = dbUserMng.GetUserByUsername(newUser);
+            users = dbUserMng.GetByUsername(newUser);
             if ((users.Count == 0)||(newUser.Username==oldUser.Username))  //if new is not in database -> change entry
-
-                ///ili da je tzo isto trenutni user pa se smije promjeniti
             {
-                dbUserMng.ChangeUser(newUser);
-                MessageBox.Show(msgs.UserChanged + "->" + oldUser.Name.ToString() + " to " + newUser.Name.ToString(), msgs.Ok, MessageBoxButton.OK);
-                return true;
+                if (dbUserMng.Change(newUser)) 
+                {
+                    MessageBox.Show(msgs.UserChanged + "->" + oldUser.Name.ToString() + " to " + newUser.Name.ToString(), msgs.Ok, MessageBoxButton.OK);
+                    return true;
+                }
+                return false;
             }
             else
             {
@@ -83,30 +97,45 @@ namespace TableReservation.Classes.Users
             }
         }
 
-        public void RemoveUser(User user)
+        /// <summary>
+        /// Remove user from a database
+        /// </summary>
+        /// <param name="user">user as object</param>
+        /// /// <returns>Returns a true if succeded or false if not</returns>
+        public bool Remove(User user)
         {
-            users = dbUserMng.GetUser(user.Id);
-
+            users = dbUserMng.GetById(user.Id);
             if (users.Count == 1)  //if is in database -> delete entry
             {
-                dbUserMng.RemoveUser(user);
-                MessageBox.Show(msgs.UserRemoved + "->" + user.Username.ToString(), msgs.Ok, MessageBoxButton.OK);
+                if (dbUserMng.Remove(user)) 
+                {
+                    MessageBox.Show(msgs.UserRemoved + "->" + user.Username.ToString(), msgs.Ok, MessageBoxButton.OK);
+                    return true;
+                }
+                return false;
             }
             else if (users.Count > 1)
             {
                 MessageBox.Show(msgs.Wrong + " too many Ids", msgs.Error, MessageBoxButton.OK);
+                return false;
             }
             else
             {
                 MessageBox.Show(msgs.UserDontExist + "->" + user.Id.ToString(), msgs.Error, MessageBoxButton.OK);
+                return false;
             }
         }
 
-        public User getUserById(string id)
+        /// <summary>
+        /// returns a user by id (string)
+        /// </summary>
+        /// <param name="id">id of a user in database</param>
+        /// <returns>returned user object</returns>
+        public User getById(string id)
         {
-            if (checks.InputCheckStringInt(id))
+            if (checks.InputCheckStringIntId(id))
             {
-                users = dbUserMng.GetUser(int.Parse(id)); //check if user is in database
+                users = dbUserMng.GetById(int.Parse(id)); //check if user is in database
                 if (users!=null)
                 {
                     if (users.Count == 1) //if is in database -> check entry
@@ -134,9 +163,14 @@ namespace TableReservation.Classes.Users
                 return null;
             }
         }
-        public List<User> getAllUsers()
+
+        /// <summary>
+        /// list all users in a database
+        /// </summary>
+        /// <returns>list of users</returns>
+        public List<User> getAll()
         {
-            users = dbUserMng.GetAllUsers(); //get all storeys from a database
+            users = dbUserMng.GetAll(); //get all users from a database
             if (users!=null)
             {
                 if (users.Count > 0) //if is in database -> returns entries
@@ -153,7 +187,6 @@ namespace TableReservation.Classes.Users
             {
                 return null;
             }
-
         }
     }
 }

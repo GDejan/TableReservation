@@ -8,59 +8,83 @@ using TableReservation.Helpers;
 
 namespace TableReservation.Database
 {
-    internal class DbDeskMng
+    internal class DbDeskMng 
     {
         private Msgs msgs = new Msgs();
-        public void NewDesk(Desk desk)
+
+        /// <summary>
+        /// Exchange interface for creating new item in a database
+        /// </summary>
+        /// <param name="desk">new object</param>
+        /// <returns>true if ok, false is it fail</returns>
+        public bool Create(Desk desk)
         {
-            //set new Room in database
             using (SqlConnection SQLconn = new SqlConnection(DbHelper.ConnectionString("connectionString")))
             {
                 try
                 {
                     SQLconn.Execute("dbo.procNewDesk @Name", desk);
+                    return true;
                 }
                 catch
                 {
                     MessageBox.Show(msgs.Wrong + " error creating new desk", msgs.Error, MessageBoxButton.OK);
+                    return false;
                 }   
             }
         }
-        public void ChangeDesk(Desk desk)
+
+        /// <summary>
+        /// Exchange interface for change item in a database
+        /// </summary>
+        /// <param name="desk">change object</param>
+        /// <returns>true if ok, false is it fail</returns>
+        public bool Change(Desk desk)
         {
-            //change existing Room in database
             using (SqlConnection SQLconn = new SqlConnection(DbHelper.ConnectionString("connectionString")))
             {
                 try
                 {
                     SQLconn.Execute("dbo.procChangeDesk @Id, @Name", desk);
+                    return true;
                 }
                 catch
                 {
                     MessageBox.Show(msgs.Wrong + " error changing desk", msgs.Error, MessageBoxButton.OK);
+                    return false;
                 }
             }
         }
 
-        public void RemoveDesk(Desk desk)
+        /// <summary>
+        /// Exchange interface for removing item from a database
+        /// </summary>
+        /// <param name="desk">remove object</param>
+        /// <returns>true if ok, false is it fail</returns>
+        public bool Remove(Desk desk)
         {
-            //remove existing Room in database
             using (SqlConnection SQLconn = new SqlConnection(DbHelper.ConnectionString("connectionString")))
             {
                 try
                 {
                     SQLconn.Execute("dbo.procRemoveDesk @Id", desk);
+                    return true;
                 }
                 catch
                 {
                     MessageBox.Show(msgs.Wrong + " error removing desk", msgs.Error, MessageBoxButton.OK);
+                    return false;
                 }
             }
         }
 
-        public List<Desk> GetDesk(Desk desk)
+        /// <summary>
+        /// Exchange interface for getting all data of an object from database by Name
+        /// </summary>
+        /// <param name="desk">search object</param>
+        /// <returns>list of objects</returns>
+        public List<Desk> GetByName(Desk desk)
         {
-            //check Room in database
             using (SqlConnection SQLconn = new SqlConnection(DbHelper.ConnectionString("connectionString")))
             {
                 try
@@ -74,9 +98,14 @@ namespace TableReservation.Database
                 }
             }
         }
-        public List<Desk> GetDesk(int id)
+
+        /// <summary>
+        /// Exchange interface for getting all data of an object from database by Id
+        /// </summary>
+        /// <param name="id">id of search object</param>
+        /// <returns>list of objects</returns>
+        public List<Desk> GetById(int id)
         {
-            //check Room in database
             using (SqlConnection SQLconn = new SqlConnection(DbHelper.ConnectionString("connectionString")))
             {
                 try
@@ -91,9 +120,12 @@ namespace TableReservation.Database
             }
         }
 
-        public List<Desk> GetAllDesks()
+        /// <summary>
+        /// Exchange interface for getting all data of an object from database
+        /// </summary>
+        /// <returns>list of objects</returns>
+        public List<Desk> GetAll()
         {
-            //check desks in database
             using (SqlConnection SQLconn = new SqlConnection(DbHelper.ConnectionString("connectionString")))
             {
                 try
@@ -106,6 +138,6 @@ namespace TableReservation.Database
                     return null;
                 }
             }
-        }
+        } 
     }
 }

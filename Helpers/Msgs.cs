@@ -64,9 +64,13 @@ namespace TableReservation.Helpers
         public string ResRemoved = "Reservation Removed";
         public string ResRemove = "Should reservation be removed";
         public string ResExist = "Reservation exist for selected date and table!";
+        public string ResNoExist = "Reservation doesent exist!";
         public string ResNotExist = "Reservation doesent exist for selected date and table!";
         public string DoubleRes = "User has reservation for this date!";
         
+        /// <summary>
+        /// helper class for displaying messages to user
+        /// </summary>
         public Msgs()
         {
         }

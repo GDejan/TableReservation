@@ -17,13 +17,13 @@ namespace TableReservation.Classes
         /// </summary>
         /// <param name="desk">object desk</param>
         /// <returns>Returns a true if succeded or false if not</returns>
-        public bool NewDesk(Desk desk)
+        public bool Create(Desk desk)
         {
-            desks = dbDeskdMng.GetDesk(desk); //check if desk is in database
+            desks = dbDeskdMng.GetByName(desk); //check if desk is in database
 
             if (desks.Count == 0) //if is not in database -> create new entry
             {
-                dbDeskdMng.NewDesk(desk);
+                dbDeskdMng.Create(desk);
                 MessageBox.Show(msgs.DeskCreated + "->" + desk.Name.ToString(), msgs.Ok, MessageBoxButton.OK);
                 return true;
             }
@@ -39,17 +39,20 @@ namespace TableReservation.Classes
         /// </summary>
         /// <param name="newDesk">new desk as object</param>
         /// <param name="oldDesk">old desk as object</param>
-        public void ChangeDesk(Desk newDesk, Desk oldDesk)
+        /// /// <returns>Returns a true if succeded or false if not</returns>
+        public bool Change(Desk newDesk, Desk oldDesk)
         {
-            desks = dbDeskdMng.GetDesk(newDesk);
+            desks = dbDeskdMng.GetByName(newDesk);
             if (desks.Count == 0) //if new is not in database -> change entry
             {
-                dbDeskdMng.ChangeDesk(newDesk);
+                dbDeskdMng.Change(newDesk);
                 MessageBox.Show(msgs.DeskChanged + "->" + oldDesk.Name.ToString() + " to " + newDesk.Name.ToString(), msgs.Ok, MessageBoxButton.OK);
+                return true;
             }
             else
             {
                 MessageBox.Show(msgs.DeskExist + "->" + newDesk.Name.ToString(), msgs.Error, MessageBoxButton.OK);
+                return false;
             }
         }
 
@@ -57,22 +60,26 @@ namespace TableReservation.Classes
         /// Remove desk from a database
         /// </summary>
         /// <param name="desk">desk as object</param>
-        public void RemoveDesk(Desk desk)
+        /// /// <returns>Returns a true if succeded or false if not</returns>
+        public bool Remove(Desk desk)
         {
-            desks = dbDeskdMng.GetDesk(desk.Id);
+            desks = dbDeskdMng.GetById(desk.Id);
 
             if (desks.Count == 1)  //if is in database -> delete entry
             {
-                dbDeskdMng.RemoveDesk(desk);
+                dbDeskdMng.Remove(desk);
                 MessageBox.Show(msgs.DeskRemoved + "->" + desk.Name.ToString(), msgs.Ok, MessageBoxButton.OK);
+                return true;
             }
             else if (desks.Count > 1)
             {
                 MessageBox.Show(msgs.Wrong + " too many Ids", msgs.Error, MessageBoxButton.OK);
+                return false;
             }
             else
             {
                 MessageBox.Show(msgs.DeskDontExist + "->" + desk.Id.ToString(), msgs.Error, MessageBoxButton.OK);
+                return false;
             }
         }
 
@@ -81,11 +88,11 @@ namespace TableReservation.Classes
         /// </summary>
         /// <param name="id">id of a desk in databas</param>
         /// <returns>returned desk object</returns>
-        public Desk getDeskById(string id)
+        public Desk getById(string id)
         {
-            if (checks.InputCheckStringInt(id))
+            if (checks.InputCheckStringIntId(id))
             {
-                desks = dbDeskdMng.GetDesk(int.Parse(id)); //check if desk is in database
+                desks = dbDeskdMng.GetById(int.Parse(id)); //check if desk is in database
                 if (desks != null)
                 {
                     if (desks.Count == 1) //if is in database -> check entry
@@ -120,7 +127,7 @@ namespace TableReservation.Classes
         /// <returns>list of desks</returns>
         public List<Desk> getAllDesks()
         {
-            desks = dbDeskdMng.GetAllDesks(); //get all desks from a database
+            desks = dbDeskdMng.GetAll(); //get all desks from a database
             if (desks!=null)
             {
                 if (desks.Count > 0) //if is in database -> returns entries

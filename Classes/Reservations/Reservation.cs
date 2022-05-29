@@ -28,7 +28,6 @@ namespace TableReservation.Classes
             : this(buildingId, storeyId, roomId, deskId, userId, reservedAt)
         {
             this.Id = Id;
-
         }
     }
 }

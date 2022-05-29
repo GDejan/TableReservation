@@ -8,59 +8,83 @@ using TableReservation.Helpers;
 
 namespace TableReservation.Database
 {
-    internal class DbBuildMng
+    internal class DbBuildMng 
     {
         private Msgs msgs = new Msgs();
-        public void NewBuilding(Building building)
+
+        /// <summary>
+        /// Exchange interface for creating new item in a database
+        /// </summary>
+        /// <param name="building">new object</param>
+        /// <returns>true if ok, false is it fail</returns>
+        public bool Create(Building building)
         {
-            //set new Building in database
             using (SqlConnection SQLconn = new SqlConnection(DbHelper.ConnectionString("connectionString")))
             {
                 try
                 {
                     SQLconn.Execute("dbo.procNewBuilding @Name", building);
+                    return true;
                 }
                 catch
                 {
                     MessageBox.Show(msgs.Wrong + " error creating new building", msgs.Error, MessageBoxButton.OK);
+                    return false;
                 }
             }
         }
-        public void ChangeBuilding(Building building)
+
+        /// <summary>
+        /// Exchange interface for change item in a database
+        /// </summary>
+        /// <param name="building">change object</param>
+        /// <returns>true if ok, false is it fail</returns>
+        public bool Change(Building building)
         {
-            //change existing Building in database
             using (SqlConnection SQLconn = new SqlConnection(DbHelper.ConnectionString("connectionString")))
             {
                 try
                 {
                     SQLconn.Execute("dbo.procChangeBuilding @Id, @Name", building);
+                    return true;
                 }
                 catch
                 {
                     MessageBox.Show(msgs.Wrong + " error changing building", msgs.Error, MessageBoxButton.OK);
+                    return false;
                 }
             }
         }
 
-        public void RemoveBuilding(Building building)
+        /// <summary>
+        /// Exchange interface for removing item from a database
+        /// </summary>
+        /// <param name="building">remove object</param>
+        /// <returns>true if ok, false is it fail</returns>
+        public bool Remove(Building building)
         {
-            //remove existing Building from database
             using (SqlConnection SQLconn = new SqlConnection(DbHelper.ConnectionString("connectionString")))
             {
                 try
                 {
                     SQLconn.Execute("dbo.procRemoveBuilding @Id", building);
+                    return true;
                 }
                 catch
                 {
                     MessageBox.Show(msgs.Wrong + " error removing building", msgs.Error, MessageBoxButton.OK);
+                    return false;
                 }
             }
         }
 
-        public List<Building> GetBuilding(Building building)
+        /// <summary>
+        /// Exchange interface for getting all data of an object from database by Name
+        /// </summary>
+        /// <param name="building">search object</param>
+        /// <returns>list of objects</returns>
+        public List<Building> GetByName(Building building)
         {
-            //check Building in database
             using (SqlConnection SQLconn = new SqlConnection(DbHelper.ConnectionString("connectionString")))
             {
                 try
@@ -75,9 +99,13 @@ namespace TableReservation.Database
             }
         }
 
-        public List<Building> GetBuilding(int id)
+        /// <summary>
+        /// Exchange interface for getting all data of an object from database by Id
+        /// </summary>
+        /// <param name="id">id of search object</param>
+        /// <returns>list of objects</returns>
+        public List<Building> GetById(int id)
         {
-            //check Building in database
             using (SqlConnection SQLconn = new SqlConnection(DbHelper.ConnectionString("connectionString")))
             {
                 try
@@ -92,9 +120,12 @@ namespace TableReservation.Database
             }
         }
 
-        public List<Building> GetAllBuildings()
+        /// <summary>
+        /// Exchange interface for getting all data of an object from database
+        /// </summary>
+        /// <returns>list of objects</returns>
+        public List<Building> GetAll()
         {
-            //check Building in database
             using (SqlConnection SQLconn = new SqlConnection(DbHelper.ConnectionString("connectionString")))
             {
                 try

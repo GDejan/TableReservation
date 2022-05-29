@@ -11,56 +11,80 @@ namespace TableReservation.Database
     internal class DbStoreyMng
     {
         private Msgs msgs = new Msgs();
-        public void NewStorey(Storey Storey)
+
+        /// <summary>
+        /// Exchange interface for creating new item in a database
+        /// </summary>
+        /// <param name="storey">new object</param>
+        /// <returns>true if ok, false is it fail</returns>
+        public bool Create(Storey storey)
         {
-            //set new Storey in database
             using (SqlConnection SQLconn = new SqlConnection(DbHelper.ConnectionString("connectionString")))
             {
                 try
                 {
-                    SQLconn.Execute("dbo.procNewStorey @Name", Storey);
+                    SQLconn.Execute("dbo.procNewStorey @Name", storey);
+                    return true;
                 }
                 catch
                 {
                     MessageBox.Show(msgs.Wrong + " error creating new storey", msgs.Error, MessageBoxButton.OK);
+                    return false;
                 }   
             }
         }
-        public void ChangeStorey(Storey storey)
+
+        /// <summary>
+        /// Exchange interface for change item in a database
+        /// </summary>
+        /// <param name="storey">change object</param>
+        /// <returns>true if ok, false is it fail</returns>
+        public bool Change(Storey storey)
         {
-            //change existing Storey in database
             using (SqlConnection SQLconn = new SqlConnection(DbHelper.ConnectionString("connectionString")))
             {
                 try
                 {
                     SQLconn.Execute("dbo.procChangeStorey @Id, @Name", storey);
+                    return true;
                 }
                 catch
                 {
                     MessageBox.Show(msgs.Wrong + " error changing storey", msgs.Error, MessageBoxButton.OK);
+                    return false;
                 }
             }
         }
 
-        public void RemoveStorey(Storey storey)
+        /// <summary>
+        /// Exchange interface for removing item from a database
+        /// </summary>
+        /// <param name="storey">remove object</param>
+        /// <returns>true if ok, false is it fail</returns>
+        public bool Remove(Storey storey)
         {
-            //remove existing Storey in database
             using (SqlConnection SQLconn = new SqlConnection(DbHelper.ConnectionString("connectionString")))
             {
                 try
                 {
                     SQLconn.Execute("dbo.procRemoveStorey @Id", storey);
+                    return true;
                 }
                 catch
                 {
                     MessageBox.Show(msgs.Wrong + " error removing storey", msgs.Error, MessageBoxButton.OK);
+                    return false;
                 }
             }
         }
 
-        public List<Storey> GetStorey(Storey storey)
+        /// <summary>
+        /// Exchange interface for getting all data of an object from database by Name
+        /// </summary>
+        /// <param name="storey">search object</param>
+        /// <returns>list of objects</returns>
+        public List<Storey> GetByName(Storey storey)
         {
-            //check Storey in database
             using (SqlConnection SQLconn = new SqlConnection(DbHelper.ConnectionString("connectionString")))
             {
                 try
@@ -74,9 +98,14 @@ namespace TableReservation.Database
                 }
             }
         }
-        public List<Storey> GetStorey(int id)
+
+        /// <summary>
+        /// Exchange interface for getting all data of an object from database by Id
+        /// </summary>
+        /// <param name="id">id of search object</param>
+        /// <returns>list of objects</returns>
+        public List<Storey> GetById(int id)
         {
-            //check Storey in database
             using (SqlConnection SQLconn = new SqlConnection(DbHelper.ConnectionString("connectionString")))
             {
                 try
@@ -91,9 +120,13 @@ namespace TableReservation.Database
                 
             }
         }
-        public List<Storey> GetAllStoreys()
+
+        /// <summary>
+        /// Exchange interface for getting all data of an object from database
+        /// </summary>
+        /// <returns>list of objects</returns>
+        public List<Storey> GetAll()
         {
-            //check Storeys in database
             using (SqlConnection SQLconn = new SqlConnection(DbHelper.ConnectionString("connectionString")))
             {
                 try

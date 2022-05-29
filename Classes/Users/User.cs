@@ -46,9 +46,13 @@ namespace TableReservation.Classes
             this.IsTemp = istemp;
         }
         public User(int id,string name, string surname, string username, string password, bool isadmin, bool istemp)
-            : this(name, surname, username, password, istemp,istemp)
+            : this(name, surname, username, password, isadmin,istemp)
         {
             this.Id=id;
+        }
+        public string FullName() 
+        {
+            return string.Format(this.Name + " " + this.Surname);
         }
     }
 }

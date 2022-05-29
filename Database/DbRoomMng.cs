@@ -8,59 +8,84 @@ using TableReservation.Helpers;
 
 namespace TableReservation.Database
 {
-    internal class DbRoomMng
+    internal class DbRoomMng 
     {
         private Msgs msgs = new Msgs();
-        public void NewRoom(Room Room)
+
+        /// <summary>
+        /// Exchange interface for creating new item in a database
+        /// </summary>
+        /// <param name="room">new object</param>
+        /// <returns>true if ok, false is it fail</returns>></returns>
+        public bool Create(Room room)
         {
-            //set new Room in database
             using (SqlConnection SQLconn = new SqlConnection(DbHelper.ConnectionString("connectionString")))
             {
                 try
                 {
-                    SQLconn.Execute("dbo.procNewRoom @Name", Room);
+                    SQLconn.Execute("dbo.procNewRoom @Name", room);
+                    return true;
                 }
                 catch
                 {
                     MessageBox.Show(msgs.Wrong + " error creating new room", msgs.Error, MessageBoxButton.OK);
+                    return false;
                 }
             }
         }
-        public void ChangeRoom(Room room)
+
+        /// <summary>
+        /// Exchange interface for change item in a database
+        /// </summary>
+        /// <param name="room">change object</param>
+        /// <returns>true if ok, false is it fail</returns>
+        public bool Change(Room room)
         {
-            //change existing Room in database
             using (SqlConnection SQLconn = new SqlConnection(DbHelper.ConnectionString("connectionString")))
             {
                 try
                 {
                     SQLconn.Execute("dbo.procChangeRoom @Id, @Name", room);
+                    return true;
                 }
                 catch
                 {
                     MessageBox.Show(msgs.Wrong + " error changing room", msgs.Error, MessageBoxButton.OK);
+                    return false;
                 }
             }
         }
 
-        public void RemoveRoom(Room room)
+        /// <summary>
+        /// Exchange interface for removing item from a database
+        /// </summary>
+        /// <param name="room">remove object</param>
+        /// <returns>true if ok, false is it fail</returns>
+        public bool Remove(Room room)
         {
-            //remove existing Room in database
             using (SqlConnection SQLconn = new SqlConnection(DbHelper.ConnectionString("connectionString")))
             {
                 try
                 {
                     SQLconn.Execute("dbo.procRemoveRoom @Id", room);
+                    return true;
                 }
                 catch
                 {
                     MessageBox.Show(msgs.Wrong + " error removing room", msgs.Error, MessageBoxButton.OK);
+                    return false;
                 }
             }
         }
 
-        public List<Room> GetRoom(Room room)
+
+        /// <summary>
+        /// Exchange interface for getting all data of an object from database by Name
+        /// </summary>
+        /// <param name="room">search object</param>
+        /// <returns>list of objects</returns>
+        public List<Room> GetByName(Room room)
         {
-            //check Room in database
             using (SqlConnection SQLconn = new SqlConnection(DbHelper.ConnectionString("connectionString")))
             {
                 try
@@ -74,9 +99,14 @@ namespace TableReservation.Database
                 }
             }
         }
-        public List<Room> GetRoom(int id)
+
+        /// <summary>
+        /// Exchange interface for getting all data of an object from database by Id
+        /// </summary>
+        /// <param name="id">id of search object</param>
+        /// <returns>list of objects</returns>
+        public List<Room> GetById(int id)
         {
-            //check Room in database
             using (SqlConnection SQLconn = new SqlConnection(DbHelper.ConnectionString("connectionString")))
             {
                 try
@@ -90,9 +120,13 @@ namespace TableReservation.Database
                 }
             }
         }
-        public List<Room> GetAllRooms()
+
+        /// <summary>
+        /// Exchange interface for getting all data of an object from database
+        /// </summary>
+        /// <returns>list of objects</returns>
+        public List<Room> GetAll()
         {
-            //check Rooms in database
             using (SqlConnection SQLconn = new SqlConnection(DbHelper.ConnectionString("connectionString")))
             {
                 try

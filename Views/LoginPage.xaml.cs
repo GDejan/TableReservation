@@ -27,28 +27,27 @@ namespace TableReservation.Views
         {
             InitializeComponent();
         }
-        private void LogIn_Click(object sender, RoutedEventArgs e)
+        private void logIn_Click(object sender, RoutedEventArgs e)
         {
             if (checks.InputCheck(Username.Text))
             {
                 SessionUser SessionUser = new SessionUser(new UserMng().LogedUser(Username.Text, Password.Password));
                 if (SessionUser.User != null)
                 {
-                    if (SessionUser.User.IsAdmin != true)
+                    if (SessionUser.User.IsTemp == true)
+                    {
+                        ChangeTempPass changeTempPass = new ChangeTempPass(SessionUser);
+                        changeTempPass.Show();
+                    }
+                    else 
                     {
                         this.Content = null;
-                        this.NavigationService.Navigate(new UserPage(SessionUser));
-                    }
-                    else
-                    {
-                        if (SessionUser.User.IsTemp == true)
+                        if (SessionUser.User.IsAdmin != true)
                         {
-                            ChangeTempPass ChangeTempPass = new ChangeTempPass(SessionUser);
-                            ChangeTempPass.Show();
+                            this.NavigationService.Navigate(new UserPage(SessionUser));
                         }
-                        else 
-                        {
-                            this.Content = null;
+                        else
+                        {   
                             this.NavigationService.Navigate(new AdminPage(SessionUser));
                         }
                     }
@@ -56,10 +55,10 @@ namespace TableReservation.Views
             }
         }
 
-        private void Register_Click(object sender, RoutedEventArgs e)
+        private void register_Click(object sender, RoutedEventArgs e)
         {
-            UserRegWindow UserRegWindow = new UserRegWindow(Username.Text);
-            UserRegWindow.Show();
+            UserRegWindow userRegWindow = new UserRegWindow(Username.Text);
+            userRegWindow.Show();
         }
     }
 }

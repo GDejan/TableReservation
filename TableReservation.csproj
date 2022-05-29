@@ -8,6 +8,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Design\RoomDesing.xml" />
+    <None Remove="Icons\B-318.jpg" />
+    <None Remove="Icons\DeskReserved.jpg" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Page Remove="Test.xaml" />
   </ItemGroup>
 
@@ -29,6 +35,22 @@
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Database\Tables\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Design\RoomDesing.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Icons\B-318.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Icons\DeskReserved.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
   </ItemGroup>
 
 </Project>

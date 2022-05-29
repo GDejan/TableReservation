@@ -26,7 +26,6 @@ namespace TableReservation.Views
 
         private Msgs msgs = new Msgs();
         private UserMng userMng = new UserMng();
-        private User user = new User();
 
         public ChangeTempPass(SessionUser SessionUser)
         {
@@ -34,14 +33,14 @@ namespace TableReservation.Views
             this.SessionUser = SessionUser;
         }
 
-        private void Change_Click(object sender, RoutedEventArgs e)
+        private void change_Click(object sender, RoutedEventArgs e)
         {
             if ((!string.IsNullOrEmpty(Password.Password)) && (!string.IsNullOrEmpty(ConfirmPass.Password)))
             {
                 if (Password.Password == ConfirmPass.Password)
                 {
                     PassHash passHash = new PassHash(Password.Password);
-                    if (userMng.ChangeUser(new User(SessionUser.User.Id, SessionUser.User.Name, SessionUser.User.Surname, SessionUser.User.Username, passHash.HashedPassword, false, false), SessionUser.User) == true)
+                    if (userMng.Change(new User(SessionUser.User.Id, SessionUser.User.Name, SessionUser.User.Surname, SessionUser.User.Username, passHash.HashedPassword, SessionUser.User.IsAdmin, false), SessionUser.User) == true)
                     {
                         this.Close();
                     }
@@ -57,7 +56,7 @@ namespace TableReservation.Views
             }
         }
 
-        private void Cancel_Click(object sender, RoutedEventArgs e)
+        private void cancel_Click(object sender, RoutedEventArgs e)
         {
             this.Close();
         }
