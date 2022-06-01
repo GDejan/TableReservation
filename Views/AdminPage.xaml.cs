@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
-using TableReservation.Classes;
-using TableReservation.Classes.Reservations;
-using TableReservation.Classes.Users;
 using TableReservation.Helpers;
+using TableReservation.Property;
+using TableReservation.Resevations;
+using TableReservation.Users;
 using TableReservation.Views;
 
 namespace TableReservation
@@ -76,7 +76,8 @@ namespace TableReservation
             {
                 getDeskById();
             }
-        }
+        } 
+
         private void addUser_Click(object sender, RoutedEventArgs e)
         {
             if (SessionUser.User.IsAdmin == true) 
@@ -120,7 +121,26 @@ namespace TableReservation
                             var DialogResult = MessageBox.Show(msgs.CheckOldValues, msgs.Ok, MessageBoxButton.YesNo);
                             if (DialogResult == MessageBoxResult.Yes)
                             {
-                                userMng.Change(new User(user.Id, newname, newsurname, newusername, (bool)NewIsAdmin.IsChecked), user);
+                                User chngUser = new User();
+                                chngUser.Id = user.Id;
+                                chngUser.Name = newname;
+                                chngUser.Username = newsurname;
+                                chngUser.Surname = newusername;
+                                chngUser.IsAdmin = (bool)NewIsAdmin.IsChecked;
+                                chngUser.IsTemp = user.IsTemp;
+
+                                if ((bool)EnPass.IsChecked)
+                                {
+                                    PassHash passHash = new PassHash(NewPassword.Password);
+                                    chngUser.Password = passHash.HashedPassword;
+                                    userMng.ChangePass(chngUser, user);
+                                    EnPass.IsChecked = false;
+                                    NewPassword.Password = "";
+                                }
+                                else 
+                                {
+                                    userMng.Change(chngUser, user);
+                                }
                             }
                         }
                     }
@@ -339,16 +359,16 @@ namespace TableReservation
                 }
             }
         }
+
         private void listUsers_Click(object sender, RoutedEventArgs e)
         {
             if (SessionUser.User.IsAdmin == true)
             {
                 Listbox.Items.Clear();
                 users = userMng.getAll();
-                if (users != null)
-                {
-                    foreach (var item in users) Listbox.Items.Add(item);
-                }
+
+                foreach (var item in users) Listbox.Items.Add(item);
+
             }
         }
         private void listReservations_Click(object sender, RoutedEventArgs e)
@@ -513,6 +533,16 @@ namespace TableReservation
                 return false;
             }
             return false;
-        } 
+        }
+
+        private void enPassword_Checked(object sender, RoutedEventArgs e)
+        {
+            NewPassword.IsEnabled = true;
+        }
+
+        private void enPassword_Unchecked(object sender, RoutedEventArgs e)
+        {
+            NewPassword.IsEnabled = false;
+        }
     }
 } 

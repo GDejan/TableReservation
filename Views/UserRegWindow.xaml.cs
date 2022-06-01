@@ -1,8 +1,7 @@
-﻿using System;
-using System.Windows;
-using TableReservation.Classes;
-using TableReservation.Classes.Users;
+﻿using System.Windows;
 using TableReservation.Helpers;
+using TableReservation.Users;
+using TableReservation.Views;
 
 namespace TableReservation
 {
@@ -17,6 +16,7 @@ namespace TableReservation
 
         public UserRegWindow(string username)
         {
+            LoginPage.NoOfWindows++;
             InitializeComponent();
             Username.Text = username;
         }
@@ -50,6 +50,11 @@ namespace TableReservation
         private void cancel_Click(object sender, RoutedEventArgs e)
         {
             this.Close();
+        }
+
+        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            LoginPage.NoOfWindows--;
         }
     }
 }

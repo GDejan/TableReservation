@@ -1,12 +1,13 @@
 ﻿using Dapper;
+using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Windows;
-using TableReservation.Database;
 using TableReservation.Helpers;
+using TableReservation.Users;
 
-namespace TableReservation.Classes
+namespace TableReservation.Database
 {
     internal class DbUserMng 
     {
@@ -26,9 +27,9 @@ namespace TableReservation.Classes
                     SQLconn.Execute("dbo.procNewUser @Name, @Surname, @Username, @Password, @IsAdmin, @IsTemp", user);
                     return true;
                 }
-                catch
+                catch (Exception e)
                 {
-                    MessageBox.Show(msgs.Wrong + " error creating new user", msgs.Error, MessageBoxButton.OK);
+                    MessageBox.Show(msgs.Wrong + " error creating new user. " + e.Message, msgs.Error, MessageBoxButton.OK);
                     return false;
                 }
             }
@@ -48,9 +49,31 @@ namespace TableReservation.Classes
                     SQLconn.Execute("dbo.procChangeUser @Id, @Name, @Surname, @Username, @IsAdmin, @IsTemp", user);
                     return true;
                 }
-                catch
+                catch (Exception e)
                 {
-                    MessageBox.Show(msgs.Wrong + " error changing user", msgs.Error, MessageBoxButton.OK);
+                    MessageBox.Show(msgs.Wrong + " error changing user. " + e.Message, msgs.Error, MessageBoxButton.OK);
+                    return false;
+                }
+            }
+        }
+        
+        /// <summary>
+        /// Exchange interface for change user password 
+        /// </summary>
+        /// <param name="user">change object</param>
+        /// <returns>true if ok, false is it fail</returns>
+        public bool ChangePass(User user)
+        {
+            using (SqlConnection SQLconn = new SqlConnection(DbHelper.ConnectionString("connectionString")))
+            {
+                try
+                {
+                    SQLconn.Execute("dbo.procChangeUserPass @Id, @Password", user);
+                    return true;
+                }
+                catch (Exception e)
+                {
+                    MessageBox.Show(msgs.Wrong + " error changing user password. " + e.Message, msgs.Error, MessageBoxButton.OK);
                     return false;
                 }
             }
@@ -70,9 +93,9 @@ namespace TableReservation.Classes
                     SQLconn.Execute("dbo.procRemoveUser @Id", user);
                     return true;
                 }
-                catch
+                catch (Exception e)
                 {
-                    MessageBox.Show(msgs.Wrong + " error removing user", msgs.Error, MessageBoxButton.OK);
+                    MessageBox.Show(msgs.Wrong + " error removing user. " + e.Message, msgs.Error, MessageBoxButton.OK);
                     return false;
                 }
             }
@@ -91,9 +114,9 @@ namespace TableReservation.Classes
                 {
                     return SQLconn.Query<User>("dbo.procGetUserLoginCheck @Username, @Password", user).ToList();
                 }
-                catch
+                catch (Exception e)
                 {
-                    MessageBox.Show(msgs.Wrong + " error getting user", msgs.Error, MessageBoxButton.OK);
+                    MessageBox.Show(msgs.Wrong + " error getting user. " + e.Message, msgs.Error, MessageBoxButton.OK);
                     return null;
                 }
             }
@@ -112,9 +135,9 @@ namespace TableReservation.Classes
                 {
                     return SQLconn.Query<User>("dbo.procGetUsersById @Id", new { Id = id }).ToList();
                 }
-                catch
+                catch (Exception e)
                 {
-                    MessageBox.Show(msgs.Wrong + " error getting user", msgs.Error, MessageBoxButton.OK);
+                    MessageBox.Show(msgs.Wrong + " error getting user. " + e.Message, msgs.Error, MessageBoxButton.OK);
                     return null;
                 }
             }
@@ -133,9 +156,9 @@ namespace TableReservation.Classes
                 {
                     return SQLconn.Query<User>("dbo.procGetUsersByUsername @Username", user).ToList();
                 }
-                catch
+                catch (Exception e)
                 {
-                    MessageBox.Show(msgs.Wrong + " error getting user", msgs.Error, MessageBoxButton.OK);
+                    MessageBox.Show(msgs.Wrong + " error getting user. " + e.Message, msgs.Error, MessageBoxButton.OK);
                     return null;
                 }
             }
@@ -153,9 +176,9 @@ namespace TableReservation.Classes
                 {
                     return SQLconn.Query<User>("dbo.procGetAllUsers").ToList();
                 }
-                catch
+                catch (Exception e)
                 {
-                    MessageBox.Show(msgs.Wrong + " error getting user", msgs.Error, MessageBoxButton.OK);
+                    MessageBox.Show(msgs.Wrong + " error getting user. " + e.Message, msgs.Error, MessageBoxButton.OK);
                     return null;
                 }
             }

@@ -2,9 +2,10 @@
 using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
-using TableReservation.Classes;
-using TableReservation.Classes.Reservations;
-using TableReservation.Classes.Users;
+using TableReservation.ViewModels;
+using TableReservation.Users;
+using TableReservation.Property;
+using TableReservation.Resevations;
 
 namespace TableReservation.Views
 {
@@ -13,6 +14,8 @@ namespace TableReservation.Views
     /// </summary>
     public partial class DeskCalendar : Window
     {
+        
+
         public SessionUser SessionUser = new SessionUser();
         private Building building = new Building();
         private Storey storey = new Storey();
@@ -20,10 +23,11 @@ namespace TableReservation.Views
         private Desk desk = new Desk();
         private ResMng resMng = new ResMng();
         
-        private List<Reservation> reservations = new List<Reservation>();
+        private List<DeskUser> viewModelDeskUser = new List<DeskUser>();
 
         public DeskCalendar(SessionUser sessionUser, Building building, Storey storey, Room room, Desk desk)
         {
+            UserPage.NoOfWindows++;
             this.SessionUser = sessionUser;
             this.building = building;
             this.storey = storey;
@@ -34,17 +38,15 @@ namespace TableReservation.Views
         private void Calendar_Loaded(object sender, RoutedEventArgs e)
         {
             Calendar.BlackoutDates.AddDatesInPast();
-
-            //treba traziti sve dane od danas nadalje
-            //reservations = resMng.getAllReservations(building, storey, room, desk, DateTime.Now);
-            if (reservations != null)
+            
+            viewModelDeskUser = resMng.getFutDeskRes(building, storey, room, desk, DateTime.Now);
+            if (viewModelDeskUser != null)
             {
-                foreach (var item in reservations)
+                foreach (var item in viewModelDeskUser)
                 {
                     Calendar.BlackoutDates.Add(new CalendarDateRange(item.ReservedAt));
                 }
             }
-            
         }
         private void ReserveTable_Click(object sender, RoutedEventArgs e)
         {
@@ -65,5 +67,9 @@ namespace TableReservation.Views
             this.Close();
         }
 
+        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            UserPage.NoOfWindows--;
+        }
     }
 }

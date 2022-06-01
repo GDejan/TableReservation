@@ -1,16 +1,11 @@
 ﻿using System;   
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using TableReservation.Classes;
 
-namespace TableReservation.ViewModel
+namespace TableReservation.ViewModels
 {
     /// <summary>
     /// View model for list box on user page
     /// </summary>
-    internal class UserReservation
+    internal class ResUser
     {
         public int Id { get; set; }
         public string BuildingName { get; set; }

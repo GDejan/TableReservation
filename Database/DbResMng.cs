@@ -4,9 +4,11 @@ using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Windows;
-using TableReservation.Classes;
+using TableReservation.ViewModels;
 using TableReservation.Helpers;
-using TableReservation.ViewModel;
+using TableReservation.Users;
+using TableReservation.Property;
+using TableReservation.Resevations;
 
 namespace TableReservation.Database
 {
@@ -28,9 +30,9 @@ namespace TableReservation.Database
                     SQLconn.Execute("dbo.procNewReservation @BuildingId, @StoreyID, @RoomId, @DeskId, @UserId, @ReservedAt", reservation);
                     return true;
                 }
-                catch
+                catch (Exception e)
                 {
-                    MessageBox.Show(msgs.Wrong + " error creating new reservation", msgs.Error, MessageBoxButton.OK);
+                    MessageBox.Show(msgs.Wrong + " error creating new reservation. " + e.Message, msgs.Error, MessageBoxButton.OK);
                     return false;
                 }
             }
@@ -50,9 +52,9 @@ namespace TableReservation.Database
                     SQLconn.Execute("dbo.procChangeReservation @Id, @BuildingId, @StoreyID, @RoomId, @DeskId, @UserId, @ReservedAt", reservation);
                     return true;
                 }
-                catch
+                catch (Exception e)
                 {
-                    MessageBox.Show(msgs.Wrong + " error changing desk", msgs.Error, MessageBoxButton.OK);
+                    MessageBox.Show(msgs.Wrong + " error changing desk. " + e.Message, msgs.Error, MessageBoxButton.OK);
                     return false;
                 }
             }
@@ -72,9 +74,9 @@ namespace TableReservation.Database
                     SQLconn.Execute("dbo.procRemoveReservation @Id", new { Id=id});
                     return true;
                 }
-                catch
+                catch (Exception e)
                 {
-                    MessageBox.Show(msgs.Wrong + " error removing reservation", msgs.Error, MessageBoxButton.OK);
+                    MessageBox.Show(msgs.Wrong + " error removing reservation. " + e.Message, msgs.Error, MessageBoxButton.OK);
                     return false;
                 }
             }
@@ -93,9 +95,9 @@ namespace TableReservation.Database
                 {
                     return SQLconn.Query<Reservation>("dbo.procGetResById @Id", new { Id = id }).ToList();
                 }
-                catch
+                catch (Exception e)
                 {
-                    MessageBox.Show(msgs.Wrong + " error getting building", msgs.Error, MessageBoxButton.OK);
+                    MessageBox.Show(msgs.Wrong + " error getting building. " + e.Message, msgs.Error, MessageBoxButton.OK);
                     return null;
                 }
             }
@@ -115,9 +117,9 @@ namespace TableReservation.Database
                 {
                     return SQLconn.Query<Reservation>("dbo.procGetResByUserIdDate @UserId, @ReservedAt", new { UserId = user.Id, ReservedAt = reservedAt }).ToList();
                 }
-                catch
+                catch (Exception e)
                 {
-                    MessageBox.Show(msgs.Wrong + " error getting reservation", msgs.Error, MessageBoxButton.OK);
+                    MessageBox.Show(msgs.Wrong + " error getting reservation. " + e.Message, msgs.Error, MessageBoxButton.OK);
                     return null;
                 }
             }
@@ -141,9 +143,9 @@ namespace TableReservation.Database
                     return SQLconn.Query<Reservation>("dbo.procGetResForDate @BuildingId, @StoreyId, @RoomId, @DeskId, @ReservedAt",
                     new { BuildingId = building.Id, StoreyId = storey.Id, RoomId = room.Id, DeskId = desk.Id, ReservedAt = date.Date }).ToList();
                 }
-                catch
+                catch (Exception e)
                 {
-                    MessageBox.Show(msgs.Wrong + " error getting reservation", msgs.Error, MessageBoxButton.OK);
+                    MessageBox.Show(msgs.Wrong + " error getting reservation. " + e.Message, msgs.Error, MessageBoxButton.OK);
                     return null;
                 }
             }
@@ -163,9 +165,9 @@ namespace TableReservation.Database
                 {
                     return SQLconn.Query<Reservation>("dbo.procGetResForRange @ReservedAtStart, @ReservedAtEnd", new { ReservedAtStart = reservedAtStart, ReservedAtEnd = reservedAtEnd }).ToList();
                 }
-                catch
+                catch (Exception e)
                 {
-                    MessageBox.Show(msgs.Wrong + " error getting reservation", msgs.Error, MessageBoxButton.OK);
+                    MessageBox.Show(msgs.Wrong + " error getting reservation. " + e.Message, msgs.Error, MessageBoxButton.OK);
                     return null;
                 }
             }
@@ -177,13 +179,13 @@ namespace TableReservation.Database
         /// <param name="reservedAtStart">start date</param>
         /// <param name="user">search object</param>
         /// <returns>list of objects</returns>
-        public List<UserReservation> GetFutureForUserId(DateTime reservedAtStart, User user)
+        public List<ResUser> GetFutureForUserId(DateTime reservedAtStart, User user)
         {
             using (SqlConnection SQLconn = new SqlConnection(DbHelper.ConnectionString("connectionString")))
             {
                 try
                 {
-                    return SQLconn.Query<UserReservation>("dbo.procGetFutureResByUserId @UserId, @ReservedAtStart", new { UserId = user.Id, ReservedAtStart = reservedAtStart }).ToList();
+                    return SQLconn.Query<ResUser>("dbo.procGetFutureResByUserId @UserId, @ReservedAtStart", new { UserId = user.Id, ReservedAtStart = reservedAtStart }).ToList();
                 }
                 catch
                 {
@@ -210,6 +212,32 @@ namespace TableReservation.Database
                 {
                     return SQLconn.Query<User>("dbo.procGetResInnerUser @BuildingId, @StoreyId, @RoomId, @DeskId, @ReservedAt",
                     new { BuildingId = building.Id, StoreyId = storey.Id, RoomId = room.Id, DeskId = desk.Id, ReservedAt = date.Date }).ToList();
+                }
+                catch
+                {
+                    MessageBox.Show(msgs.Wrong + " error getting reservation", msgs.Error, MessageBoxButton.OK);
+                    return null;
+                }
+            }
+        }
+
+        /// <summary>
+        /// Exchange interface for getting all data of an object from database from a given date and property ids
+        /// </summary>
+        /// <param name="building">search object</param>
+        /// <param name="storey">search object</param>
+        /// <param name="room">search object</param>
+        /// <param name="desk">search object</param>
+        /// <param name="starttime">start time</param>
+        /// <returns>list of objects</returns>
+        public List<DeskUser> GetDeskDateFut(Building building, Storey storey, Room room, Desk desk, DateTime starttime)
+        {
+            using (SqlConnection SQLconn = new SqlConnection(DbHelper.ConnectionString("connectionString")))
+            {
+                try
+                {
+                    return SQLconn.Query<DeskUser>("dbo.procGetResForDateDesk @BuildingId, @StoreyId, @RoomId, @DeskId, @ReservedFrom",
+                    new { BuildingId = building.Id, StoreyId = storey.Id, RoomId = room.Id, DeskId = desk.Id, ReservedFrom = starttime.Date }).ToList();
                 }
                 catch
                 {

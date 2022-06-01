@@ -1,12 +1,17 @@
 ﻿<Page x:Class="TableReservation.AdminPage"
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-      xmlns:local="clr-namespace:TableReservation"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       mc:Ignorable="d" 
-      d:DesignHeight="650" d:DesignWidth="865"
+      d:DesignHeight="550" d:DesignWidth="1020"
       Title="Admin Page">
+    <Page.Resources>
+        <Style TargetType="{x:Type Button}">
+            <Setter Property="Height" Value="20"/>
+            <Setter Property="Width" Value="85"/>
+        </Style>
+    </Page.Resources>
 
     <Grid x:Name="grid1">
         <Grid.ColumnDefinitions>
@@ -22,25 +27,6 @@
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="10"></RowDefinition>
-            <RowDefinition Height="auto"></RowDefinition>
-            <RowDefinition Height="auto"></RowDefinition>
-            <RowDefinition Height="auto"></RowDefinition>
-            <RowDefinition Height="auto"></RowDefinition>
-            <RowDefinition Height="auto"></RowDefinition>
-            <RowDefinition Height="auto"></RowDefinition>
-            <RowDefinition Height="auto"></RowDefinition>
-            <RowDefinition Height="auto"></RowDefinition>
-            <RowDefinition Height="auto"></RowDefinition>
-            <RowDefinition Height="auto"></RowDefinition>
-            <RowDefinition Height="auto"></RowDefinition>
-            <RowDefinition Height="auto"></RowDefinition>
-            <RowDefinition Height="auto"></RowDefinition>
-            <RowDefinition Height="auto"></RowDefinition>
-            <RowDefinition Height="auto"></RowDefinition>
-            <RowDefinition Height="auto"></RowDefinition>
-            <RowDefinition Height="auto"></RowDefinition>
-            <RowDefinition Height="auto"></RowDefinition>
-            <RowDefinition Height="auto"></RowDefinition>
             <RowDefinition Height="auto"></RowDefinition>
             <RowDefinition Height="auto"></RowDefinition>
             <RowDefinition Height="auto"></RowDefinition>
@@ -94,7 +80,8 @@
         <StackPanel Grid.Column="1" Grid.Row="6" Grid.RowSpan="1" Grid.ColumnSpan="2" Orientation="Horizontal" HorizontalAlignment="Stretch">
             <Label Content="Password" FontSize="12"  MinWidth="100" HorizontalAlignment="Left"></Label>
             <Label Content="" FontSize="12" MinWidth="100" HorizontalAlignment="Center"></Label>
-            <PasswordBox x:Name="NewPassword" Password="" FontSize="12" MinWidth="100" Margin="10,5,0,5" ></PasswordBox>
+            <PasswordBox x:Name="NewPassword" Password="" FontSize="12" MinWidth="100" Margin="10,5,0,5" Visibility="Visible" IsEnabled="False"/>
+            <CheckBox x:Name="EnPass"  FontSize="12" MinWidth="10" Margin="10,7,0,5" HorizontalAlignment="Center" Checked="enPassword_Checked" Unchecked="enPassword_Unchecked"/>
         </StackPanel>
 
         <StackPanel Grid.Column="1" Grid.Row="7" Grid.RowSpan="1" Grid.ColumnSpan="2" Orientation="Horizontal" HorizontalAlignment="Stretch">
@@ -105,67 +92,53 @@
 
         <StackPanel Grid.Column="1" Grid.Row="9" Grid.ColumnSpan="1" Grid.RowSpan="1" Orientation="Horizontal" Margin="0,20,0,0" HorizontalAlignment="Stretch">
             <Label Content="User"  FontSize="12"  Margin="0,-10,0,0"></Label>
-            <Button x:Name="AddUser" Content="Add" Click="addUser_Click" MinHeight="20" MinWidth="85"  Margin="-34,10,0,0"></Button>
-            <Button x:Name="RemoveUser"  Content="Remove" Click="removeUser_Click"  MinHeight="20" MinWidth="85" Margin="10,10,0,0"></Button>
-            <Button x:Name="ChangeUser" Content="Change" Click="changeUser_Click"  MinHeight="20" MinWidth="85"  Margin="10,10,0,0"></Button>
-            <Button x:Name="GetUserByID" Content="Get" Click="getUserByID_Click"  MinHeight="20" MinWidth="85" Margin="10,10,0,0"></Button>
+            <Button x:Name="AddUser" Content="Add" Click="addUser_Click" Margin="-34,10,0,0"></Button>
+            <Button x:Name="RemoveUser"  Content="Remove" Click="removeUser_Click" Margin="10,10,0,0"></Button>
+            <Button x:Name="ChangeUser" Content="Change" Click="changeUser_Click"    Margin="10,10,0,0"></Button>
+            <Button x:Name="GetUserByID" Content="Get" Click="getUserByID_Click"   Margin="10,10,0,0"></Button>
         </StackPanel>
 
         <StackPanel Grid.Column="1" Grid.Row="10" Grid.ColumnSpan="1" Grid.RowSpan="1" Orientation="Horizontal" Margin="0,10,0,0" HorizontalAlignment="Stretch">
             <Label Content="Building"  FontSize="12" Margin="0,-10,0,0"></Label>
-            <Button x:Name="AddBuilding" Content="Add" Click="addBuilding_Click" Height="20" MinWidth="85" Margin="-54,10,0,0"></Button>
-            <Button x:Name="RemoveBuilding"  Content="Remove" Click="removeBuilding_Click"  MinHeight="20" MinWidth="85" Margin="10,10,0,0"></Button>
-            <Button x:Name="ChangeBuilding"  Content="Change" Click="changeBuilding_Click"  MinHeight="20" MinWidth="85" Margin="10,10,0,0"></Button>
-            <Button x:Name="GetBuildingByID" Content="Get" Click="getBuildingByID_Click" MinHeight="20" MinWidth="85" Margin="10,10,0,0"></Button>
+            <Button x:Name="AddBuilding" Content="Add" Click="addBuilding_Click" Margin="-54,10,0,0"></Button>
+            <Button x:Name="RemoveBuilding"  Content="Remove" Click="removeBuilding_Click"   Margin="10,10,0,0"></Button>
+            <Button x:Name="ChangeBuilding"  Content="Change" Click="changeBuilding_Click"   Margin="10,10,0,0"></Button>
+            <Button x:Name="GetBuildingByID" Content="Get" Click="getBuildingByID_Click"  Margin="10,10,0,0"></Button>
         </StackPanel>
 
         <StackPanel Grid.Column="1" Grid.Row="11" Grid.ColumnSpan="1" Grid.RowSpan="1" Orientation="Horizontal" Margin="0,10,0,0" HorizontalAlignment="Stretch">
             <Label Content="Storey"  FontSize="12" Margin="0,-10,0,0" ></Label>
-            <Button x:Name="AddStorey" Content="Add" Click="addStorey_Click" MinHeight="20" MinWidth="85" Margin="-45,10,0,0"></Button>
-            <Button x:Name="RemoveStorey"  Content="Remove" Click="removeStorey_Click" MinHeight="20" MinWidth="85" Margin="10,10,0,0"></Button>
-            <Button x:Name="ChangeStorey" Content="Change" Click="changeStorey_Click"  MinHeight="20" MinWidth="85" Margin="10,10,0,0"></Button>
-            <Button x:Name="GetStoreyByID" Content="Get" Click="getStoreyByID_Click" MinHeight="20" MinWidth="85" Margin="10,10,0,0"></Button>
+            <Button x:Name="AddStorey" Content="Add" Click="addStorey_Click"  Margin="-45,10,0,0"></Button>
+            <Button x:Name="RemoveStorey"  Content="Remove" Click="removeStorey_Click"  Margin="10,10,0,0"></Button>
+            <Button x:Name="ChangeStorey" Content="Change" Click="changeStorey_Click"   Margin="10,10,0,0"></Button>
+            <Button x:Name="GetStoreyByID" Content="Get" Click="getStoreyByID_Click"  Margin="10,10,0,0"></Button>
         </StackPanel>
 
         <StackPanel Grid.Column="1" Grid.Row="12" Grid.ColumnSpan="1" Grid.RowSpan="1" Orientation="Horizontal" Margin="0,10,0,0" HorizontalAlignment="Stretch">
             <Label Content="Room"  FontSize="12" Margin="0,-10,0,0"></Label>
-            <Button x:Name="AddRoom" Grid.Column="1" Content="Add" Click="addRoom_Click" Grid.Row="12" MinHeight="20" MinWidth="85"  Margin="-42,10,0,0"></Button>
-            <Button x:Name="RemoveRoom" Grid.Column="2" Content="Remove" Click="removeRoom_Click" Grid.Row="12" MinHeight="20" MinWidth="85" Margin="10,10,0,0"></Button>
-            <Button x:Name="ChangeRoom" Grid.Column="3" Content="Change" Click="changeRoom_Click" Grid.Row="12" MinHeight="20" MinWidth="85" Margin="10,10,0,0"></Button>
-            <Button x:Name="GetRoomByID" Content="Get" Click="getRoomByID_Click" MinHeight="20" MinWidth="85" Margin="10,10,0,0"></Button>
+            <Button x:Name="AddRoom" Grid.Column="1" Content="Add" Click="addRoom_Click" Grid.Row="12"   Margin="-42,10,0,0"></Button>
+            <Button x:Name="RemoveRoom" Grid.Column="2" Content="Remove" Click="removeRoom_Click" Grid.Row="12"  Margin="10,10,0,0"></Button>
+            <Button x:Name="ChangeRoom" Grid.Column="3" Content="Change" Click="changeRoom_Click" Grid.Row="12"  Margin="10,10,0,0"></Button>
+            <Button x:Name="GetRoomByID" Content="Get" Click="getRoomByID_Click"  Margin="10,10,0,0"></Button>
         </StackPanel>
 
         <StackPanel Grid.Column="1" Grid.Row="13" Grid.ColumnSpan="1" Grid.RowSpan="1" Orientation="Horizontal" Margin="0,10,0,0" HorizontalAlignment="Stretch">
             <Label Content="Desk"  FontSize="12" Margin="0,-10,0,0" ></Label>
-            <Button x:Name="AddDesk"  Content="Add" Click="addDesk_Click"  MinHeight="20" MinWidth="85" Margin="-36,10,0,0"></Button>
-            <Button x:Name="RemoveDesk" Content="Remove" Click="removeDesk_Click"  MinHeight="20" MinWidth="85" Margin="10,10,0,0"></Button>
-            <Button x:Name="ChangeDesk" Content="Change" Click="changeDesk_Click" MinHeight="20" MinWidth="85" Margin="10,10,0,0"></Button>
-            <Button x:Name="GetDeskByID" Content="Get" Click="getDeskByID_Click" MinHeight="20" MinWidth="85" Margin="10,10,0,0"></Button>
+            <Button x:Name="AddDesk"  Content="Add" Click="addDesk_Click"   Margin="-36,10,0,0"></Button>
+            <Button x:Name="RemoveDesk" Content="Remove" Click="removeDesk_Click"   Margin="10,10,0,0"></Button>
+            <Button x:Name="ChangeDesk" Content="Change" Click="changeDesk_Click"  Margin="10,10,0,0"></Button>
+            <Button x:Name="GetDeskByID" Content="Get" Click="getDeskByID_Click"  Margin="10,10,0,0"></Button>
         </StackPanel>
-
+        
         <StackPanel  Grid.Column="1" Grid.Row="14" Grid.ColumnSpan="8" Grid.RowSpan="1" Orientation="Horizontal" Margin="0,20,0,0" HorizontalAlignment="Stretch">
-            <Button x:Name="ListUsers"  Content="All Users" Click="listUsers_Click"  MinHeight="20" MinWidth="85" Margin="0,0,0,0"></Button>
-            <Button x:Name="ListBuilding"  Content="All Building" Click="listUBuildings_Click"  MinHeight="20" MinWidth="85" Margin="10,0,0,0" ></Button>
-            <Button x:Name="ListStorey"  Content="All Storey" Click="listStoreys_Click"  MinHeight="20" MinWidth="85" Margin="10,0,0,0"></Button>
-            <Button x:Name="ListRoom"  Content="All Room" Click="ListRooms_Click"  MinHeight="20" MinWidth="85" Margin="10,0,0,0"></Button>
-            <Button x:Name="ListDesk"  Content="All Desk" Click="listDesks_Click"  MinHeight="20" MinWidth="85" Margin="10,0,0,0"></Button>
-            <Button x:Name="ListReservations"  Content="Reservations" Click="listReservations_Click"  MinHeight="20" MinWidth="85" Margin="40,0,0,0"></Button>
-            <DatePicker x:Name="Startdate" Margin="10,0,0,0">
-            <DatePicker.Style>
-                <Style TargetType="DatePicker">
-                    <Setter Property="IsDropDownOpen" Value="False"></Setter>
-                    <Style.Triggers>
-                        <Trigger Property="IsMouseOver" Value="True">
-                            <Setter Property="IsDropDownOpen" Value="True"></Setter>
-                        </Trigger>
-                        <Trigger Property="IsMouseOver" Value="False">
-                            <Setter Property="IsDropDownOpen" Value="False"></Setter>
-                        </Trigger>
-                    </Style.Triggers>
-                </Style>
-            </DatePicker.Style>
-        </DatePicker>
-            <DatePicker x:Name="Enddate" Margin="10,0,0,0" >
+            <Button x:Name="ListUsers"  Content="All Users" Click="listUsers_Click"   Margin="0,0,0,0"></Button>
+            <Button x:Name="ListBuilding"  Content="All Building" Click="listUBuildings_Click"   Margin="10,0,0,0" ></Button>
+            <Button x:Name="ListStorey"  Content="All Storey" Click="listStoreys_Click"   Margin="10,0,0,0"></Button>
+            <Button x:Name="ListRoom"  Content="All Room" Click="ListRooms_Click"   Margin="10,0,0,0"></Button>
+            <Button x:Name="ListDesk"  Content="All Desk" Click="listDesks_Click"   Margin="10,0,0,0"></Button>
+            <Button x:Name="ListReservations"  Content="Reservations" Click="listReservations_Click"   Margin="10,0,0,0"></Button>
+
+            <DatePicker x:Name="Startdate" Margin="10,0,0,0" MaxHeight="25" Width="130">
                 <DatePicker.Style>
                     <Style TargetType="DatePicker">
                         <Setter Property="IsDropDownOpen" Value="False"></Setter>
@@ -180,6 +153,22 @@
                     </Style>
                 </DatePicker.Style>
             </DatePicker>
+            <DatePicker x:Name="Enddate" Margin="15,0,0,0" MaxHeight="25" Width="130">
+                <DatePicker.Style>
+                    <Style TargetType="DatePicker">
+                        <Setter Property="IsDropDownOpen" Value="False"></Setter>
+                        <Style.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="IsDropDownOpen" Value="True"></Setter>
+                            </Trigger>
+                            <Trigger Property="IsMouseOver" Value="False">
+                                <Setter Property="IsDropDownOpen" Value="False"></Setter>
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                </DatePicker.Style>
+            </DatePicker>
+
         </StackPanel>
 
         <ListView x:Name="Listbox" MinWidth="570"  MaxWidth="500" MaxHeight="400" Grid.Column="5" Grid.Row="1" Grid.ColumnSpan="3" Grid.RowSpan="13" FontSize="12"  Margin="20,0,0,0" HorizontalContentAlignment="Stretch" ItemsSource="{Binding Items}" ScrollViewer.HorizontalScrollBarVisibility="Auto">
@@ -311,6 +300,6 @@
             </ListView.View>
         </ListView>
         
-        <Button x:Name="Logout" Grid.Column="1" Grid.Row="15" Content="Logout" Click="logout_Click" Height="20" Width="85" Margin="0,20,0,0" HorizontalAlignment="Left"></Button>
+        <Button x:Name="Logout" Grid.Column="1" Grid.Row="16" Content="Logout" Click="logout_Click" Margin="0,20,0,0" HorizontalAlignment="Left"></Button>
     </Grid>
 </Page>

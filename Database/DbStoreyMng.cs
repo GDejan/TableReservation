@@ -1,10 +1,11 @@
 ﻿using Dapper;
+using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Windows;
-using TableReservation.Classes;
 using TableReservation.Helpers;
+using TableReservation.Property;
 
 namespace TableReservation.Database
 {
@@ -26,9 +27,9 @@ namespace TableReservation.Database
                     SQLconn.Execute("dbo.procNewStorey @Name", storey);
                     return true;
                 }
-                catch
+                catch (Exception e)
                 {
-                    MessageBox.Show(msgs.Wrong + " error creating new storey", msgs.Error, MessageBoxButton.OK);
+                    MessageBox.Show(msgs.Wrong + " error creating new storey. " + e.Message, msgs.Error, MessageBoxButton.OK);
                     return false;
                 }   
             }
@@ -48,9 +49,9 @@ namespace TableReservation.Database
                     SQLconn.Execute("dbo.procChangeStorey @Id, @Name", storey);
                     return true;
                 }
-                catch
+                catch (Exception e)
                 {
-                    MessageBox.Show(msgs.Wrong + " error changing storey", msgs.Error, MessageBoxButton.OK);
+                    MessageBox.Show(msgs.Wrong + " error changing storey. " + e.Message, msgs.Error, MessageBoxButton.OK);
                     return false;
                 }
             }
@@ -70,9 +71,9 @@ namespace TableReservation.Database
                     SQLconn.Execute("dbo.procRemoveStorey @Id", storey);
                     return true;
                 }
-                catch
+                catch (Exception e)
                 {
-                    MessageBox.Show(msgs.Wrong + " error removing storey", msgs.Error, MessageBoxButton.OK);
+                    MessageBox.Show(msgs.Wrong + " error removing storey. " + e.Message, msgs.Error, MessageBoxButton.OK);
                     return false;
                 }
             }
@@ -91,9 +92,9 @@ namespace TableReservation.Database
                 {
                     return SQLconn.Query<Storey>("dbo.procGetStoreyByName @Name", storey).ToList();
                 }
-                catch
+                catch (Exception e)
                 {
-                    MessageBox.Show(msgs.Wrong + " error getting storey", msgs.Error, MessageBoxButton.OK);
+                    MessageBox.Show(msgs.Wrong + " error getting storey. " + e.Message, msgs.Error, MessageBoxButton.OK);
                     return null;
                 }
             }
@@ -112,9 +113,9 @@ namespace TableReservation.Database
                 {
                     return SQLconn.Query<Storey>("dbo.procGetStoreyById @Id", new { Id = id }).ToList();
                 }
-                catch
+                catch (Exception e)
                 {
-                    MessageBox.Show(msgs.Wrong + " error getting storey", msgs.Error, MessageBoxButton.OK);
+                    MessageBox.Show(msgs.Wrong + " error getting storey. " + e.Message, msgs.Error, MessageBoxButton.OK);
                     return null;
                 }
                 
@@ -133,9 +134,9 @@ namespace TableReservation.Database
                 {
                     return SQLconn.Query<Storey>("dbo.procGetAllStoreys").ToList();
                 }
-                catch
+                catch (Exception e)
                 {
-                    MessageBox.Show(msgs.Wrong + " error getting storey", msgs.Error, MessageBoxButton.OK);
+                    MessageBox.Show(msgs.Wrong + " error getting storey. " + e.Message, msgs.Error, MessageBoxButton.OK);
                     return null;
                 }
             }

@@ -5,25 +5,75 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:TableReservation.Views"
         mc:Ignorable="d"
-        Title="DeskCalendar" Height="270" Width="220">
-    <StackPanel x:Name="CalendarPanel" Grid.Column="3" Grid.Row="1" MinHeight="100" MinWidth="100" Orientation="Vertical" Margin="20,20,0,0">
-        <Grid>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="auto"></ColumnDefinition>
-                <ColumnDefinition Width="auto"></ColumnDefinition>
-                <ColumnDefinition Width="auto"></ColumnDefinition>
-            </Grid.ColumnDefinitions>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="auto"></RowDefinition>
-                <RowDefinition Height="auto"></RowDefinition>
-                <RowDefinition Height="auto"></RowDefinition>
-            </Grid.RowDefinitions>
-            <Calendar Name="Calendar" SelectionMode="MultipleRange" Grid.Column="0" Grid.Row="0" Loaded="Calendar_Loaded">
+        Closing="Window_Closing" 
+        Title="DeskCalendar" Height="240" Width="280">
+
+    <Window.Resources>
+        <Style TargetType="{x:Type Button}">
+            <Setter Property="Height" Value="20"/>
+            <Setter Property="Width" Value="85"/>
+        </Style>
+    </Window.Resources>
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="10"></ColumnDefinition>
+            <ColumnDefinition Width="auto"></ColumnDefinition>
+            <ColumnDefinition Width="10"></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="10"></RowDefinition>
+            <RowDefinition Height="auto"></RowDefinition>
+            <RowDefinition Height="10"></RowDefinition>
+        </Grid.RowDefinitions>
+
+        <StackPanel x:Name="CalendarPanel" Grid.Column="1" Grid.Row="1" Orientation="Vertical">
+            <Calendar Name="Calendar" SelectionMode="MultipleRange" Loaded="Calendar_Loaded" Height="160" Width="260">
+                
+                <Calendar.CalendarDayButtonStyle>
+                    <Style TargetType="CalendarDayButton" BasedOn="{StaticResource {x:Type CalendarDayButton}}">
+                        <Style.Triggers>
+                            <Trigger Property="IsBlackedOut" Value="True">
+                                <Setter Property="Background" Value="DarkGray"/>
+                            </Trigger>
+                            <Trigger Property="IsSelected" Value="True">
+                                <Setter Property="Background" Value="DeepSkyBlue"/>
+                            </Trigger>
+                            <MultiTrigger>
+                                <MultiTrigger.Conditions>
+                                    <Condition Property="IsBlackedOut" Value="True"></Condition>
+                                    <Condition Property="IsToday" Value="True"></Condition>
+                                </MultiTrigger.Conditions>
+                                <MultiTrigger.Setters>
+                                    <Setter Property="Background" Value="OrangeRed"/>
+                                </MultiTrigger.Setters>
+                            </MultiTrigger>
+                            <MultiTrigger>
+                                <MultiTrigger.Conditions>
+                                    <Condition Property="IsBlackedOut" Value="false"></Condition>
+                                    <Condition Property="IsToday" Value="True"></Condition>
+                                </MultiTrigger.Conditions>
+                                <MultiTrigger.Setters>
+                                    <Setter Property="Background" Value="Green"/>
+                                </MultiTrigger.Setters>
+                            </MultiTrigger>
+                            <MultiTrigger>
+                                <MultiTrigger.Conditions>
+                                    <Condition Property="IsSelected" Value="true"></Condition>
+                                    <Condition Property="IsToday" Value="True"></Condition>
+                                </MultiTrigger.Conditions>
+                                <MultiTrigger.Setters>
+                                    <Setter Property="Background" Value="DeepSkyBlue"/>
+                                </MultiTrigger.Setters>
+                            </MultiTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Calendar.CalendarDayButtonStyle>
             </Calendar>
-        </Grid>
-        <StackPanel Grid.Column="1" Grid.Row="2" Orientation="Horizontal">
-            <Button x:Name="ReserveTable" Content="Reserve" Click="ReserveTable_Click" Height="20" Width="85" Margin="0,20,0,0"></Button>
-            <Button x:Name="Cancel" Content="Cancel" Click="Cancel_Click" Height="20" Width="85" Margin="10,20,0,0"></Button>
+            <StackPanel Orientation="Horizontal">
+                <Button x:Name="ReserveTable" Content="Reserve" Click="ReserveTable_Click" Margin="40,20,0,0"></Button>
+                <Button x:Name="Cancel" Content="Cancel" Click="Cancel_Click" Margin="10,20,0,0"></Button>
+            </StackPanel>
         </StackPanel>
-    </StackPanel>
+    </Grid>
 </Window>

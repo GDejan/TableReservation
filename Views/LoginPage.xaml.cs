@@ -1,19 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-using TableReservation.Classes.Users;
 using TableReservation.Helpers;
+using TableReservation.Users;
 
 namespace TableReservation.Views
 {
@@ -22,33 +10,39 @@ namespace TableReservation.Views
     /// </summary>
     public partial class LoginPage : Page
     {
+        public static int NoOfWindows = 0;
+
         private Checks checks = new Checks();
+
         public LoginPage()
         {
             InitializeComponent();
         }
         private void logIn_Click(object sender, RoutedEventArgs e)
         {
-            if (checks.InputCheck(Username.Text))
+            if (NoOfWindows == 0)
             {
-                SessionUser SessionUser = new SessionUser(new UserMng().LogedUser(Username.Text, Password.Password));
-                if (SessionUser.User != null)
+                if (checks.InputCheck(Username.Text))
                 {
-                    if (SessionUser.User.IsTemp == true)
+                    SessionUser SessionUser = new SessionUser(new UserMng().LogedUser(Username.Text, Password.Password));
+                    if (SessionUser.User != null)
                     {
-                        ChangeTempPass changeTempPass = new ChangeTempPass(SessionUser);
-                        changeTempPass.Show();
-                    }
-                    else 
-                    {
-                        this.Content = null;
-                        if (SessionUser.User.IsAdmin != true)
+                        if (SessionUser.User.IsTemp == true)
                         {
-                            this.NavigationService.Navigate(new UserPage(SessionUser));
+                            ChangePassword changePassword = new ChangePassword(SessionUser);
+                            changePassword.Show();
                         }
                         else
-                        {   
-                            this.NavigationService.Navigate(new AdminPage(SessionUser));
+                        {
+                            this.Content = null;
+                            if (SessionUser.User.IsAdmin != true)
+                            {
+                                this.NavigationService.Navigate(new UserPage(SessionUser));
+                            }
+                            else
+                            {
+                                this.NavigationService.Navigate(new AdminPage(SessionUser));
+                            }
                         }
                     }
                 }
@@ -57,8 +51,11 @@ namespace TableReservation.Views
 
         private void register_Click(object sender, RoutedEventArgs e)
         {
-            UserRegWindow userRegWindow = new UserRegWindow(Username.Text);
-            userRegWindow.Show();
+            if (NoOfWindows == 0)
+            {
+                UserRegWindow userRegWindow = new UserRegWindow(Username.Text);
+                userRegWindow.Show();
+            }
         }
     }
 }

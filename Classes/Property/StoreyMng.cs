@@ -3,7 +3,7 @@ using System.Windows;
 using TableReservation.Database;
 using TableReservation.Helpers;
 
-namespace TableReservation.Classes
+namespace TableReservation.Property
 {
     internal class StoreyMng
     {

@@ -1,4 +1,4 @@
-﻿namespace TableReservation.Classes
+﻿namespace TableReservation.Property
 {
     public class Building
     {

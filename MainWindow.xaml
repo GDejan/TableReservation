@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:TableReservation"
         mc:Ignorable="d"
-        Title="Table Reservation" Height="550" Width="1020" MaxHeight="550" MaxWidth="1020">
+        Title="Table Reservation" MinHeight="600" MinWidth="1200" MaxHeight="600" MaxWidth="1200">
     <Grid>
         <Frame x:Name="MainFrame" NavigationUIVisibility="Hidden">
             

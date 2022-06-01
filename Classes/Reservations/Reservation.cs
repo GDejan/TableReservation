@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace TableReservation.Classes
+namespace TableReservation.Resevations
 {
     internal class Reservation
     {

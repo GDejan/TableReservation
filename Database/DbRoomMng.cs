@@ -1,10 +1,11 @@
 ﻿using Dapper;
+using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Windows;
-using TableReservation.Classes;
 using TableReservation.Helpers;
+using TableReservation.Property;
 
 namespace TableReservation.Database
 {
@@ -26,9 +27,9 @@ namespace TableReservation.Database
                     SQLconn.Execute("dbo.procNewRoom @Name", room);
                     return true;
                 }
-                catch
+                catch (Exception e)
                 {
-                    MessageBox.Show(msgs.Wrong + " error creating new room", msgs.Error, MessageBoxButton.OK);
+                    MessageBox.Show(msgs.Wrong + " error creating new room. " + e.Message, msgs.Error, MessageBoxButton.OK);
                     return false;
                 }
             }
@@ -48,9 +49,9 @@ namespace TableReservation.Database
                     SQLconn.Execute("dbo.procChangeRoom @Id, @Name", room);
                     return true;
                 }
-                catch
+                catch (Exception e)
                 {
-                    MessageBox.Show(msgs.Wrong + " error changing room", msgs.Error, MessageBoxButton.OK);
+                    MessageBox.Show(msgs.Wrong + " error changing room. " + e.Message, msgs.Error, MessageBoxButton.OK);
                     return false;
                 }
             }
@@ -70,9 +71,9 @@ namespace TableReservation.Database
                     SQLconn.Execute("dbo.procRemoveRoom @Id", room);
                     return true;
                 }
-                catch
+                catch (Exception e)
                 {
-                    MessageBox.Show(msgs.Wrong + " error removing room", msgs.Error, MessageBoxButton.OK);
+                    MessageBox.Show(msgs.Wrong + " error removing room. " + e.Message, msgs.Error, MessageBoxButton.OK);
                     return false;
                 }
             }
@@ -92,9 +93,9 @@ namespace TableReservation.Database
                 {
                     return SQLconn.Query<Room>("dbo.procGetRoomByName @Name", room).ToList();
                 }
-                catch
+                catch (Exception e)
                 {
-                    MessageBox.Show(msgs.Wrong + " error getting room", msgs.Error, MessageBoxButton.OK);
+                    MessageBox.Show(msgs.Wrong + " error getting room. " + e.Message, msgs.Error, MessageBoxButton.OK);
                     return null;
                 }
             }
@@ -113,9 +114,9 @@ namespace TableReservation.Database
                 {
                     return SQLconn.Query<Room>("dbo.procGetRoomById @Id", new { Id = id }).ToList();
                 }
-                catch
+                catch (Exception e)
                 {
-                    MessageBox.Show(msgs.Wrong + " error getting room", msgs.Error, MessageBoxButton.OK);
+                    MessageBox.Show(msgs.Wrong + " error getting room. " + e.Message, msgs.Error, MessageBoxButton.OK);
                     return null;
                 }
             }
@@ -133,9 +134,9 @@ namespace TableReservation.Database
                 {
                     return SQLconn.Query<Room>("dbo.procGetAllRooms").ToList();
                 }
-                catch
+                catch (Exception e)
                 {
-                    MessageBox.Show(msgs.Wrong + " error getting room", msgs.Error, MessageBoxButton.OK);
+                    MessageBox.Show(msgs.Wrong + " error getting room. " + e.Message, msgs.Error, MessageBoxButton.OK);
                     return null;
                 }
             }

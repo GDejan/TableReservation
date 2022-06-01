@@ -1,7 +1,7 @@
 ﻿<Property>
 	<Buidling Name="B">
 		<Storey Name="3">
-			<Room Name="18" Icon="/Icons/B-318-2.jpg" Column="1" Row="1" ColumnSpan="19" RowSpan="16" Rotation="0">
+			<Room Name="18" Icon="./Icons/B-318-2.jpg" Column="1" Row="1" ColumnSpan="19" RowSpan="16" Rotation="0">
 				<Desk Name="1"  Column="2" Row="2" ColumnSpan="5" RowSpan="4" Rotation="270"></Desk>
 				<Desk Name="2"  Column="4" Row="7" ColumnSpan="5" RowSpan="4" Rotation="90"></Desk>
 				<Desk Name="3"  Column="14" Row="2" ColumnSpan="5" RowSpan="4" Rotation="90"></Desk>

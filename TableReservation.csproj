@@ -10,6 +10,7 @@
   <ItemGroup>
     <None Remove="Design\RoomDesing.xml" />
     <None Remove="Icons\B-318.jpg" />
+    <None Remove="Icons\DeskFree.jpg" />
     <None Remove="Icons\DeskReserved.jpg" />
   </ItemGroup>
 
@@ -42,10 +43,13 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Resource Include="Design\RoomDesing.xml">
+    <EmbeddedResource Include="Design\RoomDesing.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <Resource Include="Icons\B-318.jpg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
-    <Resource Include="Icons\B-318.jpg">
+    <Resource Include="Icons\DeskFree.jpg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Icons\DeskReserved.jpg">

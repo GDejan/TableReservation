@@ -1,19 +1,21 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Windows;
-using TableReservation.Classes.Users;
+using TableReservation.ViewModels;
 using TableReservation.Database;
 using TableReservation.Helpers;
-using TableReservation.ViewModel;
+using TableReservation.Users;
+using TableReservation.Property;
 
-namespace TableReservation.Classes.Reservations
+namespace TableReservation.Resevations
 {
     internal class ResMng
     {
         private DbResMng dbResMng = new DbResMng();
         private Checks checks = new Checks();
         private List<Reservation> reservations = new List<Reservation>();
-        private List<UserReservation> userReservation = new List<UserReservation>();
+        private List<ResUser> viewModelResUser = new List<ResUser>();
+        private List<DeskUser> viewModelDeskUser = new List<DeskUser>();
         private List<User> users = new List<User>();        
         private Msgs msgs = new Msgs();
 
@@ -120,14 +122,14 @@ namespace TableReservation.Classes.Reservations
         /// <param name="starttime">start time</param>
         /// <param name="user">user as object</param>
         /// <returns>list of user reservations</returns>
-        public List<UserReservation> getAllFuture(DateTime starttime, User user)
+        public List<ResUser> getAllFuture(DateTime starttime, User user)
         {
-            userReservation = dbResMng.GetFutureForUserId(starttime, user); //get all reservations from a database
-            if (userReservation != null)
+            viewModelResUser = dbResMng.GetFutureForUserId(starttime, user); //get all reservations from a database
+            if (viewModelResUser != null)
             {
-                if (userReservation.Count > 0) //if is in database -> returns entries
+                if (viewModelResUser.Count > 0) //if is in database -> returns entries
                 {
-                    return userReservation;
+                    return viewModelResUser;
                 }
                 else
                 {
@@ -172,6 +174,35 @@ namespace TableReservation.Classes.Reservations
             {
                 return null;
             }            
+        }
+
+        /// <summary>
+        /// list all reservations in a database from a given range by a desk
+        /// </summary>
+        /// <param name="building">building as object</param>
+        /// <param name="storey">storey as object</param>
+        /// <param name="room">room as object</param>
+        /// <param name="desk">desk as object</param>
+        /// <param name="starttime">start time</param>
+        /// <returns>list of reservations</returns>
+        public List<DeskUser> getFutDeskRes(Building building, Storey storey, Room room, Desk desk, DateTime starttime)
+        {
+            viewModelDeskUser = dbResMng.GetDeskDateFut(building, storey, room, desk, starttime); 
+            if (viewModelDeskUser != null)
+            {
+                if (viewModelDeskUser.Count > 0) //if is in database -> returns entries
+                {
+                    return viewModelDeskUser;
+                }
+                else
+                {
+                    return null;
+                }
+            }
+            else
+            {
+                return null;
+            }
         }
     }
 }

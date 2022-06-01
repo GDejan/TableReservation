@@ -5,9 +5,15 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:TableReservation"
         mc:Ignorable="d"
-        Title="Registration Window" Height="220" Width="220">
-
-
+        Closing="Window_Closing" 
+        Title="Registration Window" Height="250" Width="230">
+    <Window.Resources>
+        <Style TargetType="{x:Type Button}">
+            <Setter Property="Height" Value="20"/>
+            <Setter Property="Width" Value="85"/>
+        </Style>
+    </Window.Resources>
+    
     <Grid x:Name="Grid">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="10"></ColumnDefinition>
@@ -39,7 +45,7 @@
         <TextBox x:Name="Name" ToolTip="Only alowed characters a-z, A-Z or 0-1" Grid.Column="2" Grid.Row="4" FontSize="12" Margin="10,5,0,5" MinWidth="100" ></TextBox>
         <TextBox x:Name="Surname" ToolTip="Only alowed characters a-z, A-Z or 0-1" Grid.Column="2" Grid.Row="5" FontSize="12" Margin="10,5,0,5" MinWidth="100"></TextBox>
 
-        <Button x:Name="Register" Grid.Column="1" Content="Register" Grid.Row="6" Click="register_Click" Margin="0,5,0,0" Width="65" Height="20" ></Button>
-        <Button x:Name="Cancel" Grid.Column="2" Content="Cancel" Grid.Row="6" Click="cancel_Click" Margin="10,5,5,0" Width="65" Height="20" ></Button>
+        <Button x:Name="Register" Grid.Column="1" Content="Register" Grid.Row="6" Click="register_Click" Margin="0,20,0,0"  ></Button>
+        <Button x:Name="Cancel" Grid.Column="2" Content="Cancel" Grid.Row="6" Click="cancel_Click" Margin="20,20,5,0"  ></Button>
     </Grid>
 </Window>

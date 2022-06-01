@@ -1,9 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Windows;
+using TableReservation.Database;
 using TableReservation.Helpers;
 
-namespace TableReservation.Classes.Users
+namespace TableReservation.Users
 {
     internal class UserMng
     {
@@ -76,14 +76,38 @@ namespace TableReservation.Classes.Users
         /// <summary>
         /// Change parameters of a existing user in database
         /// </summary>
-        /// <param name="newUser">new name of a storey</param>
-        /// <param name="oldUser"> old storey object</param>
+        /// <param name="newUser">new name of a user</param>
+        /// <param name="oldUser"> old user object</param>
         public bool Change(User newUser, User oldUser)
         {
             users = dbUserMng.GetByUsername(newUser);
             if ((users.Count == 0)||(newUser.Username==oldUser.Username))  //if new is not in database -> change entry
             {
                 if (dbUserMng.Change(newUser)) 
+                {
+                    MessageBox.Show(msgs.UserChanged + "->" + oldUser.Name.ToString() + " to " + newUser.Name.ToString(), msgs.Ok, MessageBoxButton.OK);
+                    return true;
+                }
+                return false;
+            }
+            else
+            {
+                MessageBox.Show(msgs.UserExist + "->" + newUser.Name.ToString(), msgs.Error, MessageBoxButton.OK);
+                return false;
+            }
+        }
+        
+        /// <summary>
+        /// Change password of a existing user in database
+        /// </summary>
+        /// <param name="newUser">new name of a user</param>
+        /// <param name="oldUser"> old user object</param>
+        public bool ChangePass(User newUser, User oldUser)
+        {
+            users = dbUserMng.GetByUsername(newUser);
+            if ((users.Count == 0)||(newUser.Username==oldUser.Username))  //if new is not in database -> change entry
+            {
+                if (dbUserMng.ChangePass(newUser)) 
                 {
                     MessageBox.Show(msgs.UserChanged + "->" + oldUser.Name.ToString() + " to " + newUser.Name.ToString(), msgs.Ok, MessageBoxButton.OK);
                     return true;

@@ -1,10 +1,11 @@
 ﻿using Dapper;
+using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Windows;
-using TableReservation.Classes;
 using TableReservation.Helpers;
+using TableReservation.Property;
 
 namespace TableReservation.Database
 {
@@ -26,9 +27,9 @@ namespace TableReservation.Database
                     SQLconn.Execute("dbo.procNewDesk @Name", desk);
                     return true;
                 }
-                catch
+                catch (Exception e)
                 {
-                    MessageBox.Show(msgs.Wrong + " error creating new desk", msgs.Error, MessageBoxButton.OK);
+                    MessageBox.Show(msgs.Wrong + " error creating new desk. " + e.Message, msgs.Error, MessageBoxButton.OK);
                     return false;
                 }   
             }
@@ -48,9 +49,9 @@ namespace TableReservation.Database
                     SQLconn.Execute("dbo.procChangeDesk @Id, @Name", desk);
                     return true;
                 }
-                catch
+                catch (Exception e)
                 {
-                    MessageBox.Show(msgs.Wrong + " error changing desk", msgs.Error, MessageBoxButton.OK);
+                    MessageBox.Show(msgs.Wrong + " error changing desk. " + e.Message, msgs.Error, MessageBoxButton.OK);
                     return false;
                 }
             }
@@ -70,9 +71,9 @@ namespace TableReservation.Database
                     SQLconn.Execute("dbo.procRemoveDesk @Id", desk);
                     return true;
                 }
-                catch
+                catch (Exception e)
                 {
-                    MessageBox.Show(msgs.Wrong + " error removing desk", msgs.Error, MessageBoxButton.OK);
+                    MessageBox.Show(msgs.Wrong + " error removing desk. " + e.Message, msgs.Error, MessageBoxButton.OK);
                     return false;
                 }
             }
@@ -91,9 +92,9 @@ namespace TableReservation.Database
                 {
                     return SQLconn.Query<Desk>("dbo.procGetDeskByName @Name", desk).ToList();
                 }
-                catch
+                catch (Exception e)
                 {
-                    MessageBox.Show(msgs.Wrong + " error getting desk", msgs.Error, MessageBoxButton.OK);
+                    MessageBox.Show(msgs.Wrong + " error getting desk. " + e.Message, msgs.Error, MessageBoxButton.OK);
                     return null;
                 }
             }
@@ -112,9 +113,9 @@ namespace TableReservation.Database
                 {
                     return SQLconn.Query<Desk>("dbo.procGetDeskById @Id", new { Id = id }).ToList();
                 }
-                catch
+                catch (Exception e)
                 {
-                    MessageBox.Show(msgs.Wrong + " error getting desk", msgs.Error, MessageBoxButton.OK);
+                    MessageBox.Show(msgs.Wrong + " error getting desk. " + e.Message, msgs.Error, MessageBoxButton.OK);
                     return null;
                 }
             }
@@ -132,9 +133,9 @@ namespace TableReservation.Database
                 {
                     return SQLconn.Query<Desk>("dbo.procGetAllDesks").ToList();
                 }
-                catch
+                catch (Exception e)
                 {
-                    MessageBox.Show(msgs.Wrong + " error getting desk", msgs.Error, MessageBoxButton.OK);
+                    MessageBox.Show(msgs.Wrong + " error getting desk. " + e.Message, msgs.Error, MessageBoxButton.OK);
                     return null;
                 }
             }

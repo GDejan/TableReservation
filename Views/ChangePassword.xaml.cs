@@ -1,34 +1,23 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
-using TableReservation.Classes;
-using TableReservation.Classes.Users;
+﻿using System.Windows;
 using TableReservation.Helpers;
+using TableReservation.Users;
 
 namespace TableReservation.Views
 {
     /// <summary>
     /// Interaction logic for ChangeTempPass.xaml
     /// </summary>
-    public partial class ChangeTempPass : Window
+    public partial class ChangePassword : Window
     {
         public SessionUser SessionUser = new SessionUser();
 
         private Msgs msgs = new Msgs();
         private UserMng userMng = new UserMng();
 
-        public ChangeTempPass(SessionUser SessionUser)
+        public ChangePassword(SessionUser SessionUser)
         {
+            LoginPage.NoOfWindows++;
+            UserPage.NoOfWindows++;
             InitializeComponent();
             this.SessionUser = SessionUser;
         }
@@ -40,7 +29,17 @@ namespace TableReservation.Views
                 if (Password.Password == ConfirmPass.Password)
                 {
                     PassHash passHash = new PassHash(Password.Password);
-                    if (userMng.Change(new User(SessionUser.User.Id, SessionUser.User.Name, SessionUser.User.Surname, SessionUser.User.Username, passHash.HashedPassword, SessionUser.User.IsAdmin, false), SessionUser.User) == true)
+
+                    User user = new User();
+                    user.Id = SessionUser.User.Id;
+                    user.Name = SessionUser.User.Name;
+                    user.Username = SessionUser.User.Username;
+                    user.Surname = SessionUser.User.Surname;
+                    user.Password = passHash.HashedPassword;
+                    user.IsAdmin = SessionUser.User.IsAdmin;
+                    user.IsTemp = false;
+
+                    if (userMng.ChangePass(user, SessionUser.User) == true)
                     {
                         this.Close();
                     }
@@ -59,6 +58,12 @@ namespace TableReservation.Views
         private void cancel_Click(object sender, RoutedEventArgs e)
         {
             this.Close();
+        }
+
+        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            LoginPage.NoOfWindows--;
+            UserPage.NoOfWindows--;
         }
     }
 }

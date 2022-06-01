@@ -1,11 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 using System.Windows;
-using TableReservation.Classes.Users;
 
 namespace TableReservation.Helpers
 {
@@ -30,7 +25,7 @@ namespace TableReservation.Helpers
             {
                 if (Input.Length < 50)
                 {
-                    if (!Regex.Match(Input, "^[0-9a-zA-Z][a-zA-Z0-9]*$").Success)
+                    if (!Regex.Match(Input, "^[0-9a-zćčžđšA-ZĆČŽĐŠ][a-zćčžđšA-ZĆČŽĐŠ0-9]*$").Success)
                     {
                         MessageBox.Show(msgs.WrongInput + " -> " + Input.ToString(), msgs.Error, MessageBoxButton.OK);
                         return false;

@@ -1,10 +1,4 @@
-﻿using Dapper;
-using System.Collections.Generic;
-using System.Data;
-using System.Data.SqlClient;
-using System.Linq;
-
-namespace TableReservation.Classes.Users
+﻿namespace TableReservation.Users
 {
     public class SessionUser
     {

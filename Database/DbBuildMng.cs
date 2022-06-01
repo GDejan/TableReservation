@@ -1,10 +1,11 @@
 ﻿using Dapper;
+using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Windows;
-using TableReservation.Classes;
 using TableReservation.Helpers;
+using TableReservation.Property;
 
 namespace TableReservation.Database
 {
@@ -26,9 +27,9 @@ namespace TableReservation.Database
                     SQLconn.Execute("dbo.procNewBuilding @Name", building);
                     return true;
                 }
-                catch
+                catch (Exception e)
                 {
-                    MessageBox.Show(msgs.Wrong + " error creating new building", msgs.Error, MessageBoxButton.OK);
+                    MessageBox.Show(msgs.Wrong + " error creating new building. " + e.Message, msgs.Error, MessageBoxButton.OK);
                     return false;
                 }
             }
@@ -48,9 +49,9 @@ namespace TableReservation.Database
                     SQLconn.Execute("dbo.procChangeBuilding @Id, @Name", building);
                     return true;
                 }
-                catch
+                catch (Exception e)
                 {
-                    MessageBox.Show(msgs.Wrong + " error changing building", msgs.Error, MessageBoxButton.OK);
+                    MessageBox.Show(msgs.Wrong + " error changing building. " + e.Message, msgs.Error, MessageBoxButton.OK);
                     return false;
                 }
             }
@@ -70,9 +71,9 @@ namespace TableReservation.Database
                     SQLconn.Execute("dbo.procRemoveBuilding @Id", building);
                     return true;
                 }
-                catch
+                catch (Exception e)
                 {
-                    MessageBox.Show(msgs.Wrong + " error removing building", msgs.Error, MessageBoxButton.OK);
+                    MessageBox.Show(msgs.Wrong + " error removing building. " + e.Message, msgs.Error, MessageBoxButton.OK);
                     return false;
                 }
             }
@@ -91,9 +92,9 @@ namespace TableReservation.Database
                 {
                     return SQLconn.Query<Building>("dbo.procGetBuildingByName @Name", building).ToList();
                 }
-                catch
+                catch (Exception e)
                 {
-                    MessageBox.Show(msgs.Wrong + " error getting building", msgs.Error, MessageBoxButton.OK);
+                    MessageBox.Show(msgs.Wrong + " error getting building. " + e.Message, msgs.Error, MessageBoxButton.OK);
                     return null;
                 }
             }
@@ -112,9 +113,9 @@ namespace TableReservation.Database
                 {
                     return SQLconn.Query<Building>("dbo.procGetBuildingById @Id", new { Id = id }).ToList();
                 }
-                catch
+                catch (Exception e)
                 {
-                    MessageBox.Show(msgs.Wrong + " error getting building", msgs.Error, MessageBoxButton.OK);
+                    MessageBox.Show(msgs.Wrong + " error getting building. " + e.Message, msgs.Error, MessageBoxButton.OK);
                     return null;
                 }   
             }
@@ -132,9 +133,9 @@ namespace TableReservation.Database
                 {
                     return SQLconn.Query<Building>("dbo.procGetAllBuildings").ToList();
                 }
-                catch
+                catch (Exception e)
                 {
-                    MessageBox.Show(msgs.Wrong + " error getting building", msgs.Error, MessageBoxButton.OK);
+                    MessageBox.Show(msgs.Wrong + " error getting building. " + e.Message, msgs.Error, MessageBoxButton.OK);
                     return null;
                 }
             }
