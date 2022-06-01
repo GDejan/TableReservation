@@ -374,10 +374,13 @@ namespace TableReservation
         
         private void logout_Click(object sender, RoutedEventArgs e)
         {
-            this.Content = null;
-            SessionUser.IsActiv = false;
-            LoginPage loginPage = new LoginPage();
-            this.NavigationService.Navigate(loginPage);
+            if (NoOfWindows == 0)
+            {
+                this.Content = null;
+                SessionUser.IsActiv = false;
+                LoginPage loginPage = new LoginPage();
+                this.NavigationService.Navigate(loginPage);
+            }
         }
     }
 }

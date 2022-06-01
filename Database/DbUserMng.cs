@@ -68,7 +68,7 @@ namespace TableReservation.Database
             {
                 try
                 {
-                    SQLconn.Execute("dbo.procChangeUserPass @Id, @Password", user);
+                    SQLconn.Execute("dbo.procChangeUserPass @Id, @IsTemp, @Password", user);
                     return true;
                 }
                 catch (Exception e)

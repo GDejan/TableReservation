@@ -106,7 +106,7 @@ namespace TableReservation
             {
                 if (getUserById() == true)
                 {
-                    if (!((user.Username == "admin") && (user.IsAdmin == true)))
+                    if (!((user.Username == "masteradmin") && (user.IsAdmin == true)))
                     {
                         string newusername;
                         string newname;
@@ -124,8 +124,8 @@ namespace TableReservation
                                 User chngUser = new User();
                                 chngUser.Id = user.Id;
                                 chngUser.Name = newname;
-                                chngUser.Username = newsurname;
-                                chngUser.Surname = newusername;
+                                chngUser.Surname = newsurname;
+                                chngUser.Username = newusername;
                                 chngUser.IsAdmin = (bool)NewIsAdmin.IsChecked;
                                 chngUser.IsTemp = user.IsTemp;
 
@@ -157,7 +157,7 @@ namespace TableReservation
             {
                 if (getUserById()==true)
                 {
-                    if (!((user.Username == "admin") && (user.IsAdmin == true)))
+                    if (!((user.Username == "masteradmin") && (user.IsAdmin == true)))
                     {
                         if ((user.Username !=SessionUser.User.Username))
                         {
