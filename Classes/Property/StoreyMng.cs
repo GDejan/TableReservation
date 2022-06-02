@@ -73,7 +73,7 @@ namespace TableReservation.Property
             }
             else if (storeys.Count > 1)
             {
-                MessageBox.Show(msgs.Wrong + " too many Ids", msgs.Error, MessageBoxButton.OK);
+                MessageBox.Show(msgs.Wrong + "->" + msgs.ManyIds, msgs.Error, MessageBoxButton.OK);
                 return false;
             }
             else
@@ -102,7 +102,7 @@ namespace TableReservation.Property
                     }
                     else if (storeys.Count >= 1)
                     {
-                        MessageBox.Show(msgs.Wrong + " too many Ids", msgs.Error, MessageBoxButton.OK);
+                        MessageBox.Show(msgs.Wrong + "->" + msgs.ManyIds, msgs.Error, MessageBoxButton.OK);
                         return null;
                     }
                     else

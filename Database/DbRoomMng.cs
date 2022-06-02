@@ -29,7 +29,7 @@ namespace TableReservation.Database
                 }
                 catch (Exception e)
                 {
-                    MessageBox.Show(msgs.Wrong + " error creating new room. " + e.Message, msgs.Error, MessageBoxButton.OK);
+                    MessageBox.Show(msgs.Wrong + "->" + msgs.RoomCreateErr + "->" + e.Message, msgs.Error, MessageBoxButton.OK);
                     return false;
                 }
             }
@@ -51,7 +51,7 @@ namespace TableReservation.Database
                 }
                 catch (Exception e)
                 {
-                    MessageBox.Show(msgs.Wrong + " error changing room. " + e.Message, msgs.Error, MessageBoxButton.OK);
+                    MessageBox.Show(msgs.Wrong + "->" + msgs.RoomChangeErr + "->" + e.Message, msgs.Error, MessageBoxButton.OK);
                     return false;
                 }
             }
@@ -73,7 +73,7 @@ namespace TableReservation.Database
                 }
                 catch (Exception e)
                 {
-                    MessageBox.Show(msgs.Wrong + " error removing room. " + e.Message, msgs.Error, MessageBoxButton.OK);
+                    MessageBox.Show(msgs.Wrong + "->" + msgs.RoomRemoveErr + "->" + e.Message, msgs.Error, MessageBoxButton.OK);
                     return false;
                 }
             }
@@ -95,7 +95,7 @@ namespace TableReservation.Database
                 }
                 catch (Exception e)
                 {
-                    MessageBox.Show(msgs.Wrong + " error getting room. " + e.Message, msgs.Error, MessageBoxButton.OK);
+                    MessageBox.Show(msgs.Wrong + "->" + msgs.RoomGetErr + "->" + e.Message, msgs.Error, MessageBoxButton.OK);
                     return null;
                 }
             }
@@ -116,7 +116,7 @@ namespace TableReservation.Database
                 }
                 catch (Exception e)
                 {
-                    MessageBox.Show(msgs.Wrong + " error getting room. " + e.Message, msgs.Error, MessageBoxButton.OK);
+                    MessageBox.Show(msgs.Wrong + "->" + msgs.RoomGetErr + "->" + e.Message, msgs.Error, MessageBoxButton.OK);
                     return null;
                 }
             }
@@ -136,7 +136,7 @@ namespace TableReservation.Database
                 }
                 catch (Exception e)
                 {
-                    MessageBox.Show(msgs.Wrong + " error getting room. " + e.Message, msgs.Error, MessageBoxButton.OK);
+                    MessageBox.Show(msgs.Wrong + "->" + msgs.RoomGetErr + "->" + e.Message, msgs.Error, MessageBoxButton.OK);
                     return null;
                 }
             }

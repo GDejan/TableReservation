@@ -29,7 +29,7 @@ namespace TableReservation.Database
                 }
                 catch (Exception e)
                 {
-                    MessageBox.Show(msgs.Wrong + " error creating new building. " + e.Message, msgs.Error, MessageBoxButton.OK);
+                    MessageBox.Show(msgs.Wrong + "->" + msgs.BuildCreateErr + "->" + e.Message, msgs.Error, MessageBoxButton.OK);
                     return false;
                 }
             }
@@ -51,7 +51,7 @@ namespace TableReservation.Database
                 }
                 catch (Exception e)
                 {
-                    MessageBox.Show(msgs.Wrong + " error changing building. " + e.Message, msgs.Error, MessageBoxButton.OK);
+                    MessageBox.Show(msgs.Wrong + "->" + msgs.BuildChangeErr + "->" + e.Message, msgs.Error, MessageBoxButton.OK);
                     return false;
                 }
             }
@@ -73,7 +73,7 @@ namespace TableReservation.Database
                 }
                 catch (Exception e)
                 {
-                    MessageBox.Show(msgs.Wrong + " error removing building. " + e.Message, msgs.Error, MessageBoxButton.OK);
+                    MessageBox.Show(msgs.Wrong + "->" + msgs.BuildRemoveErr + "->" + e.Message, msgs.Error, MessageBoxButton.OK);
                     return false;
                 }
             }
@@ -94,7 +94,7 @@ namespace TableReservation.Database
                 }
                 catch (Exception e)
                 {
-                    MessageBox.Show(msgs.Wrong + " error getting building. " + e.Message, msgs.Error, MessageBoxButton.OK);
+                    MessageBox.Show(msgs.Wrong + "->" + msgs.BuildGetErr + "->" + e.Message, msgs.Error, MessageBoxButton.OK);
                     return null;
                 }
             }
@@ -115,7 +115,7 @@ namespace TableReservation.Database
                 }
                 catch (Exception e)
                 {
-                    MessageBox.Show(msgs.Wrong + " error getting building. " + e.Message, msgs.Error, MessageBoxButton.OK);
+                    MessageBox.Show(msgs.Wrong + "->" + msgs.BuildGetErr + "->" + e.Message, msgs.Error, MessageBoxButton.OK);
                     return null;
                 }   
             }
@@ -135,7 +135,7 @@ namespace TableReservation.Database
                 }
                 catch (Exception e)
                 {
-                    MessageBox.Show(msgs.Wrong + " error getting building. " + e.Message, msgs.Error, MessageBoxButton.OK);
+                    MessageBox.Show(msgs.Wrong + "->" + msgs.BuildGetErr + "->" + e.Message, msgs.Error, MessageBoxButton.OK);
                     return null;
                 }
             }

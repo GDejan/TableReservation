@@ -36,6 +36,7 @@ namespace TableReservation
         private List<Desk> desks= new List<Desk>();
         private List<Reservation> reservations = new List<Reservation>();
         private Checks checks = new Checks();
+        private Settings settings = new Settings();
 
         public AdminPage(SessionUser sessionUser)
         {
@@ -106,7 +107,7 @@ namespace TableReservation
             {
                 if (getUserById() == true)
                 {
-                    if (!((user.Username == "masteradmin") && (user.IsAdmin == true)))
+                    if (!((user.Username == settings.MasterAdmin) && (user.IsAdmin == true)))
                     {
                         string newusername;
                         string newname;
@@ -157,7 +158,7 @@ namespace TableReservation
             {
                 if (getUserById()==true)
                 {
-                    if (!((user.Username == "masteradmin") && (user.IsAdmin == true)))
+                    if (!((user.Username == settings.MasterAdmin) && (user.IsAdmin == true)))
                     {
                         if ((user.Username !=SessionUser.User.Username))
                         {

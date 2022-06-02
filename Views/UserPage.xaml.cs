@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.IO;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Data;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Xml;
@@ -20,9 +22,7 @@ namespace TableReservation
     /// </summary>
     public partial class UserPage : Page
     {
-        private string xmlRoomSetup = @"./Design/RoomDesing.xml";
-        private string deskReservedPath = @"/Icons/DeskReserved.jpg";
-        private string deskFreePath = @"/Icons/DeskFree.jpg";
+
 
         public SessionUser SessionUser = new SessionUser();
 
@@ -38,6 +38,7 @@ namespace TableReservation
         private Msgs msgs = new Msgs();
         private User user = new User();
         private Checks checks = new Checks();
+        private Settings settings = new Settings();
 
         private List<Building> buildings = new List<Building>();
         private List<Storey> storeys = new List<Storey>();
@@ -70,13 +71,15 @@ namespace TableReservation
             desks = deskMng.getAllDesks();
         }
 
-        private void updateListbox()
+        public void updateListbox()
         {
             Listbox.Items.Clear();
             viewModelResUser = resMng.getAllFuture(DateTime.Today, SessionUser.User);
             if (viewModelResUser != null)
             {
                 foreach (var item in viewModelResUser) Listbox.Items.Add(item);
+                CollectionView view = (CollectionView)CollectionViewSource.GetDefaultView(Listbox.Items);
+                view.SortDescriptions.Add(new SortDescription("ReservedAtDate", ListSortDirection.Ascending));
             }
         }
 
@@ -127,12 +130,30 @@ namespace TableReservation
 
         private void removeRes_Click(object sender, RoutedEventArgs e)
         {
-            if (SessionUser.IsActiv == true)
+            if (NoOfWindows == 0)
             {
-                var DialogResult = MessageBox.Show(msgs.ResRemove, msgs.Ok, MessageBoxButton.YesNo);
-                if (DialogResult == MessageBoxResult.Yes)
+                if (SessionUser.IsActiv == true)
                 {
-                    foreach (ResUser item in Listbox.SelectedItems) resMng.Remove(item.Id);
+                    var DialogResult = MessageBox.Show(msgs.ResRemove, msgs.Ok, MessageBoxButton.YesNo);
+                    if (DialogResult == MessageBoxResult.Yes)
+                    {
+                        bool multipleRemoved = false;
+                        foreach (ResUser item in Listbox.SelectedItems) 
+                        {
+                            if (resMng.Remove(item.Id))
+                            {
+                                multipleRemoved = multipleRemoved || true;
+                            }
+                            else
+                            {
+                                multipleRemoved = multipleRemoved || false;
+                            }
+                        }
+                        if (multipleRemoved)
+                        {
+                            MessageBox.Show(msgs.ResRemoved, msgs.Ok, MessageBoxButton.OK);
+                        }
+                    }
                     updateListbox();
                 }
             }
@@ -142,17 +163,12 @@ namespace TableReservation
         {
             if (NoOfWindows==0)
             {
-                GridCanvas.IsEnabled = false;
-
                 Image imgDesk = sender as Image;
                 string test = imgDesk.Tag.ToString().Split('-')[2];
                 getDesk(test);
 
-                DeskCalendar deskCalendar = new DeskCalendar(SessionUser, building, storey, room, desk);
+                DeskCalendar deskCalendar = new DeskCalendar(SessionUser, building, storey, room, desk, this);
                 deskCalendar.Show();
-                updateListbox();
-
-                GridCanvas.IsEnabled = true;
             }
         }
 
@@ -167,9 +183,9 @@ namespace TableReservation
 
         private void readXMl()
         {
-            if (File.Exists(xmlRoomSetup))
+            if (File.Exists(settings.XmlRoomSetup))
             {
-                xDoc.Load(xmlRoomSetup);
+                xDoc.Load(settings.XmlRoomSetup);
                 foreach (XmlNode buildingXml in xDoc.DocumentElement.ChildNodes)
                 {
                     if (buildingXml.Attributes.GetNamedItem("Name").Value == building.Name)
@@ -283,13 +299,13 @@ namespace TableReservation
                         user = resMng.getResUser(building, storey, room, desk, DateTime.Now.Date);
                         if (user != null)
                         {
-                            image = getBitmap(deskReservedPath, image);
+                            image = getBitmap(settings.DeskReservedPath, image);
                             image.Tag = building.Name + "-" + storey.Name + room.Name + "-" + desk.Name;
                             image.ToolTip = string.Format("Desk name: {0} \nStatus: Reserved by {1}", image.Tag, user.FullName());
                         }
                         else
                         {
-                            image = getBitmap(deskFreePath, image);
+                            image = getBitmap(settings.DeskFreePath, image);
                             image.Tag = building.Name + "-" + storey.Name + room.Name + "-" + desk.Name;
                             image.ToolTip = string.Format("Desk name: {0} \nStatus: Free", image.Tag);
                         }
@@ -382,5 +398,6 @@ namespace TableReservation
                 this.NavigationService.Navigate(loginPage);
             }
         }
+
     }
 }

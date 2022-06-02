@@ -29,7 +29,7 @@ namespace TableReservation.Database
                 }
                 catch (Exception e)
                 {
-                    MessageBox.Show(msgs.Wrong + " error creating new desk. " + e.Message, msgs.Error, MessageBoxButton.OK);
+                    MessageBox.Show(msgs.Wrong + "->" + msgs.DeskCreateErr + "->" + e.Message, msgs.Error, MessageBoxButton.OK);
                     return false;
                 }   
             }
@@ -51,7 +51,7 @@ namespace TableReservation.Database
                 }
                 catch (Exception e)
                 {
-                    MessageBox.Show(msgs.Wrong + " error changing desk. " + e.Message, msgs.Error, MessageBoxButton.OK);
+                    MessageBox.Show(msgs.Wrong + "->" + msgs.DeskChangeErr + "->" + e.Message, msgs.Error, MessageBoxButton.OK);
                     return false;
                 }
             }
@@ -73,7 +73,7 @@ namespace TableReservation.Database
                 }
                 catch (Exception e)
                 {
-                    MessageBox.Show(msgs.Wrong + " error removing desk. " + e.Message, msgs.Error, MessageBoxButton.OK);
+                    MessageBox.Show(msgs.Wrong + "->" + msgs.DeskRemoveErr + "->" + e.Message, msgs.Error, MessageBoxButton.OK);
                     return false;
                 }
             }
@@ -94,7 +94,7 @@ namespace TableReservation.Database
                 }
                 catch (Exception e)
                 {
-                    MessageBox.Show(msgs.Wrong + " error getting desk. " + e.Message, msgs.Error, MessageBoxButton.OK);
+                    MessageBox.Show(msgs.Wrong + "->" + msgs.DeskGetErr + "->" + e.Message, msgs.Error, MessageBoxButton.OK);
                     return null;
                 }
             }
@@ -115,7 +115,7 @@ namespace TableReservation.Database
                 }
                 catch (Exception e)
                 {
-                    MessageBox.Show(msgs.Wrong + " error getting desk. " + e.Message, msgs.Error, MessageBoxButton.OK);
+                    MessageBox.Show(msgs.Wrong + "->" + msgs.DeskGetErr + "->" + e.Message, msgs.Error, MessageBoxButton.OK);
                     return null;
                 }
             }
@@ -135,7 +135,7 @@ namespace TableReservation.Database
                 }
                 catch (Exception e)
                 {
-                    MessageBox.Show(msgs.Wrong + " error getting desk. " + e.Message, msgs.Error, MessageBoxButton.OK);
+                    MessageBox.Show(msgs.Wrong + "->" + msgs.DeskGetErr + "->" + e.Message, msgs.Error, MessageBoxButton.OK);
                     return null;
                 }
             }

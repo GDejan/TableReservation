@@ -27,7 +27,7 @@ namespace TableReservation.Users
                     }
                     else if (users.Count > 1)
                     {
-                        MessageBox.Show(msgs.Wrong + " too many Ids", msgs.Error, MessageBoxButton.OK);
+                        MessageBox.Show(msgs.Wrong + "->" + msgs.ManyIds, msgs.Error, MessageBoxButton.OK);
                         return null;
                     }
                     else
@@ -140,7 +140,7 @@ namespace TableReservation.Users
             }
             else if (users.Count > 1)
             {
-                MessageBox.Show(msgs.Wrong + " too many Ids", msgs.Error, MessageBoxButton.OK);
+                MessageBox.Show(msgs.Wrong + "->" + msgs.ManyIds, msgs.Error, MessageBoxButton.OK);
                 return false;
             }
             else
@@ -168,7 +168,7 @@ namespace TableReservation.Users
                     }
                     else if (users.Count >= 1)
                     {
-                        MessageBox.Show(msgs.Wrong + " too many Ids", msgs.Error, MessageBoxButton.OK);
+                        MessageBox.Show(msgs.Wrong + "->" + msgs.ManyIds, msgs.Error, MessageBoxButton.OK);
                         return null;
                     }
                     else

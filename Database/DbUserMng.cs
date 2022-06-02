@@ -29,7 +29,7 @@ namespace TableReservation.Database
                 }
                 catch (Exception e)
                 {
-                    MessageBox.Show(msgs.Wrong + " error creating new user. " + e.Message, msgs.Error, MessageBoxButton.OK);
+                    MessageBox.Show(msgs.Wrong + "->" + msgs.UserCreateErr + "->" + e.Message, msgs.Error, MessageBoxButton.OK);
                     return false;
                 }
             }
@@ -51,7 +51,7 @@ namespace TableReservation.Database
                 }
                 catch (Exception e)
                 {
-                    MessageBox.Show(msgs.Wrong + " error changing user. " + e.Message, msgs.Error, MessageBoxButton.OK);
+                    MessageBox.Show(msgs.Wrong + "->" + msgs.UserChangeErr + "->" + e.Message, msgs.Error, MessageBoxButton.OK);
                     return false;
                 }
             }
@@ -73,7 +73,7 @@ namespace TableReservation.Database
                 }
                 catch (Exception e)
                 {
-                    MessageBox.Show(msgs.Wrong + " error changing user password. " + e.Message, msgs.Error, MessageBoxButton.OK);
+                    MessageBox.Show(msgs.Wrong + "->" + msgs.UserChangeErr + "->" + e.Message, msgs.Error, MessageBoxButton.OK);
                     return false;
                 }
             }
@@ -95,7 +95,7 @@ namespace TableReservation.Database
                 }
                 catch (Exception e)
                 {
-                    MessageBox.Show(msgs.Wrong + " error removing user. " + e.Message, msgs.Error, MessageBoxButton.OK);
+                    MessageBox.Show(msgs.Wrong + "->" + msgs.UserRemoveErr + "->" + e.Message, msgs.Error, MessageBoxButton.OK);
                     return false;
                 }
             }
@@ -116,7 +116,7 @@ namespace TableReservation.Database
                 }
                 catch (Exception e)
                 {
-                    MessageBox.Show(msgs.Wrong + " error getting user. " + e.Message, msgs.Error, MessageBoxButton.OK);
+                    MessageBox.Show(msgs.Wrong + "->" + msgs.UserGetErr + "->" + e.Message, msgs.Error, MessageBoxButton.OK);
                     return null;
                 }
             }
@@ -137,7 +137,7 @@ namespace TableReservation.Database
                 }
                 catch (Exception e)
                 {
-                    MessageBox.Show(msgs.Wrong + " error getting user. " + e.Message, msgs.Error, MessageBoxButton.OK);
+                    MessageBox.Show(msgs.Wrong + "->" + msgs.UserGetErr + "->" + e.Message, msgs.Error, MessageBoxButton.OK);
                     return null;
                 }
             }
@@ -158,7 +158,7 @@ namespace TableReservation.Database
                 }
                 catch (Exception e)
                 {
-                    MessageBox.Show(msgs.Wrong + " error getting user. " + e.Message, msgs.Error, MessageBoxButton.OK);
+                    MessageBox.Show(msgs.Wrong + "->" + msgs.UserGetErr + "->" + e.Message, msgs.Error, MessageBoxButton.OK);
                     return null;
                 }
             }
@@ -178,7 +178,7 @@ namespace TableReservation.Database
                 }
                 catch (Exception e)
                 {
-                    MessageBox.Show(msgs.Wrong + " error getting user. " + e.Message, msgs.Error, MessageBoxButton.OK);
+                    MessageBox.Show(msgs.Wrong + "->" + msgs.UserGetErr + "->" + e.Message, msgs.Error, MessageBoxButton.OK);
                     return null;
                 }
             }

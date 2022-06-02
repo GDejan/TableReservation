@@ -37,22 +37,21 @@ namespace TableReservation.Resevations
 
                 if (reservations.Count == 0) //if is not in database -> create new entry
                 {
-                    reservations = dbResMng.GetByUserDate(sessionuser.User, date); //check if user has already table reserved on a date 
+                    reservations = dbResMng.GetByUserDate(sessionuser.User, date); //check if user has already another table reserved on a date 
                     if (reservations.Count == 0) //if is not in database -> create new entry
                     {
                         dbResMng.Create(new Reservation(building.Id, storey.Id, room.Id, desk.Id, sessionuser.User.Id, date));
-                        MessageBox.Show(msgs.ResCreated, msgs.Ok, MessageBoxButton.OK);
                         return true;
                     }
                     else
                     {
-                        MessageBox.Show(msgs.DoubleRes, msgs.Error, MessageBoxButton.OK);
+                        MessageBox.Show(msgs.DoubleRes + "->" + date.Date, msgs.Error, MessageBoxButton.OK);
                         return false;
                     }
                 }
                 else
                 {
-                    MessageBox.Show(msgs.ResExist, msgs.Error, MessageBoxButton.OK);
+                    MessageBox.Show(msgs.ResExist + "->" + date.Date, msgs.Error, MessageBoxButton.OK);
                     return false;
                 }
             }
@@ -74,12 +73,12 @@ namespace TableReservation.Resevations
             if (reservations.Count == 1)  //if is in database -> delete entry
             {
                 dbResMng.Remove(id);
-                MessageBox.Show(msgs.ResRemoved + "->" + id.ToString(), msgs.Ok, MessageBoxButton.OK);
+                
                 return true;
             }
             else if (reservations.Count > 1)
             {
-                MessageBox.Show(msgs.Wrong + " too many Ids", msgs.Error, MessageBoxButton.OK);
+                MessageBox.Show(msgs.Wrong + "->" + msgs.ManyIds, msgs.Error, MessageBoxButton.OK);
                 return false;
             }
             else
@@ -162,7 +161,7 @@ namespace TableReservation.Resevations
                 }
                 else if (users.Count >= 1)
                 {
-                    MessageBox.Show(msgs.Wrong + " too many Ids", msgs.Error, MessageBoxButton.OK);
+                    MessageBox.Show(msgs.Wrong + "->" + msgs.ManyIds, msgs.Error, MessageBoxButton.OK);
                     return null;
                 }
                 else
