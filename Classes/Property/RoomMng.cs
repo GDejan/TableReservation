@@ -88,7 +88,7 @@ namespace TableReservation.Property
         /// </summary>
         /// <param name="id">id of a room in databas</param>
         /// <returns>>returned room object</returns>
-        public Room getById(string id)
+        public Room GetById(string id)
         {
             if (checks.InputCheckStringIntId(id))
             {
@@ -125,7 +125,7 @@ namespace TableReservation.Property
         /// list all rooms in a database
         /// </summary>
         /// <returns>list of rooms</returns>
-        public List<Room> getAll()
+        public List<Room> GetAll()
         {
             rooms = dbRoomMng.GetAll(); //get all rooms from a database
             if (rooms != null)

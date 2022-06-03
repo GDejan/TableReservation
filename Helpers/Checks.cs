@@ -78,8 +78,12 @@ namespace TableReservation.Helpers
                 MessageBox.Show(msgs.EmptyInput, msgs.Error, MessageBoxButton.OK);
                 return false;
             }
-        } 
-        
+        }
+        /// <summary>
+        /// Helper class for checking user entry data (if its number)
+        /// </summary>
+        /// <param name="Input"></param>
+        /// <returns>true if check performed ok, false if not</returns>
         public bool InputCheckStringInt(string Input) 
         {
             if (!string.IsNullOrEmpty(Input))
@@ -99,6 +103,24 @@ namespace TableReservation.Helpers
             {
                 MessageBox.Show(msgs.EmptyInput, msgs.Error, MessageBoxButton.OK);
                 return false;
+            }
+        }
+        /// <summary>
+        /// Helper class for checking user entry data (password)
+        /// </summary>
+        /// <param name="Input"></param>
+        /// <returns>true if check performed ok, false if not</returns>
+        public bool InputCheckPass(string Input) 
+        {
+            if (string.IsNullOrEmpty(Input))
+            {
+                MessageBox.Show(msgs.EmptyInput, msgs.Error, MessageBoxButton.OK);
+                return false;
+               
+            }
+            else
+            {
+                return true;
             }
         }
     }

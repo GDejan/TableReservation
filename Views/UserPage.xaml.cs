@@ -65,16 +65,16 @@ namespace TableReservation
 
         private void loadLists()
         {
-            buildings = buildMng.getAllBuilds();
-            storeys = storeyMng.getAll();
-            rooms = roomMng.getAll();
-            desks = deskMng.getAllDesks();
+            buildings = buildMng.GetAllBuilds();
+            storeys = storeyMng.GetAll();
+            rooms = roomMng.GetAll();
+            desks = deskMng.GetAllDesks();
         }
 
         public void updateListbox()
         {
             Listbox.Items.Clear();
-            viewModelResUser = resMng.getAllFuture(DateTime.Today, SessionUser.User);
+            viewModelResUser = resMng.GetAllFuture(DateTime.Today, SessionUser.User);
             if (viewModelResUser != null)
             {
                 foreach (var item in viewModelResUser) Listbox.Items.Add(item);
@@ -137,21 +137,14 @@ namespace TableReservation
                     var DialogResult = MessageBox.Show(msgs.ResRemove, msgs.Ok, MessageBoxButton.YesNo);
                     if (DialogResult == MessageBoxResult.Yes)
                     {
-                        bool multipleRemoved = false;
-                        foreach (ResUser item in Listbox.SelectedItems) 
+                        if (Listbox.SelectedItems.Count > 0)
                         {
-                            if (resMng.Remove(item.Id))
+                            bool multipleRemoved = false;
+                            foreach (ResUser item in Listbox.SelectedItems)
                             {
-                                multipleRemoved = multipleRemoved || true;
+                                if (resMng.Remove(item.Id)) multipleRemoved = multipleRemoved || true; else multipleRemoved = multipleRemoved || false;
                             }
-                            else
-                            {
-                                multipleRemoved = multipleRemoved || false;
-                            }
-                        }
-                        if (multipleRemoved)
-                        {
-                            MessageBox.Show(msgs.ResRemoved, msgs.Ok, MessageBoxButton.OK);
+                            if (multipleRemoved) MessageBox.Show(msgs.ResRemoved, msgs.Ok, MessageBoxButton.OK);
                         }
                     }
                     updateListbox();
@@ -296,7 +289,7 @@ namespace TableReservation
                     image.MouseDown += showCalendar;
                     if (image != null)
                     {
-                        user = resMng.getResUser(building, storey, room, desk, DateTime.Now.Date);
+                        user = resMng.GetResUser(building, storey, room, desk, DateTime.Now.Date);
                         if (user != null)
                         {
                             image = getBitmap(settings.DeskReservedPath, image);

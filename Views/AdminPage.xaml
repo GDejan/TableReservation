@@ -4,8 +4,8 @@
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       mc:Ignorable="d" 
-      d:DesignHeight="550" d:DesignWidth="1020"
-      Title="Admin Page">
+      d:DesignHeight="600" d:DesignWidth="1200"
+      Title="Admin Page" MaxHeight="600" MaxWidth="1200" MinHeight="600" MinWidth="1200">
     <Page.Resources>
         <Style TargetType="{x:Type Button}">
             <Setter Property="Height" Value="20"/>
@@ -15,7 +15,7 @@
 
     <Grid x:Name="grid1">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="10"></ColumnDefinition>
+            <ColumnDefinition Width="20"></ColumnDefinition>
             <ColumnDefinition Width="auto"></ColumnDefinition>
             <ColumnDefinition Width="auto"></ColumnDefinition>
             <ColumnDefinition Width="auto"></ColumnDefinition>
@@ -90,54 +90,59 @@
             <CheckBox x:Name="NewIsAdmin"  FontSize="12" MinWidth="10" Margin="45,5,0,5" HorizontalAlignment="Center"/>
         </StackPanel>
 
-        <StackPanel Grid.Column="1" Grid.Row="9" Grid.ColumnSpan="1" Grid.RowSpan="1" Orientation="Horizontal" Margin="0,20,0,0" HorizontalAlignment="Stretch">
-            <Label Content="User"  FontSize="12"  Margin="0,-10,0,0"></Label>
-            <Button x:Name="AddUser" Content="Add" Click="addUser_Click" Margin="-34,10,0,0"></Button>
-            <Button x:Name="RemoveUser"  Content="Remove" Click="removeUser_Click" Margin="10,10,0,0"></Button>
-            <Button x:Name="ChangeUser" Content="Change" Click="changeUser_Click"    Margin="10,10,0,0"></Button>
-            <Button x:Name="GetUserByID" Content="Get" Click="getUserByID_Click"   Margin="10,10,0,0"></Button>
+        <StackPanel Grid.Column="1" Grid.Row="8" Grid.RowSpan="1" Grid.ColumnSpan="2" Orientation="Horizontal" HorizontalAlignment="Stretch" Margin="0,20,0,0">
+            <Label Content="Building Id"  FontSize="12"  MinWidth="100" HorizontalAlignment="Left"></Label>
+            <Label x:Name="OldBuildId" Content="oldBuildId"  MinWidth="100" FontSize="12" HorizontalAlignment="Center" ></Label>
+            <TextBox x:Name="NewBuildId" ToolTip="Only Integer" FontSize="12" MinWidth="100" Margin="10,5,0,5" ></TextBox>
+        </StackPanel>
+        <StackPanel Grid.Column="1" Grid.Row="9" Grid.RowSpan="1" Grid.ColumnSpan="2" Orientation="Horizontal" HorizontalAlignment="Stretch">
+            <Label Content="Storey Id"  FontSize="12"  MinWidth="100" HorizontalAlignment="Left"></Label>
+            <Label x:Name="OldStoreyId" Content="oldStoreyId"  MinWidth="100" FontSize="12" HorizontalAlignment="Center" ></Label>
+            <TextBox x:Name="NewStoreyId" ToolTip="Only Integer" FontSize="12" MinWidth="100" Margin="10,5,0,5" ></TextBox>
+        </StackPanel>
+        <StackPanel Grid.Column="1" Grid.Row="10" Grid.RowSpan="1" Grid.ColumnSpan="2" Orientation="Horizontal" HorizontalAlignment="Stretch">
+            <Label Content="Room Id"  FontSize="12"  MinWidth="100" HorizontalAlignment="Left"></Label>
+            <Label x:Name="OldRoomId" Content="oldRoomId"  MinWidth="100" FontSize="12" HorizontalAlignment="Center" ></Label>
+            <TextBox x:Name="NewRoomId" ToolTip="Only Integer" FontSize="12" MinWidth="100" Margin="10,5,0,5" ></TextBox>
+        </StackPanel>
+        <StackPanel Grid.Column="1" Grid.Row="11" Grid.RowSpan="1" Grid.ColumnSpan="2" Orientation="Horizontal" HorizontalAlignment="Stretch">
+            <Label Content="Desk Id"  FontSize="12"  MinWidth="100" HorizontalAlignment="Left"></Label>
+            <Label x:Name="OldDeskId" Content="oldDeskId"  MinWidth="100" FontSize="12" HorizontalAlignment="Center" ></Label>
+            <TextBox x:Name="NewDeskId" ToolTip="Only Integer" FontSize="12" MinWidth="100" Margin="10,5,0,5" ></TextBox>
+        </StackPanel>
+        <StackPanel Grid.Column="1" Grid.Row="12" Grid.RowSpan="1" Grid.ColumnSpan="2" Orientation="Horizontal" HorizontalAlignment="Stretch">
+            <Label Content="User Id"  FontSize="12"  MinWidth="100" HorizontalAlignment="Left"></Label>
+            <Label x:Name="OldUserId" Content="oldUserId"  MinWidth="100" FontSize="12" HorizontalAlignment="Center" ></Label>
+            <TextBox x:Name="NewUserId" ToolTip="Only Integer" FontSize="12" MinWidth="100" Margin="10,5,0,5" ></TextBox>
+        </StackPanel>
+        <StackPanel Grid.Column="1" Grid.Row="13" Grid.RowSpan="1" Grid.ColumnSpan="2" Orientation="Horizontal" HorizontalAlignment="Stretch">
+            <Label Content="Reserved at"  FontSize="12"  MinWidth="100" HorizontalAlignment="Left"></Label>
+            <Label x:Name="OldResAt" Content="oldResAt"  MinWidth="100" FontSize="12" HorizontalAlignment="Center"></Label>
+            <TextBox x:Name="NewResAt" ToolTip="Only time" FontSize="12" MinWidth="100" Margin="10,5,0,5" ></TextBox>
         </StackPanel>
 
-        <StackPanel Grid.Column="1" Grid.Row="10" Grid.ColumnSpan="1" Grid.RowSpan="1" Orientation="Horizontal" Margin="0,10,0,0" HorizontalAlignment="Stretch">
-            <Label Content="Building"  FontSize="12" Margin="0,-10,0,0"></Label>
-            <Button x:Name="AddBuilding" Content="Add" Click="addBuilding_Click" Margin="-54,10,0,0"></Button>
-            <Button x:Name="RemoveBuilding"  Content="Remove" Click="removeBuilding_Click"   Margin="10,10,0,0"></Button>
-            <Button x:Name="ChangeBuilding"  Content="Change" Click="changeBuilding_Click"   Margin="10,10,0,0"></Button>
-            <Button x:Name="GetBuildingByID" Content="Get" Click="getBuildingByID_Click"  Margin="10,10,0,0"></Button>
+        <GroupBox Grid.Column="1" Grid.Row="14" Margin="0,20,0,0" HorizontalAlignment="Stretch">
+            <StackPanel Grid.Column="1" Grid.Row="9" Margin="0,5,0,0" Orientation="Horizontal" HorizontalAlignment="Stretch">
+                <RadioButton x:Name="UserChecked" GroupName="ratioObject">User</RadioButton>
+                <RadioButton x:Name="BuildingChecked" Margin="20,0,0,0" GroupName="ratioObject">Building</RadioButton>
+                <RadioButton x:Name="StoreyChecked" Margin="20,0,0,0" GroupName="ratioObject">Storey</RadioButton>
+                <RadioButton x:Name="RoomChecked" Margin="20,0,0,0" GroupName="ratioObject">Room</RadioButton>
+                <RadioButton x:Name="DeskChecked" Margin="20,0,0,0" GroupName="ratioObject">Desk</RadioButton>
+                <RadioButton x:Name="ResChecked" Margin="20,0,0,0" GroupName="ratioObject">Reservation</RadioButton>
+            </StackPanel>
+        </GroupBox>
+
+        <StackPanel Grid.Column="1" Grid.Row="15" Grid.ColumnSpan="1" Grid.RowSpan="1" Orientation="Horizontal" Margin="0,10,0,0" HorizontalAlignment="Stretch">
+            <Button x:Name="Add" Content="Add" Click="add_Click" Margin="0,0,0,0"></Button>
+            <Button x:Name="Remove"  Content="Remove" Click="remove_Click" Margin="10,0,0,0"></Button>
+            <Button x:Name="Change" Content="Change" Click="change_Click"    Margin="10,0,0,0"></Button>
+            <Button x:Name="Get" Content="Get by Id" Click="getByID_Click"   Margin="10,0,0,0"></Button>
+            <Button x:Name="ListAll" Content="List All" Click="ListAll_Click"   Margin="10,0,0,0"></Button>
         </StackPanel>
 
-        <StackPanel Grid.Column="1" Grid.Row="11" Grid.ColumnSpan="1" Grid.RowSpan="1" Orientation="Horizontal" Margin="0,10,0,0" HorizontalAlignment="Stretch">
-            <Label Content="Storey"  FontSize="12" Margin="0,-10,0,0" ></Label>
-            <Button x:Name="AddStorey" Content="Add" Click="addStorey_Click"  Margin="-45,10,0,0"></Button>
-            <Button x:Name="RemoveStorey"  Content="Remove" Click="removeStorey_Click"  Margin="10,10,0,0"></Button>
-            <Button x:Name="ChangeStorey" Content="Change" Click="changeStorey_Click"   Margin="10,10,0,0"></Button>
-            <Button x:Name="GetStoreyByID" Content="Get" Click="getStoreyByID_Click"  Margin="10,10,0,0"></Button>
-        </StackPanel>
-
-        <StackPanel Grid.Column="1" Grid.Row="12" Grid.ColumnSpan="1" Grid.RowSpan="1" Orientation="Horizontal" Margin="0,10,0,0" HorizontalAlignment="Stretch">
-            <Label Content="Room"  FontSize="12" Margin="0,-10,0,0"></Label>
-            <Button x:Name="AddRoom" Grid.Column="1" Content="Add" Click="addRoom_Click" Grid.Row="12"   Margin="-42,10,0,0"></Button>
-            <Button x:Name="RemoveRoom" Grid.Column="2" Content="Remove" Click="removeRoom_Click" Grid.Row="12"  Margin="10,10,0,0"></Button>
-            <Button x:Name="ChangeRoom" Grid.Column="3" Content="Change" Click="changeRoom_Click" Grid.Row="12"  Margin="10,10,0,0"></Button>
-            <Button x:Name="GetRoomByID" Content="Get" Click="getRoomByID_Click"  Margin="10,10,0,0"></Button>
-        </StackPanel>
-
-        <StackPanel Grid.Column="1" Grid.Row="13" Grid.ColumnSpan="1" Grid.RowSpan="1" Orientation="Horizontal" Margin="0,10,0,0" HorizontalAlignment="Stretch">
-            <Label Content="Desk"  FontSize="12" Margin="0,-10,0,0" ></Label>
-            <Button x:Name="AddDesk"  Content="Add" Click="addDesk_Click"   Margin="-36,10,0,0"></Button>
-            <Button x:Name="RemoveDesk" Content="Remove" Click="removeDesk_Click"   Margin="10,10,0,0"></Button>
-            <Button x:Name="ChangeDesk" Content="Change" Click="changeDesk_Click"  Margin="10,10,0,0"></Button>
-            <Button x:Name="GetDeskByID" Content="Get" Click="getDeskByID_Click"  Margin="10,10,0,0"></Button>
-        </StackPanel>
-
-        <StackPanel  Grid.Column="1" Grid.Row="14" Grid.ColumnSpan="8" Grid.RowSpan="1" Orientation="Horizontal" Margin="0,20,0,0" HorizontalAlignment="Stretch">
-            <Button x:Name="ListUsers"  Content="All Users" Click="listUsers_Click"   Margin="0,0,0,0"></Button>
-            <Button x:Name="ListBuilding"  Content="All Building" Click="listUBuildings_Click"   Margin="10,0,0,0" ></Button>
-            <Button x:Name="ListStorey"  Content="All Storey" Click="listStoreys_Click"   Margin="10,0,0,0"></Button>
-            <Button x:Name="ListRoom"  Content="All Room" Click="ListRooms_Click"   Margin="10,0,0,0"></Button>
-            <Button x:Name="ListDesk"  Content="All Desk" Click="listDesks_Click"   Margin="10,0,0,0"></Button>
-            <Button x:Name="ListReservations"  Content="Reservations" Click="listReservations_Click"   Margin="10,0,0,0"></Button>
-            <DatePicker x:Name="Startdate" Margin="10,0,0,0" MaxHeight="25" Width="130">
+        <StackPanel  Grid.Column="1" Grid.Row="16" Grid.ColumnSpan="1" Grid.RowSpan="1" Orientation="Horizontal" Margin="0,10,0,0" HorizontalAlignment="Stretch">
+            <Button x:Name="ListResByDate"  Content="Res for Dates" Click="listResDate_Click" Margin="0,0,0,0"></Button>
+            <DatePicker x:Name="Startdate" Margin="10,0,0,0" MaxHeight="25" Width="132">
                 <DatePicker.Style>
                     <Style TargetType="DatePicker">
                         <Setter Property="IsDropDownOpen" Value="False"></Setter>
@@ -152,7 +157,7 @@
                     </Style>
                 </DatePicker.Style>
             </DatePicker>
-            <DatePicker x:Name="Enddate" Margin="15,0,0,0" MaxHeight="25" Width="130">
+            <DatePicker x:Name="Enddate" Margin="10,0,0,0" MaxHeight="25" Width="132">
                 <DatePicker.Style>
                     <Style TargetType="DatePicker">
                         <Setter Property="IsDropDownOpen" Value="False"></Setter>
@@ -167,10 +172,10 @@
                     </Style>
                 </DatePicker.Style>
             </DatePicker>
-            <Button x:Name="RemoveRes" Content="Remove" Click="removeDesk_Click"   Margin="30,0,0,0"></Button>
+            <Button x:Name="RemoveResFromList"  Content="Remove Res" Click="RemoveResList_Click" Margin="10,0,0,0"></Button>
         </StackPanel>
 
-        <ListView x:Name="Listbox" MinWidth="570"  MaxWidth="500" MaxHeight="400" Grid.Column="5" Grid.Row="1" Grid.ColumnSpan="3" Grid.RowSpan="13" FontSize="12"  Margin="20,0,0,0" HorizontalContentAlignment="Stretch" ItemsSource="{Binding Items}" ScrollViewer.HorizontalScrollBarVisibility="Auto">
+        <ListView x:Name="Listbox" Width="750" Height="360" Grid.Column="5" Grid.Row="1" Grid.ColumnSpan="3" Grid.RowSpan="13" FontSize="12"  Margin="-100,0,0,0" HorizontalContentAlignment="Stretch" ItemsSource="{Binding Items}" ScrollViewer.HorizontalScrollBarVisibility="Auto">
             <ListView.View>
                 <GridView>
                     <GridView.Columns>
@@ -299,6 +304,6 @@
             </ListView.View>
         </ListView>
         
-        <Button x:Name="Logout" Grid.Column="1" Grid.Row="16" Content="Logout" Click="logout_Click" Margin="0,20,0,0" HorizontalAlignment="Left"></Button>
+        <Button x:Name="Logout" Grid.Column="1" Grid.Row="17" Content="Logout" Click="logout_Click" Margin="0,20,0,0" HorizontalAlignment="Left"></Button>
     </Grid>
 </Page>

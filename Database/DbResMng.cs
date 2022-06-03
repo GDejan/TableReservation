@@ -246,5 +246,24 @@ namespace TableReservation.Database
                 }
             }
         }
+        /// <summary>
+        ///  Exchange interface for getting all data from database
+        /// </summary>
+        /// <returns>list of objects</returns>
+        public List<Reservation> GetAll()
+        {
+            using (SqlConnection SQLconn = new SqlConnection(DbHelper.ConnectionString("connectionString")))
+            {
+                try
+                {
+                    return SQLconn.Query<Reservation>("dbo.procGetAllRes").ToList();
+                }
+                catch (Exception e)
+                {
+                    MessageBox.Show(msgs.Wrong + "->" + msgs.ResGetErr + "->" + e.Message, msgs.Error, MessageBoxButton.OK);
+                    return null;
+                }
+            }
+        }
     }
 }

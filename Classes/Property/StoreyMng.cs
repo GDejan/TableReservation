@@ -89,7 +89,7 @@ namespace TableReservation.Property
         /// </summary>
         /// <param name="id">id of a storey in databas</param>
         /// <returns>returned storey object</returns>
-        public Storey getById(string id)
+        public Storey GetById(string id)
         {
             if (checks.InputCheckStringIntId(id))
             {
@@ -126,7 +126,7 @@ namespace TableReservation.Property
         /// list all storeys in a database
         /// </summary>
         /// <returns>list of storeys</returns>
-        public List<Storey> getAll()
+        public List<Storey> GetAll()
         {
             storeys = dbStoreyMng.GetAll(); //get all storeys from a database
             if (storeys != null)

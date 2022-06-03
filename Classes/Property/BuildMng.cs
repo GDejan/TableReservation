@@ -88,7 +88,7 @@ namespace TableReservation.Property
         /// </summary>
         /// <param name="id">id of a building in database</param>
         /// <returns>returned building object</returns>
-        public Building getById(string id)
+        public Building GetById(string id)
         {
             if (checks.InputCheckStringIntId(id))
             {
@@ -125,7 +125,7 @@ namespace TableReservation.Property
         /// list all buildinsg in a database
         /// </summary>
         /// <returns>list of buildings</returns>
-        public List<Building> getAllBuilds()
+        public List<Building> GetAllBuilds()
         {
             buildings = dbBuildMng.GetAll(); //get all buildings from a database
             if (buildings!=null)

@@ -5,10 +5,27 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:TableReservation"
         mc:Ignorable="d"
-        Title="Table Reservation" MinHeight="600" MinWidth="1200" MaxHeight="600" MaxWidth="1200">
+        Title="Table Reservation" MaxHeight="600" MaxWidth="1200" MinHeight="600" MinWidth="1200">
     <Grid>
-        <Frame x:Name="MainFrame" NavigationUIVisibility="Hidden">
-            
-        </Frame>  
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="0"></ColumnDefinition>
+            <ColumnDefinition Width="auto"></ColumnDefinition>
+            <ColumnDefinition Width="auto"></ColumnDefinition>
+            <ColumnDefinition Width="0"></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="0"></RowDefinition>
+            <RowDefinition Height="auto"></RowDefinition>
+            <RowDefinition Height="auto"></RowDefinition>
+            <RowDefinition Height="0"></RowDefinition>
+        </Grid.RowDefinitions>
+        <Frame x:Name="MainFrame" Grid.Column="1" Grid.Row="1" NavigationUIVisibility="Hidden" Width="1200" Height="550" Margin="0,0,0,0">
+        </Frame>
+        <TextBlock Grid.Column="1" Grid.Row="2" Margin="1050,-10,0,0">            
+            <Hyperlink NavigateUri="mailto:dejan.galoic@siemens.com?subject=TableReservation&amp;" RequestNavigate="MailTo">
+               Beta Ver0.1 @Dejan Galoić
+            </Hyperlink>
+        </TextBlock>
+        <Label  Content="Made by Dejan Galoić" ></Label>
     </Grid>
 </Window>

@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Windows;
-using TableReservation.ViewModels;
 using TableReservation.Database;
 using TableReservation.Helpers;
-using TableReservation.Users;
 using TableReservation.Property;
+using TableReservation.Users;
+using TableReservation.ViewModels;
 
 namespace TableReservation.Resevations
 {
@@ -16,7 +16,7 @@ namespace TableReservation.Resevations
         private List<Reservation> reservations = new List<Reservation>();
         private List<ResUser> viewModelResUser = new List<ResUser>();
         private List<DeskUser> viewModelDeskUser = new List<DeskUser>();
-        private List<User> users = new List<User>();        
+        private List<User> users = new List<User>();
         private Msgs msgs = new Msgs();
 
         /// <summary>
@@ -73,7 +73,7 @@ namespace TableReservation.Resevations
             if (reservations.Count == 1)  //if is in database -> delete entry
             {
                 dbResMng.Remove(id);
-                
+
                 return true;
             }
             else if (reservations.Count > 1)
@@ -89,15 +89,15 @@ namespace TableReservation.Resevations
         }
 
         /// <summary>
-        /// list all reservations in a database for a given range
+        /// list reservations in a database for a given date range
         /// </summary>
         /// <param name="starttime">start time</param>
         /// <param name="endtime">end time</param>
         /// <returns>list of reservations</returns>
-        public List<Reservation> getAllReservations(DateTime starttime, DateTime endtime)
+        public List<Reservation> GetResByDateRange(DateTime starttime, DateTime endtime)
         {
             reservations = dbResMng.GetByDateRange(starttime, endtime); //get all reservations from a database
-            if (reservations!=null)
+            if (reservations != null)
             {
                 if (reservations.Count > 0) //if is in database -> returns entries
                 {
@@ -121,7 +121,7 @@ namespace TableReservation.Resevations
         /// <param name="starttime">start time</param>
         /// <param name="user">user as object</param>
         /// <returns>list of user reservations</returns>
-        public List<ResUser> getAllFuture(DateTime starttime, User user)
+        public List<ResUser> GetAllFuture(DateTime starttime, User user)
         {
             viewModelResUser = dbResMng.GetFutureForUserId(starttime, user); //get all reservations from a database
             if (viewModelResUser != null)
@@ -150,7 +150,7 @@ namespace TableReservation.Resevations
         /// <param name="desk">desk as object</param>
         /// <param name="date">reservation date</param>
         /// <returns>returns user informations</returns>
-        public User getResUser(Building building, Storey storey, Room room, Desk desk, DateTime date)
+        public User GetResUser(Building building, Storey storey, Room room, Desk desk, DateTime date)
         {
             users = dbResMng.GetReservationsInnerUser(building, storey, room, desk, date);
             if (users != null)
@@ -172,7 +172,7 @@ namespace TableReservation.Resevations
             else
             {
                 return null;
-            }            
+            }
         }
 
         /// <summary>
@@ -184,14 +184,77 @@ namespace TableReservation.Resevations
         /// <param name="desk">desk as object</param>
         /// <param name="starttime">start time</param>
         /// <returns>list of reservations</returns>
-        public List<DeskUser> getFutDeskRes(Building building, Storey storey, Room room, Desk desk, DateTime starttime)
+        public List<DeskUser> GetFutDeskRes(Building building, Storey storey, Room room, Desk desk, DateTime starttime)
         {
-            viewModelDeskUser = dbResMng.GetDeskDateFut(building, storey, room, desk, starttime); 
+            viewModelDeskUser = dbResMng.GetDeskDateFut(building, storey, room, desk, starttime);
             if (viewModelDeskUser != null)
             {
                 if (viewModelDeskUser.Count > 0) //if is in database -> returns entries
                 {
                     return viewModelDeskUser;
+                }
+                else
+                {
+                    return null;
+                }
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+        /// <summary>
+        ///  list all reservations in a database
+        /// </summary>
+        /// <returns>list of reservations</returns>
+        public List<Reservation> GetAll()
+        {
+            reservations = dbResMng.GetAll(); //get all reservations from a database
+            if (reservations != null)
+            {
+                if (reservations.Count > 0) //if is in database -> returns entries
+                {
+                    return reservations;
+                }
+                else
+                {
+                    MessageBox.Show(msgs.ResDontExist, msgs.Error, MessageBoxButton.OK);
+                    return null;
+                }
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+        /// <summary>
+        /// returns a reservation by id
+        /// </summary>
+        /// <param name="id">id of a reservation in databas</param>
+        /// <returns>>returned reservation object</returns>
+        public Reservation GetById(string id)
+        {
+            if (checks.InputCheckStringIntId(id))
+            {
+                reservations = dbResMng.GetById(int.Parse(id)); //check if reservation is in database3
+                if (reservations != null)
+                {
+                    if (reservations.Count == 1) //if is in database -> check entry
+                    {
+                        return reservations[0];
+                    }
+                    else if (reservations.Count >= 1)
+                    {
+                        MessageBox.Show(msgs.Wrong + "->" + msgs.ManyIds, msgs.Error, MessageBoxButton.OK);
+                        return null;
+                    }
+                    else
+                    {
+                        MessageBox.Show(msgs.ResDontExist + "->" + id.ToString(), msgs.Error, MessageBoxButton.OK);
+                        return null;
+                    }
                 }
                 else
                 {

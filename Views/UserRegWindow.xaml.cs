@@ -25,24 +25,20 @@ namespace TableReservation
         {
             if ((checks.InputCheck(Name.Text)==true) && (checks.InputCheck(Surname.Text)) == true && (checks.InputCheck(Username.Text) == true))
             {
-                if ((!string.IsNullOrEmpty(Password.Password))&& (!string.IsNullOrEmpty(ConfirmPass.Password)))
+                if (checks.InputCheckPass(Password.Password) && checks.InputCheckPass(ConfirmPass.Password))
                 {
-                    if (Password.Password == ConfirmPass.Password) 
+                    if (Password.Password == ConfirmPass.Password)
                     {
                         PassHash passHash = new PassHash(Password.Password);
-                        if (userMng.Create(new User(Name.Text, Surname.Text, Username.Text, passHash.HashedPassword,false,false)) == true)
+                        if (userMng.Create(new User(Name.Text, Surname.Text, Username.Text, passHash.HashedPassword, false, false)) == true)
                         {
                             this.Close();
                         }
                     }
-                    else 
+                    else
                     {
                         MessageBox.Show(msgs.NoMatch, msgs.Error, MessageBoxButton.OK);
                     }
-                }
-                else 
-                {
-                    MessageBox.Show(msgs.EmptyInput, msgs.Error, MessageBoxButton.OK);
                 }
             }            
         }

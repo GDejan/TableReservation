@@ -15,6 +15,7 @@
         public string CheckNewValues = "Check new Values and confirm!";
         public string CheckValues = "Check old and new Values and confirm!";
         public string ManyIds = "Too many IDs!";
+        public string NoSelection = "No selection is made!";
 
 
         public string UserCreated = "User Created";
@@ -86,6 +87,7 @@
         public string ResChangeErr = " error changing reservation!";
         public string ResRemoveErr = " error removing reservation!";
         public string ResGetErr = " error getting reservation!";
+        public string ResDontExist = "No reservation in Database!";
 
         /// <summary>
         /// helper class for displaying messages to user

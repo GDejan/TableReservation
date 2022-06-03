@@ -88,7 +88,7 @@ namespace TableReservation.Property
         /// </summary>
         /// <param name="id">id of a desk in databas</param>
         /// <returns>returned desk object</returns>
-        public Desk getById(string id)
+        public Desk GetById(string id)
         {
             if (checks.InputCheckStringIntId(id))
             {
@@ -125,7 +125,7 @@ namespace TableReservation.Property
         /// list all desks in a database
         /// </summary>
         /// <returns>list of desks</returns>
-        public List<Desk> getAllDesks()
+        public List<Desk> GetAllDesks()
         {
             desks = dbDeskdMng.GetAll(); //get all desks from a database
             if (desks!=null)

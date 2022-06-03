@@ -10,7 +10,7 @@ namespace TableReservation.Views
     public partial class ChangePassword : Window
     {
         public SessionUser SessionUser = new SessionUser();
-
+        private Checks checks = new Checks();
         private Msgs msgs = new Msgs();
         private UserMng userMng = new UserMng();
 
@@ -24,7 +24,7 @@ namespace TableReservation.Views
 
         private void change_Click(object sender, RoutedEventArgs e)
         {
-            if ((!string.IsNullOrEmpty(Password.Password)) && (!string.IsNullOrEmpty(ConfirmPass.Password)))
+            if (checks.InputCheckPass(Password.Password) && checks.InputCheckPass(ConfirmPass.Password))
             {
                 if (Password.Password == ConfirmPass.Password)
                 {

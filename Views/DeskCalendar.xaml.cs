@@ -42,7 +42,7 @@ namespace TableReservation.Views
         {
             Calendar.BlackoutDates.AddDatesInPast();
             
-            viewModelDeskUser = resMng.getFutDeskRes(building, storey, room, desk, DateTime.Now);
+            viewModelDeskUser = resMng.GetFutDeskRes(building, storey, room, desk, DateTime.Now);
             if (viewModelDeskUser != null)
             {
                 foreach (var item in viewModelDeskUser)
