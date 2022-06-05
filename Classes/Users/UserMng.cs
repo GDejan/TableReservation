@@ -21,19 +21,25 @@ namespace TableReservation.Users
                 {
                     PassHash passHash = new PassHash(password);
                     users = dbUserMng.LoginCheck(new User(username, passHash.HashedPassword));
-
-                    if (users.Count == 1) //if is in database -> check entry
+                    if (users != null)
                     {
-                        return users[0];
+                        if (users.Count == 1) //if is in database -> check entry
+                        {
+                            return users[0];
+                        }
+                        else if (users.Count > 1)
+                        {
+                            MessageBox.Show(msgs.Wrong + "->" + msgs.ManyIds, msgs.Error, MessageBoxButton.OK);
+                            return null;
+                        }
+                        else
+                        {
+                            MessageBox.Show(msgs.WrongUser, msgs.Error, MessageBoxButton.OK);
+                            return null;
+                        }
                     }
-                    else if (users.Count > 1)
+                    else 
                     {
-                        MessageBox.Show(msgs.Wrong + "->" + msgs.ManyIds, msgs.Error, MessageBoxButton.OK);
-                        return null;
-                    }
-                    else
-                    {
-                        MessageBox.Show(msgs.WrongUser, msgs.Error, MessageBoxButton.OK);
                         return null;
                     }
                 }
@@ -56,19 +62,25 @@ namespace TableReservation.Users
         public bool Create(User user)
         {
             users = dbUserMng.GetByUsername(user); //check if user is in database
-
-            if (users.Count == 0) //if is not in database -> create new entry
+            if (true)
             {
-                if (dbUserMng.Create(user))
+                if (users.Count == 0) //if is not in database -> create new entry
                 {
-                    MessageBox.Show(msgs.UserCreated + "->" + user.Username.ToString(), msgs.Ok, MessageBoxButton.OK);
-                    return true;
+                    if (dbUserMng.Create(user))
+                    {
+                        MessageBox.Show(msgs.UserCreated + "->" + user.Username.ToString(), msgs.Ok, MessageBoxButton.OK);
+                        return true;
+                    }
+                    return false;
                 }
-                return false;
+                else
+                {
+                    MessageBox.Show(msgs.UserExist + "->" + user.Username.ToString(), msgs.Error, MessageBoxButton.OK);
+                    return false;
+                }
             }
-            else
+            else 
             {
-                MessageBox.Show(msgs.UserExist + "->" + user.Username.ToString(), msgs.Error, MessageBoxButton.OK);
                 return false;
             }
         }
@@ -83,18 +95,25 @@ namespace TableReservation.Users
             if (!((oldUser.Username == settings.MasterAdmin) && (oldUser.IsAdmin == true)))
             {
                 users = dbUserMng.GetByUsername(newUser);
-                if ((users.Count == 0) || (newUser.Username == oldUser.Username))  //if new is not in database -> change entry
+                if (true) 
                 {
-                    if (dbUserMng.Change(newUser))
+                    if ((users.Count == 0) || (newUser.Username == oldUser.Username))  //if new is not in database -> change entry
                     {
-                        MessageBox.Show(msgs.UserChanged + "->" + oldUser.Name.ToString() + " to " + newUser.Name.ToString(), msgs.Ok, MessageBoxButton.OK);
-                        return true;
+                        if (dbUserMng.Change(newUser))
+                        {
+                            MessageBox.Show(msgs.UserChanged + "->" + oldUser.Name.ToString() + " to " + newUser.Name.ToString(), msgs.Ok, MessageBoxButton.OK);
+                            return true;
+                        }
+                        return false;
                     }
-                    return false;
+                    else
+                    {
+                        MessageBox.Show(msgs.UserExist + "->" + newUser.Name.ToString(), msgs.Error, MessageBoxButton.OK);
+                        return false;
+                    }
                 }
                 else
                 {
-                    MessageBox.Show(msgs.UserExist + "->" + newUser.Name.ToString(), msgs.Error, MessageBoxButton.OK);
                     return false;
                 }
             }
@@ -115,21 +134,28 @@ namespace TableReservation.Users
             if (!((oldUser.Username == settings.MasterAdmin) && (oldUser.IsAdmin == true)))
             {
                 users = dbUserMng.GetByUsername(newUser);
-                if ((users.Count == 0) || (newUser.Username == oldUser.Username))  //if new is not in database -> change entry
+                if (true)
                 {
-                    if (dbUserMng.ChangePass(newUser))
+                    if ((users.Count == 0) || (newUser.Username == oldUser.Username))  //if new is not in database -> change entry
                     {
-                        MessageBox.Show(msgs.UserChanged + "->" + oldUser.Name.ToString() + " to " + newUser.Name.ToString(), msgs.Ok, MessageBoxButton.OK);
-                        return true;
+                        if (dbUserMng.ChangePass(newUser))
+                        {
+                            MessageBox.Show(msgs.UserChanged + "->" + oldUser.Name.ToString() + " to " + newUser.Name.ToString(), msgs.Ok, MessageBoxButton.OK);
+                            return true;
+                        }
+                        else
+                        {
+                            return false;
+                        }
                     }
                     else
                     {
+                        MessageBox.Show(msgs.UserExist + "->" + newUser.Name.ToString(), msgs.Error, MessageBoxButton.OK);
                         return false;
                     }
                 }
-                else
+                else 
                 {
-                    MessageBox.Show(msgs.UserExist + "->" + newUser.Name.ToString(), msgs.Error, MessageBoxButton.OK);
                     return false;
                 }
             }
@@ -152,23 +178,30 @@ namespace TableReservation.Users
                 if ((user.Username != sessionUser.User.Username))
                 {
                     users = dbUserMng.GetById(user.Id);
-                    if (users.Count == 1)  //if is in database -> delete entry
+                    if (users != null)
                     {
-                        if (dbUserMng.Remove(user))
+                        if (users.Count == 1)  //if is in database -> delete entry
                         {
-                            MessageBox.Show(msgs.UserRemoved + "->" + user.Username.ToString(), msgs.Ok, MessageBoxButton.OK);
-                            return true;
+                            if (dbUserMng.Remove(user))
+                            {
+                                MessageBox.Show(msgs.UserRemoved + "->" + user.Username.ToString(), msgs.Ok, MessageBoxButton.OK);
+                                return true;
+                            }
+                            return false;
                         }
-                        return false;
+                        else if (users.Count > 1)
+                        {
+                            MessageBox.Show(msgs.Wrong + "->" + msgs.ManyIds, msgs.Error, MessageBoxButton.OK);
+                            return false;
+                        }
+                        else
+                        {
+                            MessageBox.Show(msgs.UserDontExist + "->" + user.Id.ToString(), msgs.Error, MessageBoxButton.OK);
+                            return false;
+                        }
                     }
-                    else if (users.Count > 1)
+                    else 
                     {
-                        MessageBox.Show(msgs.Wrong + "->" + msgs.ManyIds, msgs.Error, MessageBoxButton.OK);
-                        return false;
-                    }
-                    else
-                    {
-                        MessageBox.Show(msgs.UserDontExist + "->" + user.Id.ToString(), msgs.Error, MessageBoxButton.OK);
                         return false;
                     }
                 }

@@ -20,18 +20,24 @@ namespace TableReservation.Property
         public bool Create(Room room)
         {
             rooms = dbRoomMng.GetByName(room); //check if room is in database
-
-            if (rooms.Count == 0) //if is not in database -> create new entry
+            if (rooms != null)
             {
-                dbRoomMng.Create(room);
-                MessageBox.Show(msgs.RoomCreated + "->" + room.Name.ToString(), msgs.Ok, MessageBoxButton.OK);
-                return true;
+                if (rooms.Count == 0) //if is not in database -> create new entry
+                {
+                    dbRoomMng.Create(room);
+                    MessageBox.Show(msgs.RoomCreated + "->" + room.Name.ToString(), msgs.Ok, MessageBoxButton.OK);
+                    return true;
+                }
+                else
+                {
+                    MessageBox.Show(msgs.RoomExist + "->" + room.Name.ToString(), msgs.Error, MessageBoxButton.OK);
+                    return false;
+                }
             }
-            else
+            else 
             {
-                MessageBox.Show(msgs.RoomExist + "->" + room.Name.ToString(), msgs.Error, MessageBoxButton.OK);
                 return false;
-            }
+            }            
         }
 
         /// <summary>
@@ -43,17 +49,24 @@ namespace TableReservation.Property
         public bool Change(Room newRoom, Room oldRoom)
         {
             rooms = dbRoomMng.GetByName(newRoom);
-            if (rooms.Count == 0) //if is not in database -> change entry
+            if (rooms != null)
             {
-                dbRoomMng.Change(newRoom);
-                MessageBox.Show(msgs.RoomChanged + "->" + oldRoom.Name.ToString() + " to " + newRoom.Name.ToString(), msgs.Ok, MessageBoxButton.OK);
-                return true;
+                if (rooms.Count == 0) //if is not in database -> change entry
+                {
+                    dbRoomMng.Change(newRoom);
+                    MessageBox.Show(msgs.RoomChanged + "->" + oldRoom.Name.ToString() + " to " + newRoom.Name.ToString(), msgs.Ok, MessageBoxButton.OK);
+                    return true;
+                }
+                else
+                {
+                    MessageBox.Show(msgs.RoomExist + "->" + newRoom.Name.ToString(), msgs.Error, MessageBoxButton.OK);
+                    return false;
+                }
             }
             else
             {
-                MessageBox.Show(msgs.RoomExist + "->" + newRoom.Name.ToString(), msgs.Error, MessageBoxButton.OK);
                 return false;
-            }
+            }           
         }
 
         /// <summary>
@@ -64,21 +77,27 @@ namespace TableReservation.Property
         public bool Remove(Room room)
         {
             rooms = dbRoomMng.GetById(room.Id);
-
-            if (rooms.Count == 1)  //if is in database -> delete entry
+            if (rooms != null)
             {
-                dbRoomMng.Remove(room);
-                MessageBox.Show(msgs.RoomRemoved + "->" + room.Name.ToString(), msgs.Ok, MessageBoxButton.OK);
-                return true;
-            }
-            else if (rooms.Count > 1)
-            {
-                MessageBox.Show(msgs.Wrong + "->" + msgs.ManyIds, msgs.Error, MessageBoxButton.OK);
-                return false;
+                if (rooms.Count == 1)  //if is in database -> delete entry
+                {
+                    dbRoomMng.Remove(room);
+                    MessageBox.Show(msgs.RoomRemoved + "->" + room.Name.ToString(), msgs.Ok, MessageBoxButton.OK);
+                    return true;
+                }
+                else if (rooms.Count > 1)
+                {
+                    MessageBox.Show(msgs.Wrong + "->" + msgs.ManyIds, msgs.Error, MessageBoxButton.OK);
+                    return false;
+                }
+                else
+                {
+                    MessageBox.Show(msgs.RoomDontExist + "->" + room.Id.ToString(), msgs.Error, MessageBoxButton.OK);
+                    return false;
+                }
             }
             else
             {
-                MessageBox.Show(msgs.RoomDontExist + "->" + room.Id.ToString(), msgs.Error, MessageBoxButton.OK);
                 return false;
             }
         }

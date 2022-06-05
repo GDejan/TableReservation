@@ -20,18 +20,24 @@ namespace TableReservation.Property
         public bool Create(Desk desk)
         {
             desks = dbDeskdMng.GetByName(desk); //check if desk is in database
-
-            if (desks.Count == 0) //if is not in database -> create new entry
+            if (desks != null)
             {
-                dbDeskdMng.Create(desk);
-                MessageBox.Show(msgs.DeskCreated + "->" + desk.Name.ToString(), msgs.Ok, MessageBoxButton.OK);
-                return true;
+                if (desks.Count == 0) //if is not in database -> create new entry
+                {
+                    dbDeskdMng.Create(desk);
+                    MessageBox.Show(msgs.DeskCreated + "->" + desk.Name.ToString(), msgs.Ok, MessageBoxButton.OK);
+                    return true;
+                }
+                else
+                {
+                    MessageBox.Show(msgs.DeskExist + "->" + desk.Name.ToString(), msgs.Error, MessageBoxButton.OK);
+                    return false;
+                }
             }
-            else
+            else 
             {
-                MessageBox.Show(msgs.DeskExist + "->" + desk.Name.ToString(), msgs.Error, MessageBoxButton.OK);
                 return false;
-            }
+            }         
         }
 
         /// <summary>
@@ -43,17 +49,24 @@ namespace TableReservation.Property
         public bool Change(Desk newDesk, Desk oldDesk)
         {
             desks = dbDeskdMng.GetByName(newDesk);
-            if (desks.Count == 0) //if new is not in database -> change entry
+            if (desks != null)
             {
-                dbDeskdMng.Change(newDesk);
-                MessageBox.Show(msgs.DeskChanged + "->" + oldDesk.Name.ToString() + " to " + newDesk.Name.ToString(), msgs.Ok, MessageBoxButton.OK);
-                return true;
+                if (desks.Count == 0) //if new is not in database -> change entry
+                {
+                    dbDeskdMng.Change(newDesk);
+                    MessageBox.Show(msgs.DeskChanged + "->" + oldDesk.Name.ToString() + " to " + newDesk.Name.ToString(), msgs.Ok, MessageBoxButton.OK);
+                    return true;
+                }
+                else
+                {
+                    MessageBox.Show(msgs.DeskExist + "->" + newDesk.Name.ToString(), msgs.Error, MessageBoxButton.OK);
+                    return false;
+                }
             }
             else
             {
-                MessageBox.Show(msgs.DeskExist + "->" + newDesk.Name.ToString(), msgs.Error, MessageBoxButton.OK);
                 return false;
-            }
+            }           
         }
 
         /// <summary>
@@ -64,23 +77,29 @@ namespace TableReservation.Property
         public bool Remove(Desk desk)
         {
             desks = dbDeskdMng.GetById(desk.Id);
-
-            if (desks.Count == 1)  //if is in database -> delete entry
+            if (desks != null)
             {
-                dbDeskdMng.Remove(desk);
-                MessageBox.Show(msgs.DeskRemoved + "->" + desk.Name.ToString(), msgs.Ok, MessageBoxButton.OK);
-                return true;
-            }
-            else if (desks.Count > 1)
-            {
-                MessageBox.Show(msgs.Wrong + "->" + msgs.ManyIds, msgs.Error, MessageBoxButton.OK);
-                return false;
+                if (desks.Count == 1)  //if is in database -> delete entry
+                {
+                    dbDeskdMng.Remove(desk);
+                    MessageBox.Show(msgs.DeskRemoved + "->" + desk.Name.ToString(), msgs.Ok, MessageBoxButton.OK);
+                    return true;
+                }
+                else if (desks.Count > 1)
+                {
+                    MessageBox.Show(msgs.Wrong + "->" + msgs.ManyIds, msgs.Error, MessageBoxButton.OK);
+                    return false;
+                }
+                else
+                {
+                    MessageBox.Show(msgs.DeskDontExist + "->" + desk.Id.ToString(), msgs.Error, MessageBoxButton.OK);
+                    return false;
+                }
             }
             else
             {
-                MessageBox.Show(msgs.DeskDontExist + "->" + desk.Id.ToString(), msgs.Error, MessageBoxButton.OK);
                 return false;
-            }
+            }          
         }
 
         /// <summary>

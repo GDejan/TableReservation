@@ -20,18 +20,25 @@ namespace TableReservation.Property
         public bool Create(Storey storey)
         {
             storeys = dbStoreyMng.GetByName(storey); //check if storey is in database
-
-            if (storeys.Count == 0) //if is not in database -> create new entry
+            if (storeys != null)
             {
-                dbStoreyMng.Create(storey);
-                MessageBox.Show(msgs.StoreyCreated + "->" + storey.Name.ToString(), msgs.Ok, MessageBoxButton.OK);
-                return true;
+                if (storeys.Count == 0) //if is not in database -> create new entry
+                {
+                    dbStoreyMng.Create(storey);
+                    MessageBox.Show(msgs.StoreyCreated + "->" + storey.Name.ToString(), msgs.Ok, MessageBoxButton.OK);
+                    return true;
+                }
+                else
+                {
+                    MessageBox.Show(msgs.StoreyExist + "->" + storey.Name.ToString(), msgs.Error, MessageBoxButton.OK);
+                    return false;
+                }
             }
-            else
+            else 
             {
-                MessageBox.Show(msgs.StoreyExist + "->" + storey.Name.ToString(), msgs.Error, MessageBoxButton.OK);
-                return false;
+                return false;   
             }
+            
         }
 
         /// <summary>
@@ -43,15 +50,22 @@ namespace TableReservation.Property
         public bool Change(Storey newStorey, Storey oldStorey)
         {
             storeys = dbStoreyMng.GetByName(newStorey);
-            if (storeys.Count == 0) //if is not in database -> change entry
+            if (storeys!=null)
             {
-                dbStoreyMng.Change(newStorey);
-                MessageBox.Show(msgs.StoreyChanged + "->" + oldStorey.Name.ToString() + " to " + newStorey.Name.ToString(), msgs.Ok, MessageBoxButton.OK);
-                return true;
+                if (storeys.Count == 0) //if is not in database -> change entry
+                {
+                    dbStoreyMng.Change(newStorey);
+                    MessageBox.Show(msgs.StoreyChanged + "->" + oldStorey.Name.ToString() + " to " + newStorey.Name.ToString(), msgs.Ok, MessageBoxButton.OK);
+                    return true;
+                }
+                else
+                {
+                    MessageBox.Show(msgs.StoreyExist + "->" + newStorey.Name.ToString(), msgs.Error, MessageBoxButton.OK);
+                    return false;
+                }
             }
             else
             {
-                MessageBox.Show(msgs.StoreyExist + "->" + newStorey.Name.ToString(), msgs.Error, MessageBoxButton.OK);
                 return false;
             }
         }
@@ -64,24 +78,29 @@ namespace TableReservation.Property
         public bool Remove(Storey storey)
         {
             storeys = dbStoreyMng.GetById(storey.Id);
-
-            if (storeys.Count == 1)  //if is in database -> delete entry
+            if (storeys != null)
             {
-                dbStoreyMng.Remove(storey);
-                MessageBox.Show(msgs.StoreyRemoved + "->" + storey.Name.ToString(), msgs.Ok, MessageBoxButton.OK);
-                return true;
-            }
-            else if (storeys.Count > 1)
-            {
-                MessageBox.Show(msgs.Wrong + "->" + msgs.ManyIds, msgs.Error, MessageBoxButton.OK);
-                return false;
+                if (storeys.Count == 1)  //if is in database -> delete entry
+                {
+                    dbStoreyMng.Remove(storey);
+                    MessageBox.Show(msgs.StoreyRemoved + "->" + storey.Name.ToString(), msgs.Ok, MessageBoxButton.OK);
+                    return true;
+                }
+                else if (storeys.Count > 1)
+                {
+                    MessageBox.Show(msgs.Wrong + "->" + msgs.ManyIds, msgs.Error, MessageBoxButton.OK);
+                    return false;
+                }
+                else
+                {
+                    MessageBox.Show(msgs.StoreyDontExist + "->" + storey.Id.ToString(), msgs.Error, MessageBoxButton.OK);
+                    return false;
+                }
             }
             else
             {
-                MessageBox.Show(msgs.StoreyDontExist + "->" + storey.Id.ToString(), msgs.Error, MessageBoxButton.OK);
                 return false;
             }
-
         }
 
         /// <summary>

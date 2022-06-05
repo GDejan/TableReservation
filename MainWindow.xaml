@@ -21,7 +21,7 @@
         </Grid.RowDefinitions>
         <Frame x:Name="MainFrame" Grid.Column="1" Grid.Row="1" NavigationUIVisibility="Hidden" Width="1200" Height="550" Margin="0,0,0,0">
         </Frame>
-        <TextBlock Grid.Column="1" Grid.Row="2" Margin="1050,-10,0,0">            
+        <TextBlock Grid.Column="1" Grid.Row="2" Margin="1000,-10,0,0">            
             <Hyperlink NavigateUri="mailto:dejan.galoic@siemens.com?subject=TableReservation&amp;" RequestNavigate="MailTo">
                Beta Ver0.1 @Dejan Galoić
             </Hyperlink>

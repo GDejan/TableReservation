@@ -10,7 +10,7 @@ namespace TableReservation.Database
         /// <param name="name">name of a connections string</param>
         /// <returns>connection string</returns>
         public static string ConnectionString (string name)
-        {
+        {            
             return ConfigurationManager.ConnectionStrings[name].ConnectionString;
         }
     }

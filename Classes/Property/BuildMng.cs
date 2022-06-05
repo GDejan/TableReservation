@@ -20,18 +20,24 @@ namespace TableReservation.Property
         public bool Create(Building building)
         {
             buildings = dbBuildMng.GetByName(building); //check if building is in database
-
-            if (buildings.Count == 0) //if is not in database -> create new entry
+            if (buildings != null)
             {
-                dbBuildMng.Create(building);
-                MessageBox.Show(msgs.BuildCreated + "->" + building.Name.ToString(), msgs.Ok, MessageBoxButton.OK);
-                return true;
+                if (buildings.Count == 0) //if is not in database -> create new entry
+                {
+                    dbBuildMng.Create(building);
+                    MessageBox.Show(msgs.BuildCreated + "->" + building.Name.ToString(), msgs.Ok, MessageBoxButton.OK);
+                    return true;
+                }
+                else
+                {
+                    MessageBox.Show(msgs.BuildExist + "->" + building.Name.ToString(), msgs.Error, MessageBoxButton.OK);
+                    return false;
+                }
             }
-            else
+            else 
             {
-                MessageBox.Show(msgs.BuildExist + "->" + building.Name.ToString(), msgs.Error, MessageBoxButton.OK);
                 return false;
-            }
+            }           
         }
 
         /// <summary>
@@ -43,17 +49,24 @@ namespace TableReservation.Property
         public bool Change(Building newBuilding , Building oldBuilding)
         {
             buildings = dbBuildMng.GetByName(newBuilding);
-            if (buildings.Count == 0)  //if new is not in database -> change entry
+            if (buildings != null)
             {
-                dbBuildMng.Change(newBuilding);
-                MessageBox.Show(msgs.BuildChanged + "->" + oldBuilding.Name.ToString() + " to " + newBuilding.Name.ToString(), msgs.Ok, MessageBoxButton.OK);
-                return true;
+                if (buildings.Count == 0)  //if new is not in database -> change entry
+                {
+                    dbBuildMng.Change(newBuilding);
+                    MessageBox.Show(msgs.BuildChanged + "->" + oldBuilding.Name.ToString() + " to " + newBuilding.Name.ToString(), msgs.Ok, MessageBoxButton.OK);
+                    return true;
+                }
+                else
+                {
+                    MessageBox.Show(msgs.BuildExist + "->" + newBuilding.Name.ToString(), msgs.Error, MessageBoxButton.OK);
+                    return false;
+                }
             }
             else
             {
-                MessageBox.Show(msgs.BuildExist + "->" + newBuilding.Name.ToString(), msgs.Error, MessageBoxButton.OK);
                 return false;
-            }
+            }            
         }
 
         /// <summary>
@@ -64,23 +77,29 @@ namespace TableReservation.Property
         public bool Remove(Building building)
         {
             buildings = dbBuildMng.GetById(building.Id);
-
-            if (buildings.Count == 1)  //if is in database -> delete entry
+            if (buildings != null)
             {
-                dbBuildMng.Remove(building);
-                MessageBox.Show(msgs.BuildRemoved + "->" + building.Name.ToString(), msgs.Ok, MessageBoxButton.OK);
-                return true;
-            }
-            else if (buildings.Count > 1)
-            {
-                MessageBox.Show(msgs.Wrong + "->" + msgs.ManyIds, msgs.Error, MessageBoxButton.OK);
-                return false;
+                if (buildings.Count == 1)  //if is in database -> delete entry
+                {
+                    dbBuildMng.Remove(building);
+                    MessageBox.Show(msgs.BuildRemoved + "->" + building.Name.ToString(), msgs.Ok, MessageBoxButton.OK);
+                    return true;
+                }
+                else if (buildings.Count > 1)
+                {
+                    MessageBox.Show(msgs.Wrong + "->" + msgs.ManyIds, msgs.Error, MessageBoxButton.OK);
+                    return false;
+                }
+                else
+                {
+                    MessageBox.Show(msgs.BuildDontExist + "->" + building.Id.ToString(), msgs.Error, MessageBoxButton.OK);
+                    return false;
+                }
             }
             else
             {
-                MessageBox.Show(msgs.BuildDontExist + "->" + building.Id.ToString(), msgs.Error, MessageBoxButton.OK);
                 return false;
-            }
+            }            
         }
 
         /// <summary>

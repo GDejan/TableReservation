@@ -34,24 +34,30 @@ namespace TableReservation.Resevations
             if (checks.InputCheck(building.Id.ToString()) && checks.InputCheck(storey.Id.ToString()) && checks.InputCheck(room.Id.ToString()) && checks.InputCheck(desk.Id.ToString())) //check entry data
             {
                 reservations = dbResMng.GetForDate(building, storey, room, desk, date); //check if table reserved on a date 
-
-                if (reservations.Count == 0) //if is not in database -> create new entry
+                if (reservations != null)
                 {
-                    reservations = dbResMng.GetByUserDate(sessionuser.User, date); //check if user has already another table reserved on a date 
                     if (reservations.Count == 0) //if is not in database -> create new entry
                     {
-                        dbResMng.Create(new Reservation(building.Id, storey.Id, room.Id, desk.Id, sessionuser.User.Id, date));
-                        return true;
+                        reservations = dbResMng.GetByUserDate(sessionuser.User, date); //check if user has already another table reserved on a date 
+                        if (reservations.Count == 0) //if is not in database -> create new entry
+                        {
+                            dbResMng.Create(new Reservation(building.Id, storey.Id, room.Id, desk.Id, sessionuser.User.Id, date));
+                            return true;
+                        }
+                        else
+                        {
+                            MessageBox.Show(msgs.DoubleRes + "->" + date.Date, msgs.Error, MessageBoxButton.OK);
+                            return false;
+                        }
                     }
                     else
                     {
-                        MessageBox.Show(msgs.DoubleRes + "->" + date.Date, msgs.Error, MessageBoxButton.OK);
+                        MessageBox.Show(msgs.ResExist + "->" + date.Date, msgs.Error, MessageBoxButton.OK);
                         return false;
                     }
                 }
-                else
+                else 
                 {
-                    MessageBox.Show(msgs.ResExist + "->" + date.Date, msgs.Error, MessageBoxButton.OK);
                     return false;
                 }
             }
@@ -69,21 +75,27 @@ namespace TableReservation.Resevations
         public bool Remove(int id)
         {
             reservations = dbResMng.GetById(id);
+            if (reservations != null)
+            {
+                if (reservations.Count == 1)  //if is in database -> delete entry
+                {
+                    dbResMng.Remove(id);
 
-            if (reservations.Count == 1)  //if is in database -> delete entry
-            {
-                dbResMng.Remove(id);
-
-                return true;
+                    return true;
+                }
+                else if (reservations.Count > 1)
+                {
+                    MessageBox.Show(msgs.Wrong + "->" + msgs.ManyIds, msgs.Error, MessageBoxButton.OK);
+                    return false;
+                }
+                else
+                {
+                    MessageBox.Show(msgs.ResNoExist + "->" + id.ToString(), msgs.Error, MessageBoxButton.OK);
+                    return false;
+                }
             }
-            else if (reservations.Count > 1)
+            else 
             {
-                MessageBox.Show(msgs.Wrong + "->" + msgs.ManyIds, msgs.Error, MessageBoxButton.OK);
-                return false;
-            }
-            else
-            {
-                MessageBox.Show(msgs.ResNoExist + "->" + id.ToString(), msgs.Error, MessageBoxButton.OK);
                 return false;
             }
         }
