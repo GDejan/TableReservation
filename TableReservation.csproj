@@ -8,6 +8,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Database\dB.db" />
     <None Remove="Design\RoomDesing.xml" />
     <None Remove="Icons\B-318.jpg" />
     <None Remove="Icons\DeskFree.jpg" />
@@ -19,8 +20,17 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Content Include="Database\dB.db">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Dapper" Version="2.0.123" />
-    <PackageReference Include="System.Data.SqlClient" Version="4.8.3" />
+    <PackageReference Include="System.Data.SqlClient" Version="4.8.3">
+      <TreatAsUsed>true</TreatAsUsed>
+    </PackageReference>
+    <PackageReference Include="System.Data.SQLite" Version="1.0.116" />
   </ItemGroup>
 
   <ItemGroup>

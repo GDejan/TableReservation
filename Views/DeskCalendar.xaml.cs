@@ -41,7 +41,7 @@ namespace TableReservation.Views
         private void Calendar_Loaded(object sender, RoutedEventArgs e)
         {
             Calendar.BlackoutDates.AddDatesInPast();
-            
+
             viewModelDeskUser = resMng.GetFutDeskRes(building, storey, room, desk, DateTime.Now);
             if (viewModelDeskUser != null)
             {
@@ -88,6 +88,7 @@ namespace TableReservation.Views
         {
             UserPage.NoOfWindows--;
             owner.updateListbox();
+            owner.updateCanvas();
         }
     }
 }

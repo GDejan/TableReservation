@@ -148,6 +148,7 @@ namespace TableReservation
                         }
                     }
                     updateListbox();
+                    updateCanvas();
                 }
             }
         }
@@ -165,7 +166,7 @@ namespace TableReservation
             }
         }
 
-        private void updateCanvas()
+        public void updateCanvas()
         {
             if ((building.Id > 0) && (storey.Id > 0) && (room.Id > 0))
             {

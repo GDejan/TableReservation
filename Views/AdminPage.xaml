@@ -298,6 +298,16 @@
                             <GridViewColumn.Header>
                                 <TextBlock Text="ReservedAt"></TextBlock>
                             </GridViewColumn.Header>
+                        </GridViewColumn> 
+                        <GridViewColumn>
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding TimeStamp}"></TextBlock>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                            <GridViewColumn.Header>
+                                <TextBlock Text="TimeStamp"></TextBlock>
+                            </GridViewColumn.Header>
                         </GridViewColumn>
                     </GridView.Columns>
                 </GridView>

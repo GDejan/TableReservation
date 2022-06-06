@@ -1,7 +1,7 @@
 ﻿using Dapper;
 using System;
 using System.Collections.Generic;
-using System.Data.SqlClient;
+using System.Data.SQLite;
 using System.Linq;
 using System.Windows;
 using TableReservation.Helpers;
@@ -12,6 +12,7 @@ namespace TableReservation.Database
     internal class DbStoreyMng
     {
         private Msgs msgs = new Msgs();
+        private Queries queries = new Queries();
 
         /// <summary>
         /// Exchange interface for creating new item in a database
@@ -20,11 +21,11 @@ namespace TableReservation.Database
         /// <returns>true if ok, false is it fail</returns>
         public bool Create(Storey storey)
         {
-            using (SqlConnection SQLconn = new SqlConnection(DbHelper.ConnectionString("connectionString")))
+            using (SQLiteConnection SQLconn = new SQLiteConnection(DbHelper.ConnectionString()))
             {
                 try
                 {
-                    SQLconn.Execute("dbo.procNewStorey @Name", storey);
+                    SQLconn.Execute(queries.procNewStorey, storey);
                     return true;
                 }
                 catch (Exception e)
@@ -42,11 +43,11 @@ namespace TableReservation.Database
         /// <returns>true if ok, false is it fail</returns>
         public bool Change(Storey storey)
         {
-            using (SqlConnection SQLconn = new SqlConnection(DbHelper.ConnectionString("connectionString")))
+            using (SQLiteConnection SQLconn = new SQLiteConnection(DbHelper.ConnectionString()))
             {
                 try
                 {
-                    SQLconn.Execute("dbo.procChangeStorey @Id, @Name", storey);
+                    SQLconn.Execute(queries.procChangeStorey, storey);
                     return true;
                 }
                 catch (Exception e)
@@ -64,11 +65,11 @@ namespace TableReservation.Database
         /// <returns>true if ok, false is it fail</returns>
         public bool Remove(Storey storey)
         {
-            using (SqlConnection SQLconn = new SqlConnection(DbHelper.ConnectionString("connectionString")))
+            using (SQLiteConnection SQLconn = new SQLiteConnection(DbHelper.ConnectionString()))
             {
                 try
                 {
-                    SQLconn.Execute("dbo.procRemoveStorey @Id", storey);
+                    SQLconn.Execute(queries.procRemoveStorey, storey);
                     return true;
                 }
                 catch (Exception e)
@@ -86,11 +87,11 @@ namespace TableReservation.Database
         /// <returns>list of objects</returns>
         public List<Storey> GetByName(Storey storey)
         {
-            using (SqlConnection SQLconn = new SqlConnection(DbHelper.ConnectionString("connectionString")))
+            using (SQLiteConnection SQLconn = new SQLiteConnection(DbHelper.ConnectionString()))
             {
                 try
                 {
-                    return SQLconn.Query<Storey>("dbo.procGetStoreyByName @Name", storey).ToList();
+                    return SQLconn.Query<Storey>(queries.procGetStoreyByName, storey).ToList();
                 }
                 catch (Exception e)
                 {
@@ -107,11 +108,11 @@ namespace TableReservation.Database
         /// <returns>list of objects</returns>
         public List<Storey> GetById(int id)
         {
-            using (SqlConnection SQLconn = new SqlConnection(DbHelper.ConnectionString("connectionString")))
+            using (SQLiteConnection SQLconn = new SQLiteConnection(DbHelper.ConnectionString()))
             {
                 try
                 {
-                    return SQLconn.Query<Storey>("dbo.procGetStoreyById @Id", new { Id = id }).ToList();
+                    return SQLconn.Query<Storey>(queries.procGetStoreyById, new { Id = id }).ToList();
                 }
                 catch (Exception e)
                 {
@@ -128,11 +129,11 @@ namespace TableReservation.Database
         /// <returns>list of objects</returns>
         public List<Storey> GetAll()
         {
-            using (SqlConnection SQLconn = new SqlConnection(DbHelper.ConnectionString("connectionString")))
+            using (SQLiteConnection SQLconn = new SQLiteConnection(DbHelper.ConnectionString()))
             {
                 try
                 {
-                    return SQLconn.Query<Storey>("dbo.procGetAllStoreys").ToList();
+                    return SQLconn.Query<Storey>(queries.procGetAllStoreys).ToList();
                 }
                 catch (Exception e)
                 {

@@ -1,7 +1,7 @@
 ﻿using Dapper;
 using System;
 using System.Collections.Generic;
-using System.Data.SqlClient;
+using System.Data.SQLite;
 using System.Linq;
 using System.Windows;
 using TableReservation.Helpers;
@@ -12,6 +12,7 @@ namespace TableReservation.Database
     internal class DbRoomMng 
     {
         private Msgs msgs = new Msgs();
+        private Queries queries = new Queries();
 
         /// <summary>
         /// Exchange interface for creating new item in a database
@@ -20,11 +21,11 @@ namespace TableReservation.Database
         /// <returns>true if ok, false is it fail</returns>></returns>
         public bool Create(Room room)
         {
-            using (SqlConnection SQLconn = new SqlConnection(DbHelper.ConnectionString("connectionString")))
+            using (SQLiteConnection SQLconn = new SQLiteConnection(DbHelper.ConnectionString()))
             {
                 try
                 {
-                    SQLconn.Execute("dbo.procNewRoom @Name", room);
+                    SQLconn.Execute(queries.procNewRoom, room);
                     return true;
                 }
                 catch (Exception e)
@@ -42,11 +43,11 @@ namespace TableReservation.Database
         /// <returns>true if ok, false is it fail</returns>
         public bool Change(Room room)
         {
-            using (SqlConnection SQLconn = new SqlConnection(DbHelper.ConnectionString("connectionString")))
+            using (SQLiteConnection SQLconn = new SQLiteConnection(DbHelper.ConnectionString()))
             {
                 try
                 {
-                    SQLconn.Execute("dbo.procChangeRoom @Id, @Name", room);
+                    SQLconn.Execute(queries.procChangeRoom, room);
                     return true;
                 }
                 catch (Exception e)
@@ -64,11 +65,11 @@ namespace TableReservation.Database
         /// <returns>true if ok, false is it fail</returns>
         public bool Remove(Room room)
         {
-            using (SqlConnection SQLconn = new SqlConnection(DbHelper.ConnectionString("connectionString")))
+            using (SQLiteConnection SQLconn = new SQLiteConnection(DbHelper.ConnectionString()))
             {
                 try
                 {
-                    SQLconn.Execute("dbo.procRemoveRoom @Id", room);
+                    SQLconn.Execute(queries.procRemoveRoom, room);
                     return true;
                 }
                 catch (Exception e)
@@ -87,11 +88,11 @@ namespace TableReservation.Database
         /// <returns>list of objects</returns>
         public List<Room> GetByName(Room room)
         {
-            using (SqlConnection SQLconn = new SqlConnection(DbHelper.ConnectionString("connectionString")))
+            using (SQLiteConnection SQLconn = new SQLiteConnection(DbHelper.ConnectionString()))
             {
                 try
                 {
-                    return SQLconn.Query<Room>("dbo.procGetRoomByName @Name", room).ToList();
+                    return SQLconn.Query<Room>(queries.procGetRoomByName, room).ToList();
                 }
                 catch (Exception e)
                 {
@@ -108,11 +109,11 @@ namespace TableReservation.Database
         /// <returns>list of objects</returns>
         public List<Room> GetById(int id)
         {
-            using (SqlConnection SQLconn = new SqlConnection(DbHelper.ConnectionString("connectionString")))
+            using (SQLiteConnection SQLconn = new SQLiteConnection(DbHelper.ConnectionString()))
             {
                 try
                 {
-                    return SQLconn.Query<Room>("dbo.procGetRoomById @Id", new { Id = id }).ToList();
+                    return SQLconn.Query<Room>(queries.procGetRoomById, new { Id = id }).ToList();
                 }
                 catch (Exception e)
                 {
@@ -128,11 +129,11 @@ namespace TableReservation.Database
         /// <returns>list of objects</returns>
         public List<Room> GetAll()
         {
-            using (SqlConnection SQLconn = new SqlConnection(DbHelper.ConnectionString("connectionString")))
+            using (SQLiteConnection SQLconn = new SQLiteConnection(DbHelper.ConnectionString()))
             {
                 try
                 {
-                    return SQLconn.Query<Room>("dbo.procGetAllRooms").ToList();
+                    return SQLconn.Query<Room>(queries.procGetAllRooms).ToList();
                 }
                 catch (Exception e)
                 {

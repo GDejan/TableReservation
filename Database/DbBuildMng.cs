@@ -1,17 +1,19 @@
 ﻿using Dapper;
 using System;
 using System.Collections.Generic;
-using System.Data.SqlClient;
+using System.Data.SQLite;
 using System.Linq;
 using System.Windows;
 using TableReservation.Helpers;
 using TableReservation.Property;
+
 
 namespace TableReservation.Database
 {
     internal class DbBuildMng 
     {
         private Msgs msgs = new Msgs();
+        private Queries queries = new Queries();
 
         /// <summary>
         /// Exchange interface for creating new item in a database
@@ -20,11 +22,11 @@ namespace TableReservation.Database
         /// <returns>true if ok, false is it fail</returns>
         public bool Create(Building building)
         {
-            using (SqlConnection SQLconn = new SqlConnection(DbHelper.ConnectionString("connectionString")))
+            using (SQLiteConnection SQLconn = new SQLiteConnection(DbHelper.ConnectionString()))
             {
                 try
                 {
-                    SQLconn.Execute("dbo.procNewBuilding @Name", building);
+                    SQLconn.Execute(queries.procNewBuilding, building);
                     return true;
                 }
                 catch (Exception e)
@@ -42,11 +44,11 @@ namespace TableReservation.Database
         /// <returns>true if ok, false is it fail</returns>
         public bool Change(Building building)
         {
-            using (SqlConnection SQLconn = new SqlConnection(DbHelper.ConnectionString("connectionString")))
+            using (SQLiteConnection SQLconn = new SQLiteConnection(DbHelper.ConnectionString()))
             {
                 try
                 {
-                    SQLconn.Execute("dbo.procChangeBuilding @Id, @Name", building);
+                    SQLconn.Execute(queries.procChangeBuilding, building);
                     return true;
                 }
                 catch (Exception e)
@@ -64,11 +66,11 @@ namespace TableReservation.Database
         /// <returns>true if ok, false is it fail</returns>
         public bool Remove(Building building)
         {
-            using (SqlConnection SQLconn = new SqlConnection(DbHelper.ConnectionString("connectionString")))
+            using (SQLiteConnection SQLconn = new SQLiteConnection(DbHelper.ConnectionString()))
             {
                 try
                 {
-                    SQLconn.Execute("dbo.procRemoveBuilding @Id", building);
+                    SQLconn.Execute(queries.procRemoveBuilding, building);
                     return true;
                 }
                 catch (Exception e)
@@ -86,11 +88,11 @@ namespace TableReservation.Database
         /// <returns>list of objects</returns>
         public List<Building> GetByName(Building building)
         {
-            using (SqlConnection SQLconn = new SqlConnection(DbHelper.ConnectionString("connectionString")))
+            using (SQLiteConnection SQLconn = new SQLiteConnection(DbHelper.ConnectionString()))
             {
                 try
                 {
-                    return SQLconn.Query<Building>("dbo.procGetBuildingByName @Name", building).ToList();
+                    return SQLconn.Query<Building>(queries.procGetBuildingByName, building).ToList();
                 }
                 catch (Exception e)
                 {
@@ -107,11 +109,11 @@ namespace TableReservation.Database
         /// <returns>list of objects</returns>
         public List<Building> GetById(int id)
         {
-            using (SqlConnection SQLconn = new SqlConnection(DbHelper.ConnectionString("connectionString")))
+            using (SQLiteConnection SQLconn = new SQLiteConnection(DbHelper.ConnectionString()))
             {
                 try
                 {
-                    return SQLconn.Query<Building>("dbo.procGetBuildingById @Id", new { Id = id }).ToList();
+                    return SQLconn.Query<Building>(queries.procGetBuildingById, new { Id = id }).ToList();
                 }
                 catch (Exception e)
                 {
@@ -127,11 +129,11 @@ namespace TableReservation.Database
         /// <returns>list of objects</returns>
         public List<Building> GetAll()
         {
-            using (SqlConnection SQLconn = new SqlConnection(DbHelper.ConnectionString("connectionString")))
+            using (SQLiteConnection SQLconn = new SQLiteConnection(DbHelper.ConnectionString()))
             {
                 try
                 {
-                    return SQLconn.Query<Building>("dbo.procGetAllBuildings").ToList();
+                    return SQLconn.Query<Building>(queries.procGetAllBuildings).ToList();
                 }
                 catch (Exception e)
                 {

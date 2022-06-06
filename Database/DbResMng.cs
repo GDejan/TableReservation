@@ -1,20 +1,21 @@
 ﻿using Dapper;
 using System;
 using System.Collections.Generic;
-using System.Data.SqlClient;
+using System.Data.SQLite;
 using System.Linq;
 using System.Windows;
-using TableReservation.ViewModels;
 using TableReservation.Helpers;
-using TableReservation.Users;
 using TableReservation.Property;
 using TableReservation.Resevations;
+using TableReservation.Users;
+using TableReservation.ViewModels;
 
 namespace TableReservation.Database
 {
     internal class DbResMng
     {
         private Msgs msgs = new Msgs();
+        private Queries queries = new Queries();
 
         /// <summary>
         /// Exchange interface for creating new item in a database
@@ -23,11 +24,11 @@ namespace TableReservation.Database
         /// <returns>true if ok, false is it fail</returns>
         public bool Create(Reservation reservation)
         {
-            using (SqlConnection SQLconn = new SqlConnection(DbHelper.ConnectionString("connectionString")))
+            using (SQLiteConnection SQLconn = new SQLiteConnection(DbHelper.ConnectionString()))
             {
                 try
                 {
-                    SQLconn.Execute("dbo.procNewReservation @BuildingId, @StoreyID, @RoomId, @DeskId, @UserId, @ReservedAt", reservation);
+                    SQLconn.Execute(queries.procNewReservation, reservation);
                     return true;
                 }
                 catch (Exception e)
@@ -45,11 +46,11 @@ namespace TableReservation.Database
         /// <returns>true if ok, false is it fail</returns>
         public bool Change(Reservation reservation)
         {
-            using (SqlConnection SQLconn = new SqlConnection(DbHelper.ConnectionString("connectionString")))
+            using (SQLiteConnection SQLconn = new SQLiteConnection(DbHelper.ConnectionString()))
             {
                 try
                 {
-                    SQLconn.Execute("dbo.procChangeReservation @Id, @BuildingId, @StoreyID, @RoomId, @DeskId, @UserId, @ReservedAt", reservation);
+                    SQLconn.Execute(queries.procChangeReservation, reservation);
                     return true;
                 }
                 catch (Exception e)
@@ -67,11 +68,11 @@ namespace TableReservation.Database
         /// <returns>true if ok, false is it fail</returns>
         public bool Remove(int id)
         {
-            using (SqlConnection SQLconn = new SqlConnection(DbHelper.ConnectionString("connectionString")))
+            using (SQLiteConnection SQLconn = new SQLiteConnection(DbHelper.ConnectionString()))
             {
                 try
                 {
-                    SQLconn.Execute("dbo.procRemoveReservation @Id", new { Id=id});
+                    SQLconn.Execute(queries.procRemoveReservation, new { Id=id});
                     return true;
                 }
                 catch (Exception e)
@@ -89,11 +90,11 @@ namespace TableReservation.Database
         /// <returns>list of objects</returns>
         public List<Reservation> GetById(int id)
         {
-            using (SqlConnection SQLconn = new SqlConnection(DbHelper.ConnectionString("connectionString")))
+            using (SQLiteConnection SQLconn = new SQLiteConnection(DbHelper.ConnectionString()))
             {
                 try
                 {
-                    return SQLconn.Query<Reservation>("dbo.procGetResById @Id", new { Id = id }).ToList();
+                    return SQLconn.Query<Reservation>(queries.procGetResById, new { Id = id }).ToList();
                 }
                 catch (Exception e)
                 {
@@ -111,11 +112,11 @@ namespace TableReservation.Database
         /// <returns>list of objects</returns>
         public List<Reservation> GetByUserDate(User user, DateTime reservedAt)
         {
-            using (SqlConnection SQLconn = new SqlConnection(DbHelper.ConnectionString("connectionString")))
+            using (SQLiteConnection SQLconn = new SQLiteConnection(DbHelper.ConnectionString()))
             {
                 try
                 {
-                    return SQLconn.Query<Reservation>("dbo.procGetResByUserIdDate @UserId, @ReservedAt", new { UserId = user.Id, ReservedAt = reservedAt }).ToList();
+                    return SQLconn.Query<Reservation>(queries.procGetResByUserIdDate, new { UserId = user.Id, ReservedAt = reservedAt }).ToList();
                 }
                 catch (Exception e)
                 {
@@ -136,11 +137,11 @@ namespace TableReservation.Database
         /// <returns>list of objects</returns>
         public List<Reservation> GetForDate(Building building, Storey storey, Room room, Desk desk, DateTime date)
         {
-            using (SqlConnection SQLconn = new SqlConnection(DbHelper.ConnectionString("connectionString")))
+            using (SQLiteConnection SQLconn = new SQLiteConnection(DbHelper.ConnectionString()))
             {
                 try
                 {
-                    return SQLconn.Query<Reservation>("dbo.procGetResForDate @BuildingId, @StoreyId, @RoomId, @DeskId, @ReservedAt",
+                    return SQLconn.Query<Reservation>(queries.procGetResForDate,
                     new { BuildingId = building.Id, StoreyId = storey.Id, RoomId = room.Id, DeskId = desk.Id, ReservedAt = date.Date }).ToList();
                 }
                 catch (Exception e)
@@ -159,11 +160,11 @@ namespace TableReservation.Database
         /// <returns>list of objects</returns>
         public List<Reservation> GetByDateRange(DateTime reservedAtStart, DateTime reservedAtEnd)
         {
-            using (SqlConnection SQLconn = new SqlConnection(DbHelper.ConnectionString("connectionString")))
+            using (SQLiteConnection SQLconn = new SQLiteConnection(DbHelper.ConnectionString()))
             {
                 try
                 {
-                    return SQLconn.Query<Reservation>("dbo.procGetResForRange @ReservedAtStart, @ReservedAtEnd", new { ReservedAtStart = reservedAtStart, ReservedAtEnd = reservedAtEnd }).ToList();
+                    return SQLconn.Query<Reservation>(queries.procGetResForRange, new { ReservedAtStart = reservedAtStart, ReservedAtEnd = reservedAtEnd }).ToList();
                 }
                 catch (Exception e)
                 {
@@ -181,11 +182,11 @@ namespace TableReservation.Database
         /// <returns>list of objects</returns>
         public List<ResUser> GetFutureForUserId(DateTime reservedAtStart, User user)
         {
-            using (SqlConnection SQLconn = new SqlConnection(DbHelper.ConnectionString("connectionString")))
+            using (SQLiteConnection SQLconn = new SQLiteConnection(DbHelper.ConnectionString()))
             {
                 try
                 {
-                    return SQLconn.Query<ResUser>("dbo.procGetFutureResByUserId @UserId, @ReservedAtStart", new { UserId = user.Id, ReservedAtStart = reservedAtStart }).ToList();
+                    return SQLconn.Query<ResUser>(queries.procGetFutureResByUserId, new { UserId = user.Id, ReservedAtStart = reservedAtStart }).ToList();
                 }
                 catch (Exception e)
                 {
@@ -206,11 +207,11 @@ namespace TableReservation.Database
         /// <returns>list of objects</returns>
         public List<User> GetReservationsInnerUser(Building building, Storey storey, Room room, Desk desk, DateTime date)
         {
-            using (SqlConnection SQLconn = new SqlConnection(DbHelper.ConnectionString("connectionString")))
+            using (SQLiteConnection SQLconn = new SQLiteConnection(DbHelper.ConnectionString()))
             {
                 try
                 {
-                    return SQLconn.Query<User>("dbo.procGetResInnerUser @BuildingId, @StoreyId, @RoomId, @DeskId, @ReservedAt",
+                    return SQLconn.Query<User>(queries.procGetResInnerUser,
                     new { BuildingId = building.Id, StoreyId = storey.Id, RoomId = room.Id, DeskId = desk.Id, ReservedAt = date.Date }).ToList();
                 }
                 catch (Exception e)
@@ -232,11 +233,11 @@ namespace TableReservation.Database
         /// <returns>list of objects</returns>
         public List<DeskUser> GetDeskDateFut(Building building, Storey storey, Room room, Desk desk, DateTime starttime)
         {
-            using (SqlConnection SQLconn = new SqlConnection(DbHelper.ConnectionString("connectionString")))
+            using (SQLiteConnection SQLconn = new SQLiteConnection(DbHelper.ConnectionString()))
             {
                 try
                 {
-                    return SQLconn.Query<DeskUser>("dbo.procGetResForDateDesk @BuildingId, @StoreyId, @RoomId, @DeskId, @ReservedFrom",
+                    return SQLconn.Query<DeskUser>(queries.procGetResForDateDesk,
                     new { BuildingId = building.Id, StoreyId = storey.Id, RoomId = room.Id, DeskId = desk.Id, ReservedFrom = starttime.Date }).ToList();
                 }
                 catch (Exception e)
@@ -252,11 +253,11 @@ namespace TableReservation.Database
         /// <returns>list of objects</returns>
         public List<Reservation> GetAll()
         {
-            using (SqlConnection SQLconn = new SqlConnection(DbHelper.ConnectionString("connectionString")))
+            using (SQLiteConnection SQLconn = new SQLiteConnection(DbHelper.ConnectionString()))
             {
                 try
                 {
-                    return SQLconn.Query<Reservation>("dbo.procGetAllRes").ToList();
+                    return SQLconn.Query<Reservation>(queries.procGetAllRes).ToList();
                 }
                 catch (Exception e)
                 {

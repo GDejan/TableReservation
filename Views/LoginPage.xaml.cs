@@ -57,5 +57,19 @@ namespace TableReservation.Views
                 userRegWindow.Show();
             }
         }
+
+        private void Username_GotFocus(object sender, RoutedEventArgs e)
+        {
+            TextBox textBox = (TextBox)sender;
+            textBox.Text = string.Empty;
+            textBox.GotFocus -= Username_GotFocus;
+        }
+
+        private void Password_GotFocus(object sender, RoutedEventArgs e)
+        {
+            PasswordBox passwordBox = (PasswordBox)sender;
+            passwordBox.Password = string.Empty;
+            passwordBox.GotFocus -= Password_GotFocus;
+        }
     }
 }

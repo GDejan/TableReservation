@@ -1,7 +1,7 @@
 ﻿using Dapper;
 using System;
 using System.Collections.Generic;
-using System.Data.SqlClient;
+using System.Data.SQLite;
 using System.Linq;
 using System.Windows;
 using TableReservation.Helpers;
@@ -12,6 +12,7 @@ namespace TableReservation.Database
     internal class DbUserMng 
     {
         private Msgs msgs = new Msgs();
+        private Queries queries = new Queries();
 
         /// <summary>
         /// Exchange interface for creating new item in a database
@@ -20,11 +21,11 @@ namespace TableReservation.Database
         /// <returns>true if ok, false is it fail</returns>
         public bool Create(User user) 
          {
-            using (SqlConnection SQLconn = new SqlConnection(DbHelper.ConnectionString("connectionString")))
+            using (SQLiteConnection SQLconn = new SQLiteConnection(DbHelper.ConnectionString()))
             {
                 try
                 {
-                    SQLconn.Execute("dbo.procNewUser @Name, @Surname, @Username, @Password, @IsAdmin, @IsTemp", user);
+                    SQLconn.Execute(queries.procNewUser, user);
                     return true;
                 }
                 catch (Exception e)
@@ -42,11 +43,11 @@ namespace TableReservation.Database
         /// <returns>true if ok, false is it fail</returns>
         public bool Change(User user)
         {
-            using (SqlConnection SQLconn = new SqlConnection(DbHelper.ConnectionString("connectionString")))
+            using (SQLiteConnection SQLconn = new SQLiteConnection(DbHelper.ConnectionString()))
             {
                 try
                 {
-                    SQLconn.Execute("dbo.procChangeUser @Id, @Name, @Surname, @Username, @IsAdmin, @IsTemp", user);
+                    SQLconn.Execute(queries.procChangeUser, user);
                     return true;
                 }
                 catch (Exception e)
@@ -64,11 +65,11 @@ namespace TableReservation.Database
         /// <returns>true if ok, false is it fail</returns>
         public bool ChangePass(User user)
         {
-            using (SqlConnection SQLconn = new SqlConnection(DbHelper.ConnectionString("connectionString")))
+            using (SQLiteConnection SQLconn = new SQLiteConnection(DbHelper.ConnectionString()))
             {
                 try
                 {
-                    SQLconn.Execute("dbo.procChangeUserPass @Id, @IsTemp, @Password", user);
+                    SQLconn.Execute(queries.procChangeUserPass, user);
                     return true;
                 }
                 catch (Exception e)
@@ -86,11 +87,11 @@ namespace TableReservation.Database
         /// <returns>true if ok, false is it fail</returns>
         public bool Remove(User user)
         {
-            using (SqlConnection SQLconn = new SqlConnection(DbHelper.ConnectionString("connectionString")))
+            using (SQLiteConnection SQLconn = new SQLiteConnection(DbHelper.ConnectionString()))
             {
                 try
                 {
-                    SQLconn.Execute("dbo.procRemoveUser @Id", user);
+                    SQLconn.Execute(queries.procRemoveUser, user);
                     return true;
                 }
                 catch (Exception e)
@@ -108,11 +109,11 @@ namespace TableReservation.Database
         /// <returns>list of objects</returns>
         public List<User> LoginCheck(User user)
         {
-            using (SqlConnection SQLconn = new SqlConnection(DbHelper.ConnectionString("connectionString")))
+            using (SQLiteConnection SQLconn = new SQLiteConnection(DbHelper.ConnectionString()))
             {
                 try
                 {
-                    return SQLconn.Query<User>("dbo.procGetUserLoginCheck @Username, @Password", user).ToList();
+                    return SQLconn.Query<User>(queries.procGetUserLoginCheck, user).ToList();                       
                 }
                 catch (Exception e)
                 {
@@ -129,11 +130,11 @@ namespace TableReservation.Database
         /// <returns>list of objects</returns>
         public List<User> GetById(int id)
         {
-            using (SqlConnection SQLconn = new SqlConnection(DbHelper.ConnectionString("connectionString")))
+            using (SQLiteConnection SQLconn = new SQLiteConnection(DbHelper.ConnectionString()))
             {
                 try
                 {
-                    return SQLconn.Query<User>("dbo.procGetUsersById @Id", new { Id = id }).ToList();
+                    return SQLconn.Query<User>(queries.procGetUsersById, new { Id = id }).ToList();
                 }
                 catch (Exception e)
                 {
@@ -150,11 +151,11 @@ namespace TableReservation.Database
         /// <returns>list of objects</returns>
         public List<User> GetByUsername(User user)
         {
-            using (SqlConnection SQLconn = new SqlConnection(DbHelper.ConnectionString("connectionString")))
+            using (SQLiteConnection SQLconn = new SQLiteConnection(DbHelper.ConnectionString()))
             {
                 try
                 {
-                    return SQLconn.Query<User>("dbo.procGetUsersByUsername @Username", user).ToList();
+                    return SQLconn.Query<User>(queries.procGetUsersByUsername, user).ToList();
                 }
                 catch (Exception e)
                 {
@@ -170,11 +171,11 @@ namespace TableReservation.Database
         /// <returns>list of objects</returns>
         public List<User> GetAll()
         {
-            using (SqlConnection SQLconn = new SqlConnection(DbHelper.ConnectionString("connectionString")))
+            using (SQLiteConnection SQLconn = new SQLiteConnection(DbHelper.ConnectionString()))
             {
                 try
                 {
-                    return SQLconn.Query<User>("dbo.procGetAllUsers").ToList();
+                    return SQLconn.Query<User>(queries.procGetAllUsers).ToList();
                 }
                 catch (Exception e)
                 {

@@ -1,7 +1,7 @@
 ﻿using Dapper;
 using System;
 using System.Collections.Generic;
-using System.Data.SqlClient;
+using System.Data.SQLite;
 using System.Linq;
 using System.Windows;
 using TableReservation.Helpers;
@@ -12,6 +12,7 @@ namespace TableReservation.Database
     internal class DbDeskMng 
     {
         private Msgs msgs = new Msgs();
+        private Queries queries = new Queries();
 
         /// <summary>
         /// Exchange interface for creating new item in a database
@@ -20,11 +21,11 @@ namespace TableReservation.Database
         /// <returns>true if ok, false is it fail</returns>
         public bool Create(Desk desk)
         {
-            using (SqlConnection SQLconn = new SqlConnection(DbHelper.ConnectionString("connectionString")))
+            using (SQLiteConnection SQLconn = new SQLiteConnection(DbHelper.ConnectionString()))
             {
                 try
                 {
-                    SQLconn.Execute("dbo.procNewDesk @Name", desk);
+                    SQLconn.Execute(queries.procNewDesk, desk);
                     return true;
                 }
                 catch (Exception e)
@@ -42,11 +43,11 @@ namespace TableReservation.Database
         /// <returns>true if ok, false is it fail</returns>
         public bool Change(Desk desk)
         {
-            using (SqlConnection SQLconn = new SqlConnection(DbHelper.ConnectionString("connectionString")))
+            using (SQLiteConnection SQLconn = new SQLiteConnection(DbHelper.ConnectionString()))
             {
                 try
                 {
-                    SQLconn.Execute("dbo.procChangeDesk @Id, @Name", desk);
+                    SQLconn.Execute(queries.procChangeDesk, desk);
                     return true;
                 }
                 catch (Exception e)
@@ -64,11 +65,11 @@ namespace TableReservation.Database
         /// <returns>true if ok, false is it fail</returns>
         public bool Remove(Desk desk)
         {
-            using (SqlConnection SQLconn = new SqlConnection(DbHelper.ConnectionString("connectionString")))
+            using (SQLiteConnection SQLconn = new SQLiteConnection(DbHelper.ConnectionString()))
             {
                 try
                 {
-                    SQLconn.Execute("dbo.procRemoveDesk @Id", desk);
+                    SQLconn.Execute(queries.procRemoveDesk, desk);
                     return true;
                 }
                 catch (Exception e)
@@ -86,11 +87,11 @@ namespace TableReservation.Database
         /// <returns>list of objects</returns>
         public List<Desk> GetByName(Desk desk)
         {
-            using (SqlConnection SQLconn = new SqlConnection(DbHelper.ConnectionString("connectionString")))
+            using (SQLiteConnection SQLconn = new SQLiteConnection(DbHelper.ConnectionString()))
             {
                 try
                 {
-                    return SQLconn.Query<Desk>("dbo.procGetDeskByName @Name", desk).ToList();
+                    return SQLconn.Query<Desk>(queries.procGetDeskByName, desk).ToList();
                 }
                 catch (Exception e)
                 {
@@ -107,11 +108,11 @@ namespace TableReservation.Database
         /// <returns>list of objects</returns>
         public List<Desk> GetById(int id)
         {
-            using (SqlConnection SQLconn = new SqlConnection(DbHelper.ConnectionString("connectionString")))
+            using (SQLiteConnection SQLconn = new SQLiteConnection(DbHelper.ConnectionString()))
             {
                 try
                 {
-                    return SQLconn.Query<Desk>("dbo.procGetDeskById @Id", new { Id = id }).ToList();
+                    return SQLconn.Query<Desk>(queries.procGetDeskById, new { Id = id }).ToList();
                 }
                 catch (Exception e)
                 {
@@ -127,11 +128,11 @@ namespace TableReservation.Database
         /// <returns>list of objects</returns>
         public List<Desk> GetAll()
         {
-            using (SqlConnection SQLconn = new SqlConnection(DbHelper.ConnectionString("connectionString")))
+            using (SQLiteConnection SQLconn = new SQLiteConnection(DbHelper.ConnectionString()))
             {
                 try
                 {
-                    return SQLconn.Query<Desk>("dbo.procGetAllDesks").ToList();
+                    return SQLconn.Query<Desk>(queries.procGetAllDesks).ToList();
                 }
                 catch (Exception e)
                 {
