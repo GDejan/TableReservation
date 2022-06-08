@@ -21,16 +21,15 @@
         </Grid.RowDefinitions>
         <Frame x:Name="MainFrame" Grid.Column="1" Grid.Row="1" NavigationUIVisibility="Hidden" Width="1200" Height="550" Margin="0,0,0,0">
         </Frame>
-<<<<<<< HEAD
         <TextBlock Grid.Column="1" Grid.Row="2" Margin="1000,-10,0,0">
             <TextBlock.Foreground>
                 <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.HotTrackColorKey}}"/>
             </TextBlock.Foreground>                        
-=======
-        <TextBlock Grid.Column="1" Grid.Row="2" Margin="1000,-10,0,0">            
-            <Hyperlink NavigateUri="mailto:xxx?subject=TableReservation&amp;" RequestNavigate="MailTo">
->>>>>>> ffac67ac62ebd6cd6f447e5f3bb304e0b85740e5
+            <TextBlock Grid.Column="1" Grid.Row="2" Margin="1000,-10,0,0">
+                <Hyperlink NavigateUri="mailto:xxx?subject=TableReservation&amp;" RequestNavigate="MailTo">
                Beta Ver0.1 @Dejan Galoić
-        </TextBlock>
+           </Hyperlink>
+                </TextBlock>
+       </TextBlock>
     </Grid>
 </Window>
