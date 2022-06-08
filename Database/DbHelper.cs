@@ -9,8 +9,8 @@ namespace TableReservation.Database
         /// </summary>
         /// <param name="name">name of a connections string</param>
         /// <returns>connection string</returns>
-        public static string ConnectionString ()
-        {            
+        public static string ConnectionString()
+        {
             return ConfigurationManager.ConnectionStrings["connectionString"].ConnectionString;
         }
     }

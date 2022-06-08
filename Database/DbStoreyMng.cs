@@ -32,7 +32,7 @@ namespace TableReservation.Database
                 {
                     MessageBox.Show(msgs.Wrong + "->" + msgs.StoreyCreateErr + "->" + e.Message, msgs.Error, MessageBoxButton.OK);
                     return false;
-                }   
+                }
             }
         }
 
@@ -119,7 +119,7 @@ namespace TableReservation.Database
                     MessageBox.Show(msgs.Wrong + "->" + msgs.StoreyGetErr + "->" + e.Message, msgs.Error, MessageBoxButton.OK);
                     return null;
                 }
-                
+
             }
         }
 

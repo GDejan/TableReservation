@@ -23,7 +23,7 @@ namespace TableReservation
 
         private void register_Click(object sender, RoutedEventArgs e)
         {
-            if ((checks.InputCheck(Name.Text)==true) && (checks.InputCheck(Surname.Text)) == true && (checks.InputCheck(Username.Text) == true))
+            if ((checks.InputCheck(Name.Text) == true) && (checks.InputCheck(Surname.Text)) == true && (checks.InputCheck(Username.Text) == true))
             {
                 if (checks.InputCheckPass(Password.Password) && checks.InputCheckPass(ConfirmPass.Password))
                 {
@@ -40,7 +40,7 @@ namespace TableReservation
                         MessageBox.Show(msgs.NoMatch, msgs.Error, MessageBoxButton.OK);
                     }
                 }
-            }            
+            }
         }
 
         private void cancel_Click(object sender, RoutedEventArgs e)

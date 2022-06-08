@@ -9,7 +9,7 @@ using TableReservation.Property;
 
 namespace TableReservation.Database
 {
-    internal class DbRoomMng 
+    internal class DbRoomMng
     {
         private Msgs msgs = new Msgs();
         private Queries queries = new Queries();

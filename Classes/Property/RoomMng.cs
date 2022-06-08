@@ -34,10 +34,10 @@ namespace TableReservation.Property
                     return false;
                 }
             }
-            else 
+            else
             {
                 return false;
-            }            
+            }
         }
 
         /// <summary>
@@ -66,7 +66,7 @@ namespace TableReservation.Property
             else
             {
                 return false;
-            }           
+            }
         }
 
         /// <summary>

@@ -24,6 +24,6 @@ namespace TableReservation.Helpers
                 }
                 HashedPassword = builder.ToString();
             }
-        }       
+        }
     }
 }

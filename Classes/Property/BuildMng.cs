@@ -34,10 +34,10 @@ namespace TableReservation.Property
                     return false;
                 }
             }
-            else 
+            else
             {
                 return false;
-            }           
+            }
         }
 
         /// <summary>
@@ -46,7 +46,7 @@ namespace TableReservation.Property
         /// <param name="newBuilding">new building as object</param>
         /// <param name="oldBuilding">old building as object</param>
         /// /// <returns>Returns a true if succeded or false if not</returns>
-        public bool Change(Building newBuilding , Building oldBuilding)
+        public bool Change(Building newBuilding, Building oldBuilding)
         {
             buildings = dbBuildMng.GetByName(newBuilding);
             if (buildings != null)
@@ -66,7 +66,7 @@ namespace TableReservation.Property
             else
             {
                 return false;
-            }            
+            }
         }
 
         /// <summary>
@@ -99,7 +99,7 @@ namespace TableReservation.Property
             else
             {
                 return false;
-            }            
+            }
         }
 
         /// <summary>
@@ -112,7 +112,7 @@ namespace TableReservation.Property
             if (checks.InputCheckStringIntId(id))
             {
                 buildings = dbBuildMng.GetById(int.Parse(id)); //check if building is in database
-                if (buildings!=null)
+                if (buildings != null)
                 {
                     if (buildings.Count == 1) //if is in database -> check entry
                     {
@@ -134,7 +134,7 @@ namespace TableReservation.Property
                     return null;
                 }
             }
-            else 
+            else
             {
                 return null;
             }
@@ -147,7 +147,7 @@ namespace TableReservation.Property
         public List<Building> GetAllBuilds()
         {
             buildings = dbBuildMng.GetAll(); //get all buildings from a database
-            if (buildings!=null)
+            if (buildings != null)
             {
                 if (buildings.Count > 0) //if is in database -> returen entries
                 {
@@ -159,11 +159,11 @@ namespace TableReservation.Property
                     return null;
                 }
             }
-            else 
+            else
             {
                 return null;
             }
-            
+
         }
     }
 }

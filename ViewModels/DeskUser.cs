@@ -10,7 +10,7 @@ namespace TableReservation.ViewModels
 
         public DateTime ReservedAt
         {
-            get 
+            get
             {
                 return ReservedAtDate.ToDateTime(TimeOnly.Parse("00:00 PM"));
             }

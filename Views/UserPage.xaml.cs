@@ -5,6 +5,7 @@ using System.IO;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
+using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Xml;
@@ -61,6 +62,7 @@ namespace TableReservation
             loadLists();
             InitializeComponent();
             updateListbox();
+            LogedUser.Text = "Loged user: \n" + sessionUser.User.FullName();
         }
 
         private void loadLists()
@@ -155,11 +157,10 @@ namespace TableReservation
 
         private void showCalendar(object sender, RoutedEventArgs e)
         {
-            if (NoOfWindows==0)
+            if (NoOfWindows == 0)
             {
                 Image imgDesk = sender as Image;
-                string test = imgDesk.Tag.ToString().Split('-')[2];
-                getDesk(test);
+                getDesk(imgDesk.Tag.ToString().Split('-')[2]);
 
                 DeskCalendar deskCalendar = new DeskCalendar(SessionUser, building, storey, room, desk, this);
                 deskCalendar.Show();
@@ -250,7 +251,7 @@ namespace TableReservation
                 image.Tag = building.Name;
                 GridCanvas.Children.Add(image);
             }
-        }        
+        }
         private void drawStorey(string storeyIconPath, string column, string row, string columnSpan, string rowSpan, string rotation)
         {
             Image image = new Image();
@@ -280,12 +281,12 @@ namespace TableReservation
 
         private void drawDesk(string name, string column, string row, string columnSpan, string rowSpan, string rotation)
         {
-            if (checks.InputCheck(name)) 
+            if (checks.InputCheck(name))
             {
                 if (getDesk(name) != null)
                 {
                     Image image = new Image();
-                    
+
                     image = drawShape(name, column, row, columnSpan, rowSpan, rotation);
                     image.MouseDown += showCalendar;
                     if (image != null)
@@ -304,9 +305,31 @@ namespace TableReservation
                             image.ToolTip = string.Format("Desk name: {0} \nStatus: Free", image.Tag);
                         }
                         GridCanvas.Children.Add(image);
+                        drawDeskName();
                     }
                 }
             }
+        }
+
+        private void drawDeskName()
+        {
+            Label label = new Label();
+            label.SetValue(Grid.RowProperty, rowInt +2 );
+            label.SetValue(Grid.ColumnProperty, columnInt+2 );
+            label.SetValue(Grid.RowSpanProperty, 2);
+            label.SetValue(Grid.ColumnSpanProperty, 2);
+            label.FontSize = 25;
+            label.Content = desk.Name;
+            label.Foreground = new SolidColorBrush(Color.FromRgb(255, 255, 255));
+
+            GridCanvas.Children.Add(label);
+
+            columnInt = 0;
+            columnSpanInt = 0;
+            rowInt = 0;
+            rowSpanInt = 0;
+            rotationInt = 0;
+
         }
 
         private Image getBitmap(string url, Image image)
@@ -322,7 +345,7 @@ namespace TableReservation
             return image;
         }
 
-        private Image drawShape(string name, string column, string row, string columnSpan, string rowSpan, string rotation) 
+        private Image drawShape(string name, string column, string row, string columnSpan, string rowSpan, string rotation)
         {
             if (checkInput(name, column, row, columnSpan, rowSpan, rotation))
             {
@@ -335,12 +358,6 @@ namespace TableReservation
                 RotateTransform rotateTransform = new RotateTransform(rotationInt);
                 image.RenderTransform = rotateTransform;
                 image.RenderTransformOrigin = new Point(0.5, 0.5);
-                
-                columnInt = 0;
-                columnSpanInt = 0;
-                rowInt = 0;
-                rowSpanInt = 0;
-                rotationInt = 0;
 
                 return image;
             }
@@ -367,12 +384,12 @@ namespace TableReservation
             {
                 if (item.Name == name)
                 {
-                    desk=item;
+                    desk = item;
                     return desk;
                 }
             }
             return null;
-        } 
+        }
         private void changePass_Click(object sender, RoutedEventArgs e)
         {
             if (NoOfWindows == 0)
@@ -381,7 +398,7 @@ namespace TableReservation
                 changePassword.Show();
             }
         }
-        
+
         private void logout_Click(object sender, RoutedEventArgs e)
         {
             if (NoOfWindows == 0)

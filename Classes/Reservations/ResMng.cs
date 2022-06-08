@@ -56,7 +56,7 @@ namespace TableReservation.Resevations
                         return false;
                     }
                 }
-                else 
+                else
                 {
                     return false;
                 }
@@ -94,7 +94,7 @@ namespace TableReservation.Resevations
                     return false;
                 }
             }
-            else 
+            else
             {
                 return false;
             }

@@ -34,10 +34,10 @@ namespace TableReservation.Property
                     return false;
                 }
             }
-            else 
+            else
             {
                 return false;
-            }         
+            }
         }
 
         /// <summary>
@@ -66,7 +66,7 @@ namespace TableReservation.Property
             else
             {
                 return false;
-            }           
+            }
         }
 
         /// <summary>
@@ -99,7 +99,7 @@ namespace TableReservation.Property
             else
             {
                 return false;
-            }          
+            }
         }
 
         /// <summary>
@@ -147,7 +147,7 @@ namespace TableReservation.Property
         public List<Desk> GetAllDesks()
         {
             desks = dbDeskdMng.GetAll(); //get all desks from a database
-            if (desks!=null)
+            if (desks != null)
             {
                 if (desks.Count > 0) //if is in database -> returns entries
                 {
@@ -159,7 +159,7 @@ namespace TableReservation.Property
                     return null;
                 }
             }
-            else 
+            else
             {
                 return null;
             }

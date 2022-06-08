@@ -12,7 +12,7 @@
             this.Name = name;
         }
         public Building(int id, string name)
-            :this(name)
+            : this(name)
         {
             this.Id = id;
         }

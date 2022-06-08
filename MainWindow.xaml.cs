@@ -1,9 +1,9 @@
-﻿using System.Diagnostics;
+﻿using System.Configuration;
+using System.Diagnostics;
 using System.Windows;
 using System.Windows.Navigation;
 using TableReservation.Helpers;
 using TableReservation.Views;
-using System.Configuration;
 
 namespace TableReservation
 {
@@ -26,7 +26,7 @@ namespace TableReservation
             string emailAdd = ConfigurationManager.AppSettings["E-Mail"];
             Process process = new Process();
             process.StartInfo.FileName = emailAdd;
-            process.StartInfo.UseShellExecute = true;            
+            process.StartInfo.UseShellExecute = true;
             process.Start();
         }
     }

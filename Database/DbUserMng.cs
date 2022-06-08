@@ -9,7 +9,7 @@ using TableReservation.Users;
 
 namespace TableReservation.Database
 {
-    internal class DbUserMng 
+    internal class DbUserMng
     {
         private Msgs msgs = new Msgs();
         private Queries queries = new Queries();
@@ -19,8 +19,8 @@ namespace TableReservation.Database
         /// </summary>
         /// <param name="user">new object</param>
         /// <returns>true if ok, false is it fail</returns>
-        public bool Create(User user) 
-         {
+        public bool Create(User user)
+        {
             using (SQLiteConnection SQLconn = new SQLiteConnection(DbHelper.ConnectionString()))
             {
                 try
@@ -57,7 +57,7 @@ namespace TableReservation.Database
                 }
             }
         }
-        
+
         /// <summary>
         /// Exchange interface for change user password 
         /// </summary>
@@ -113,7 +113,7 @@ namespace TableReservation.Database
             {
                 try
                 {
-                    return SQLconn.Query<User>(queries.procGetUserLoginCheck, user).ToList();                       
+                    return SQLconn.Query<User>(queries.procGetUserLoginCheck, user).ToList();
                 }
                 catch (Exception e)
                 {

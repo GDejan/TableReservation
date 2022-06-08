@@ -5,12 +5,20 @@
     <TargetFramework>net6.0-windows</TargetFramework>
     <Nullable>enable</Nullable>
     <UseWPF>true</UseWPF>
+	<IncludeAllContentForSelfExtract>true</IncludeAllContentForSelfExtract>
   </PropertyGroup>
 
   <ItemGroup>
     <None Remove="Database\dB.db" />
     <None Remove="Design\RoomDesing.xml" />
+    <None Remove="Icons\B-315.jpg" />
+    <None Remove="Icons\B-317.jpg" />
     <None Remove="Icons\B-318.jpg" />
+    <None Remove="Icons\B-319.jpg" />
+    <None Remove="Icons\B-321.jpg" />
+    <None Remove="Icons\B-322.jpg" />
+    <None Remove="Icons\B-324.jpg" />
+    <None Remove="Icons\B-325.jpg" />
     <None Remove="Icons\DeskFree.jpg" />
     <None Remove="Icons\DeskReserved.jpg" />
   </ItemGroup>
@@ -23,13 +31,31 @@
     <Content Include="Database\dB.db">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="Icons\B-315.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Icons\B-317.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Icons\B-319.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Icons\B-321.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Icons\B-322.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Icons\B-324.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Icons\B-325.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Dapper" Version="2.0.123" />
-    <PackageReference Include="System.Data.SqlClient" Version="4.8.3">
-      <TreatAsUsed>true</TreatAsUsed>
-    </PackageReference>
     <PackageReference Include="System.Data.SQLite" Version="1.0.116" />
   </ItemGroup>
 
@@ -56,15 +82,15 @@
     <EmbeddedResource Include="Design\RoomDesing.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
-    <Resource Include="Icons\B-318.jpg">
+    <Content Include="Icons\B-318.jpg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="Icons\DeskFree.jpg">
+    </Content>
+    <Content Include="Icons\DeskFree.jpg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="Icons\DeskReserved.jpg">
+    </Content>
+    <Content Include="Icons\DeskReserved.jpg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Resource>
+    </Content>
   </ItemGroup>
 
 </Project>

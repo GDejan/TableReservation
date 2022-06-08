@@ -11,7 +11,7 @@ namespace TableReservation.Resevations
         public int DeskId { get; set; }
         public int UserId { get; set; }
         public DateTime ReservedAt { get; set; }
-        public DateTime TimeStamp { get;}
+        public DateTime TimeStamp { get; }
         public Reservation()
         {
 

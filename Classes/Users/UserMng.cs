@@ -38,17 +38,17 @@ namespace TableReservation.Users
                             return null;
                         }
                     }
-                    else 
+                    else
                     {
                         return null;
                     }
                 }
-                else 
+                else
                 {
                     return null;
                 }
             }
-            else 
+            else
             {
                 return null;
             }
@@ -79,7 +79,7 @@ namespace TableReservation.Users
                     return false;
                 }
             }
-            else 
+            else
             {
                 return false;
             }
@@ -95,7 +95,7 @@ namespace TableReservation.Users
             if (!((oldUser.Username == settings.MasterAdmin) && (oldUser.IsAdmin == true)))
             {
                 users = dbUserMng.GetByUsername(newUser);
-                if (true) 
+                if (true)
                 {
                     if ((users.Count == 0) || (newUser.Username == oldUser.Username))  //if new is not in database -> change entry
                     {
@@ -123,7 +123,7 @@ namespace TableReservation.Users
                 return false;
             }
         }
-        
+
         /// <summary>
         /// Change password of a existing user in database
         /// </summary>
@@ -154,7 +154,7 @@ namespace TableReservation.Users
                         return false;
                     }
                 }
-                else 
+                else
                 {
                     return false;
                 }
@@ -200,7 +200,7 @@ namespace TableReservation.Users
                             return false;
                         }
                     }
-                    else 
+                    else
                     {
                         return false;
                     }
@@ -228,7 +228,7 @@ namespace TableReservation.Users
             if (checks.InputCheckStringIntId(id))
             {
                 users = dbUserMng.GetById(int.Parse(id)); //check if user is in database
-                if (users!=null)
+                if (users != null)
                 {
                     if (users.Count == 1) //if is in database -> check entry
                     {
@@ -263,7 +263,7 @@ namespace TableReservation.Users
         public List<User> GetAll()
         {
             users = dbUserMng.GetAll(); //get all users from a database
-            if (users!=null)
+            if (users != null)
             {
                 if (users.Count > 0) //if is in database -> returns entries
                 {

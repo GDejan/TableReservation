@@ -16,7 +16,7 @@ namespace TableReservation
     public partial class AdminPage : Page
     {
         public SessionUser SessionUser = new SessionUser();
-        
+
         private UserMng userMng = new UserMng();
         private User user = new User();
         private BuildMng buildMng = new BuildMng();
@@ -34,7 +34,7 @@ namespace TableReservation
         private List<Building> buildings = new List<Building>();
         private List<Storey> storeys = new List<Storey>();
         private List<Room> rooms = new List<Room>();
-        private List<Desk> desks= new List<Desk>();
+        private List<Desk> desks = new List<Desk>();
         private List<Reservation> reservations = new List<Reservation>();
         private Checks checks = new Checks();
 
@@ -118,7 +118,7 @@ namespace TableReservation
                         PassHash passHash = new PassHash(NewPassword.Password);
                         userMng.Create(new User(NewName.Text, NewSurname.Text, NewUsername.Text, passHash.HashedPassword, (bool)NewIsAdmin.IsChecked, true));
                     }
-                }                
+                }
             }
         }
         private void changeUser()
@@ -325,7 +325,7 @@ namespace TableReservation
                 var DialogResult = MessageBox.Show(msgs.CheckOldValues, msgs.Ok, MessageBoxButton.YesNo);
                 if (DialogResult == MessageBoxResult.Yes)
                 {
-                   resMng.Remove(reservation.Id);
+                    resMng.Remove(reservation.Id);
                 }
             }
         }
@@ -337,7 +337,7 @@ namespace TableReservation
             {
                 foreach (var item in users) Listbox.Items.Add(item);
             }
-        } 
+        }
         private void listUBuildings()
         {
             Listbox.Items.Clear();
@@ -374,7 +374,7 @@ namespace TableReservation
                 foreach (var item in desks) Listbox.Items.Add(item);
             }
         }
-        private void listRes() 
+        private void listRes()
         {
             Listbox.Items.Clear();
             reservations = resMng.GetAll();
@@ -405,7 +405,7 @@ namespace TableReservation
         private void logout_Click(object sender, RoutedEventArgs e)
         {
             this.Content = null;
-            SessionUser.IsActiv=false;
+            SessionUser.IsActiv = false;
             LoginPage loginPage = new LoginPage();
             this.NavigationService.Navigate(loginPage);
         }
@@ -499,8 +499,8 @@ namespace TableReservation
                 return false;
             }
             return false;
-        }     
-        
+        }
+
         private bool getResById()
         {
             if (checks.InputCheckStringIntId(OldId.Text))
@@ -552,4 +552,4 @@ namespace TableReservation
             }
         }
     }
-} 
+}

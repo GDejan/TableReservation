@@ -72,7 +72,7 @@ namespace TableReservation.Database
             {
                 try
                 {
-                    SQLconn.Execute(queries.procRemoveReservation, new { Id=id});
+                    SQLconn.Execute(queries.procRemoveReservation, new { Id = id });
                     return true;
                 }
                 catch (Exception e)

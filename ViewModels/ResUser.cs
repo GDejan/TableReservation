@@ -1,4 +1,4 @@
-﻿using System;   
+﻿using System;
 
 namespace TableReservation.ViewModels
 {
@@ -15,7 +15,7 @@ namespace TableReservation.ViewModels
         public string FullName { get; set; }
         public DateTime ReservedAt
         {
-            set 
+            set
             {
                 ReservedAtDate = DateOnly.FromDateTime(value);
             }

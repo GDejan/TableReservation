@@ -2,11 +2,13 @@
 using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
-using TableReservation.ViewModels;
-using TableReservation.Users;
+using System.Windows.Data;
+using System.Windows.Input;
+using TableReservation.Helpers;
 using TableReservation.Property;
 using TableReservation.Resevations;
-using TableReservation.Helpers;
+using TableReservation.Users;
+using TableReservation.ViewModels;
 
 namespace TableReservation.Views
 {
@@ -24,12 +26,13 @@ namespace TableReservation.Views
         private Msgs msgs = new Msgs();
         private readonly UserPage owner;
 
-
         private List<DeskUser> viewModelDeskUser = new List<DeskUser>();
 
         public DeskCalendar(SessionUser sessionUser, Building building, Storey storey, Room room, Desk desk, UserPage owner)
         {
             UserPage.NoOfWindows++;
+            this.Top = Mouse.GetPosition(null).Y;
+            this.Left = Mouse.GetPosition(null).X;
             this.SessionUser = sessionUser;
             this.building = building;
             this.storey = storey;
@@ -37,9 +40,13 @@ namespace TableReservation.Views
             this.desk = desk;
             this.owner = owner;
             InitializeComponent();
+            this.Title = building.Name + "-" + storey.Name + room.Name + "-" + desk.Name;
         }
         private void Calendar_Loaded(object sender, RoutedEventArgs e)
         {
+            Calendar.DisplayDateStart = DateTime.Now.AddMonths(-1);
+            Calendar.DisplayDateEnd = DateTime.Now.AddMonths(12);
+
             Calendar.BlackoutDates.AddDatesInPast();
 
             viewModelDeskUser = resMng.GetFutDeskRes(building, storey, room, desk, DateTime.Now);
@@ -51,27 +58,23 @@ namespace TableReservation.Views
                 }
             }
         }
+
         private void ReserveTable_Click(object sender, RoutedEventArgs e)
         {
             if (SessionUser.IsActiv == true)
             {
                 SelectedDatesCollection selectedDates = Calendar.SelectedDates;
-                if (selectedDates.Count>0)
+                if (selectedDates.Count > 0)
                 {
                     bool multipleCreated = false;
                     foreach (var item in selectedDates)
                     {
-                        if (resMng.Create(item.Date, SessionUser, building, storey, room, desk))
-                        {
-                            multipleCreated = multipleCreated || true;
-                        }
-                        else
-                        {
-                            multipleCreated = multipleCreated || false;
-                        }
+                        if (resMng.Create(item.Date, SessionUser, building, storey, room, desk)) multipleCreated = multipleCreated || true; else multipleCreated = multipleCreated || false;
                     }
                     if (multipleCreated)
                     {
+                        owner.updateListbox();
+                        owner.updateCanvas();
                         MessageBox.Show(msgs.ResCreated, msgs.Ok, MessageBoxButton.OK);
                     }
                     this.Close();
@@ -87,8 +90,6 @@ namespace TableReservation.Views
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
             UserPage.NoOfWindows--;
-            owner.updateListbox();
-            owner.updateCanvas();
         }
     }
 }

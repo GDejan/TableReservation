@@ -24,11 +24,11 @@
             this.Surname = surname;
             this.Username = username;
             this.IsAdmin = isadmin;
-            this.Password=password;
+            this.Password = password;
             this.IsTemp = istemp;
         }
 
-        public string FullName() 
+        public string FullName()
         {
             return string.Format(this.Name + " " + this.Surname);
         }

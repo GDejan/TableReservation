@@ -9,7 +9,7 @@ using TableReservation.Property;
 
 namespace TableReservation.Database
 {
-    internal class DbDeskMng 
+    internal class DbDeskMng
     {
         private Msgs msgs = new Msgs();
         private Queries queries = new Queries();
@@ -32,7 +32,7 @@ namespace TableReservation.Database
                 {
                     MessageBox.Show(msgs.Wrong + "->" + msgs.DeskCreateErr + "->" + e.Message, msgs.Error, MessageBoxButton.OK);
                     return false;
-                }   
+                }
             }
         }
 
@@ -140,6 +140,6 @@ namespace TableReservation.Database
                     return null;
                 }
             }
-        } 
+        }
     }
 }

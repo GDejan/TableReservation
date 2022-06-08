@@ -34,11 +34,11 @@ namespace TableReservation.Property
                     return false;
                 }
             }
-            else 
+            else
             {
-                return false;   
+                return false;
             }
-            
+
         }
 
         /// <summary>
@@ -50,7 +50,7 @@ namespace TableReservation.Property
         public bool Change(Storey newStorey, Storey oldStorey)
         {
             storeys = dbStoreyMng.GetByName(newStorey);
-            if (storeys!=null)
+            if (storeys != null)
             {
                 if (storeys.Count == 0) //if is not in database -> change entry
                 {
@@ -160,7 +160,7 @@ namespace TableReservation.Property
                     return null;
                 }
             }
-            else 
+            else
             {
                 return null;
             }
