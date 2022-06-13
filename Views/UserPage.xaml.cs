@@ -409,11 +409,11 @@ namespace TableReservation
 
         private void Forecast_Click(object sender, RoutedEventArgs e)
         {
-            if (NoOfWindows == 0)
-            {
+          //  if (NoOfWindows == 0)
+          //  {
                 ForeCast foreCast = new ForeCast(building, storey, this);
-            foreCast.Show();
-            }
+                foreCast.Show();
+          //  }
         }
     }
 }

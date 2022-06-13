@@ -45,7 +45,7 @@ namespace TableReservation.Views
         private void Calendar_Loaded(object sender, RoutedEventArgs e)
         {
             Calendar.DisplayDateStart = DateTime.Now.AddMonths(-1);
-            Calendar.DisplayDateEnd = DateTime.Now.AddMonths(12);
+            Calendar.DisplayDateEnd = DateTime.Now.AddMonths(1);
 
             Calendar.BlackoutDates.AddDatesInPast();
 
