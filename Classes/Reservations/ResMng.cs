@@ -16,6 +16,7 @@ namespace TableReservation.Resevations
         private List<Reservation> reservations = new List<Reservation>();
         private List<ResUser> viewModelResUser = new List<ResUser>();
         private List<DeskUser> viewModelDeskUser = new List<DeskUser>();
+        private List<StoreyDesk> storeyDeskList = new List<StoreyDesk>();
         private List<User> users = new List<User>();
         private Msgs msgs = new Msgs();
 
@@ -267,6 +268,33 @@ namespace TableReservation.Resevations
                         MessageBox.Show(msgs.ResDontExist + "->" + id.ToString(), msgs.Error, MessageBoxButton.OK);
                         return null;
                     }
+                }
+                else
+                {
+                    return null;
+                }
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+        /// <summary>
+        /// list all reservations in a database for a given storey till endtime
+        /// </summary>
+        /// <param name="building">building as object</param>
+        /// <param name="storey">storey as object</param>
+        /// <param name="endtime">end time</param>
+        /// <returns>list of reservations</returns>
+        public List<StoreyDesk> GetResBuildStoryDate(Building building, Storey storey, DateTime endtime)
+        {
+            storeyDeskList = dbResMng.GetResBuildStoryDate(building, storey, endtime);
+            if (storeyDeskList != null)
+            {
+                if (storeyDeskList.Count > 0) //if is in database -> returns entries
+                {
+                    return storeyDeskList;
                 }
                 else
                 {

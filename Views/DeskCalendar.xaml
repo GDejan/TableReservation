@@ -65,8 +65,8 @@
             </Calendar>
 
             <StackPanel Orientation="Horizontal" Height="50">
-                <Button x:Name="ReserveTable" Content="Reserve" Click="ReserveTable_Click" Margin="35,0,0,0" Height="20" Width="85"></Button>
-                <Button x:Name="Cancel" Content="Cancel" Click="Cancel_Click" Margin="20,0,0,0" Height="20" Width="85"></Button>
+                <Button x:Name="ReserveTable" Content="Reserve" Click="ReserveTable_Click" BorderBrush="#FFACACAC" Background="#FFE5E5E5" Margin="35,0,0,0" Height="20" Width="85"></Button>
+                <Button x:Name="Cancel" Content="Cancel" Click="Cancel_Click" BorderBrush="#FFACACAC" Background="#FFE5E5E5" Margin="20,0,0,0" Height="20" Width="85"></Button>
             </StackPanel>
         </StackPanel>
     </Grid>

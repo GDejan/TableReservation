@@ -266,5 +266,31 @@ namespace TableReservation.Database
                 }
             }
         }
+
+        /// <summary>
+        /// Exchange interface for getting all data of an object from database on a given date
+        /// </summary>
+        /// <param name="building">search object</param>
+        /// <param name="storey">search object</param>
+        /// <param name="room">search object</param>
+        /// <param name="desk">search object</param>
+        /// <param name="date">search object</param>
+        /// <returns>list of objects</returns>
+        public List<StoreyDesk> GetResBuildStoryDate(Building building, Storey storey, DateTime enddate)
+        {
+            using (SQLiteConnection SQLconn = new SQLiteConnection(DbHelper.ConnectionString()))
+            {
+                try
+                {
+                    return SQLconn.Query<StoreyDesk>(queries.procGetResBuildStoryDate,
+                    new { BuildingId = building.Id, StoreyId = storey.Id,ReservedTill = enddate.Date }).ToList();
+                }
+                catch (Exception e)
+                {
+                    MessageBox.Show(msgs.Wrong + "->" + msgs.ResGetErr + "->" + e.Message, msgs.Error, MessageBoxButton.OK);
+                    return null;
+                }
+            }
+        }
     }
 }

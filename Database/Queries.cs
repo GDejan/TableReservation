@@ -50,6 +50,6 @@
         public string procGetResInnerUser = "SELECT [Users].[Name], [Users].Surname FROM Reservations INNER JOIN Users ON Reservations.UserId = Users.Id WHERE [BuildingId] = @BuildingId AND [StoreyId] = @StoreyId AND [RoomId] = @RoomId AND [DeskId] = @DeskId AND [ReservedAt] = @ReservedAt";
         public string procGetResForDateDesk = "SELECT Reservations.Id as Id, [Users].[Name] as Name, [Users].Surname as Surname, ReservedAt as ReservedAt FROM Reservations INNER JOIN Users ON Reservations.UserId = Users.Id WHERE [BuildingId] = @BuildingId AND [StoreyId] = @StoreyId AND [RoomId] = @RoomId AND [DeskId] = @DeskId AND [ReservedAt] >= @ReservedFrom";
         public string procGetAllRes = "SELECT [Id], [BuildingId], [StoreyId], [RoomId], [DeskId], [UserId], [ReservedAt], [TimeStamp] FROM [Reservations]";
-
+        public string procGetResBuildStoryDate = "SELECT Buildings.Name || '-' || Storeys.Name || Rooms.Name || '-' || Desks.Name as DeskFullName, Users.Name || ' ' || Users.Surname AS UserFullName, ReservedAt as ReservedAt FROM(((((Reservations INNER JOIN Buildings ON Reservations.BuildingId = Buildings.Id) INNER JOIN Storeys ON Reservations.StoreyId = Storeys.Id) INNER JOIN Rooms ON Reservations.RoomId = Rooms.Id) INNER JOIN Desks ON Reservations.DeskId = Desks.Id) INNER JOIN Users ON Reservations.UserId = Users.Id) WHERE[BuildingId] = @BuildingId AND[StoreyId] = @StoreyId AND[ReservedAt] BETWEEN date() AND @ReservedTill ORDER BY ReservedAt";
     }
 }

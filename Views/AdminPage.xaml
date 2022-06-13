@@ -10,10 +10,12 @@
         <Style TargetType="{x:Type Button}">
             <Setter Property="Height" Value="20"/>
             <Setter Property="Width" Value="85"/>
+            <Setter Property="Background" Value="#FFE5E5E5"/>
+            <Setter Property="BorderBrush" Value="#FFACACAC"/>
         </Style>
     </Page.Resources>
 
-    <Grid x:Name="grid1">
+    <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="20"></ColumnDefinition>
             <ColumnDefinition Width="auto"></ColumnDefinition>
