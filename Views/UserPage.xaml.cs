@@ -314,10 +314,11 @@ namespace TableReservation
             label.SetValue(Grid.ColumnProperty, columnInt+2 );
             label.SetValue(Grid.RowSpanProperty, 2);
             label.SetValue(Grid.ColumnSpanProperty, 2);
+            label.Margin= new Thickness(0,-10,0,0);
 
             label.FontSize = 20;
             label.Content = desk.Name;
-            label.Foreground = new SolidColorBrush(Color.FromRgb(255, 255, 255));
+            label.Foreground = new SolidColorBrush(Color.FromRgb(0, 0, 0));
 
             GridCanvas.Children.Add(label);
 

@@ -13,7 +13,7 @@
             <Setter Property="Width" Value="85"/>
             <Setter Property="Background" Value="#FFE5E5E5"/>
             <Setter Property="BorderBrush" Value="#FFACACAC"/>
-            
+
         </Style>
     </Page.Resources>
 
@@ -43,7 +43,7 @@
 
         <TextBlock x:Name="LogedUser"  Text="Loged user:" TextWrapping="Wrap" Grid.Column="1" Grid.Row="1" Width="100" Margin="20,20,0,0"></TextBlock>
         <StackPanel Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="1" Grid.RowSpan="1" Width="100" Margin="20,100,0,0">
-            
+
             <Label Content="Building"></Label>
             <ComboBox Name="BuildingBox" Loaded="buildingBox_loaded" SelectionChanged="buildingBox_SelectionChanged" >
                 <ComboBox.ItemTemplate>
@@ -180,7 +180,6 @@
                     <RowDefinition Height="20"></RowDefinition>
                     <RowDefinition Height="10"></RowDefinition>
                 </Grid.RowDefinitions>
-                <Label Grid.Row="5" Grid.Column="3" Content="1" FontSize="20" VerticalAlignment="Center" Margin="0,-10,0,0" Foreground="AliceBlue" Background="Transparent"></Label>
             </Grid>
         </Canvas>
 
