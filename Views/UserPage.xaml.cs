@@ -50,6 +50,7 @@ namespace TableReservation
         private int rowInt;
         private int rowSpanInt;
         private int rotationInt;
+        private string tooltip;
 
         public static int NoOfWindows = 0;
 
@@ -284,20 +285,23 @@ namespace TableReservation
                             {
                                 image = getBitmap(settings.DeskReservedPath, image);
                                 image.Tag = building.Name + "-" + storey.Name + room.Name + "-" + desk.Name;
-                                image.ToolTip = string.Format("Desk name: {0} \nStatus: Reserved by {1}", image.Tag, user.FullName());
+                                tooltip = string.Format("Desk name: {0} \nStatus: Reserved by {1}", image.Tag, user.FullName());
+                                image.ToolTip = tooltip;
                             }
                             else
                             {
                                 image = getBitmap(settings.DeskFreePath, image);
                                 image.Tag = building.Name + "-" + storey.Name + room.Name + "-" + desk.Name;
-                                image.ToolTip = string.Format("Desk name: {0} \nStatus: Free", image.Tag);
+                                tooltip = string.Format("Desk name: {0} \nStatus: Free", image.Tag);
+                                image.ToolTip = tooltip;
                             }
                         }
                         else 
                         {
                             image = getBitmap(settings.DeskFixedResPath, image);
                             image.Tag = building.Name + "-" + storey.Name + room.Name + "-" + desk.Name;
-                            image.ToolTip = string.Format("Desk name: {0} \nStatus: Fixed reservation", image.Tag);
+                            tooltip = string.Format("Desk name: {0} \nStatus: Fixed reservation", image.Tag);
+                            image.ToolTip = tooltip;
                         }
                         
                         GridCanvas.Children.Add(image);
@@ -315,7 +319,7 @@ namespace TableReservation
             label.SetValue(Grid.RowSpanProperty, 2);
             label.SetValue(Grid.ColumnSpanProperty, 2);
             label.Margin= new Thickness(0,-10,0,0);
-
+            label.ToolTip = tooltip;
             label.FontSize = 20;
             label.Content = desk.Name;
             label.Foreground = new SolidColorBrush(Color.FromRgb(0, 0, 0));

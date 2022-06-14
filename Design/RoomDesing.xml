@@ -8,8 +8,9 @@
 			<Room Name="17" Icon="/Icons/B-317.jpg" Column="1" Row="1" ColumnSpan="20" RowSpan="20" Rotation="0">
 				<Desk Name="1"  Column="2" Row="3" ColumnSpan="5" RowSpan="5" Rotation="270" Fixed="1"></Desk>
 				<Desk Name="2"  Column="2" Row="14" ColumnSpan="5" RowSpan="5" Rotation="270" Fixed="1"></Desk>
-				<Desk Name="3"  Column="15" Row="3" ColumnSpan="5" RowSpan="5" Rotation="90" Fixed="1"></Desk>
-				<Desk Name="4"  Column="15" Row="9" ColumnSpan="5" RowSpan="5" Rotation="90" Fixed="1"></Desk>
+				<Desk Name="3"  Column="11" Row="3" ColumnSpan="5" RowSpan="5" Rotation="270" Fixed="0"></Desk>
+				<Desk Name="4"  Column="15" Row="3" ColumnSpan="5" RowSpan="5" Rotation="90" Fixed="1"></Desk>
+				<Desk Name="5"  Column="15" Row="10" ColumnSpan="5" RowSpan="5" Rotation="90" Fixed="0"></Desk>
 			</Room>
 			<Room Name="18" Icon="/Icons/B-318.jpg" Column="1" Row="1" ColumnSpan="20" RowSpan="20" Rotation="0">
 				<Desk Name="1"  Column="2" Row="3" ColumnSpan="5" RowSpan="5" Rotation="270" Fixed="0"></Desk>
@@ -19,29 +20,30 @@
 			<Room Name="19" Icon="/Icons/B-319.jpg" Column="1" Row="1" ColumnSpan="30" RowSpan="20" Rotation="0">
 				<Desk Name="1"  Column="2" Row="3" ColumnSpan="5" RowSpan="5" Rotation="270" Fixed="0"></Desk>
 				<Desk Name="2"  Column="2" Row="14" ColumnSpan="5" RowSpan="5" Rotation="270" Fixed="0"></Desk>
-				<Desk Name="3"  Column="15" Row="3" ColumnSpan="5" RowSpan="5" Rotation="90" Fixed="0"></Desk>
-				<Desk Name="4"  Column="15" Row="9" ColumnSpan="5" RowSpan="5" Rotation="90" Fixed="0"></Desk>
-				<Desk Name="5"  Column="21" Row="3" ColumnSpan="5" RowSpan="5" Rotation="270" Fixed="0"></Desk>
-				<Desk Name="6"  Column="25" Row="3" ColumnSpan="5" RowSpan="5" Rotation="90" Fixed="0"></Desk>
-				<Desk Name="7"  Column="25" Row="13" ColumnSpan="5" RowSpan="5" Rotation="90" Fixed="0"></Desk>
+				<Desk Name="3"  Column="11" Row="3" ColumnSpan="5" RowSpan="5" Rotation="270" Fixed="0"></Desk>
+				<Desk Name="4"  Column="15" Row="3" ColumnSpan="5" RowSpan="5" Rotation="90" Fixed="0"></Desk>
+				<Desk Name="5"  Column="15" Row="10" ColumnSpan="5" RowSpan="5" Rotation="90" Fixed="0"></Desk>
+				<Desk Name="6"  Column="21" Row="3" ColumnSpan="5" RowSpan="5" Rotation="270" Fixed="0"></Desk>
+				<Desk Name="7"  Column="25" Row="3" ColumnSpan="5" RowSpan="5" Rotation="90" Fixed="0"></Desk>
+				<Desk Name="8"  Column="25" Row="13" ColumnSpan="5" RowSpan="5" Rotation="90" Fixed="0"></Desk>
 			</Room>
 			<Room Name="21" Icon="/Icons/B-321.jpg" Column="1" Row="1" ColumnSpan="20" RowSpan="20" Rotation="0">
 				<Desk Name="1"  Column="9" Row="3" ColumnSpan="5" RowSpan="5" Rotation="0" Fixed="1"></Desk>
 				<Desk Name="2"  Column="16" Row="3" ColumnSpan="5" RowSpan="5" Rotation="90" Fixed="1"></Desk>
 				<Desk Name="3"  Column="16" Row="15" ColumnSpan="5" RowSpan="5" Rotation="90" Fixed="1"></Desk>
-				<Desk Name="4"  Column="7" Row="15" ColumnSpan="5" RowSpan="5" Rotation="90" Fixed="0"></Desk>
+				<Desk Name="4"  Column="6" Row="15" ColumnSpan="5" RowSpan="5" Rotation="90" Fixed="0"></Desk>
 				<Desk Name="5"  Column="2" Row="15" ColumnSpan="5" RowSpan="5" Rotation="270" Fixed="0"></Desk>
 			</Room>
 			<Room Name="22" Icon="/Icons/B-322.jpg" Column="1" Row="1" ColumnSpan="10" RowSpan="20" Rotation="0">
 				<Desk Name="1"  Column="1" Row="15" ColumnSpan="5" RowSpan="5" Rotation="270" Fixed="1"></Desk>
 				<Desk Name="2"  Column="6" Row="15" ColumnSpan="5" RowSpan="5" Rotation="90" Fixed="0"></Desk>
 			</Room>
-			<Room Name="24" Icon="/Icons/B-324.jpg" Column="1" Row="1" ColumnSpan="20" RowSpan="20" Rotation="0">
+			<Room Name="23" Icon="/Icons/B-323.jpg" Column="1" Row="1" ColumnSpan="20" RowSpan="20" Rotation="0">
 				<Desk Name="1"  Column="2" Row="15" ColumnSpan="5" RowSpan="5" Rotation="270" Fixed="0"></Desk>
-				<Desk Name="2"  Column="7" Row="15" ColumnSpan="5" RowSpan="5" Rotation="90" Fixed="0"></Desk>
+				<Desk Name="2"  Column="6" Row="15" ColumnSpan="5" RowSpan="5" Rotation="90" Fixed="0"></Desk>
 				<Desk Name="3"  Column="15" Row="15" ColumnSpan="5" RowSpan="5" Rotation="90" Fixed="1"></Desk>
 			</Room>
-			<Room Name="25" Icon="/Icons/B-325.jpg" Column="1" Row="1" ColumnSpan="10" RowSpan="20" Rotation="0">
+			<Room Name="24" Icon="/Icons/B-324.jpg" Column="1" Row="1" ColumnSpan="10" RowSpan="20" Rotation="0">
 				<Desk Name="1"  Column="1" Row="15" ColumnSpan="5" RowSpan="5" Rotation="270" Fixed="1"></Desk>
 				<Desk Name="2"  Column="6" Row="15" ColumnSpan="5" RowSpan="5" Rotation="90" Fixed="1"></Desk>
 			</Room>

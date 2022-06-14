@@ -17,8 +17,8 @@
     <None Remove="Icons\B-319.jpg" />
     <None Remove="Icons\B-321.jpg" />
     <None Remove="Icons\B-322.jpg" />
+    <None Remove="Icons\B-323.jpg" />
     <None Remove="Icons\B-324.jpg" />
-    <None Remove="Icons\B-325.jpg" />
     <None Remove="Icons\DeskFixedRes.jpg" />
     <None Remove="Icons\DeskFree.jpg" />
     <None Remove="Icons\DeskReserved.jpg" />
@@ -47,10 +47,10 @@
     <Content Include="Icons\B-322.jpg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Icons\B-324.jpg">
+    <Content Include="Icons\B-323.jpg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Icons\B-325.jpg">
+    <Content Include="Icons\B-324.jpg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Icons\DeskFixedRes.jpg">

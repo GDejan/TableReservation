@@ -91,5 +91,10 @@ namespace TableReservation.Views
         {
             UserPage.NoOfWindows--;
         }
+
+        private void Calendar_SelectedDatesChanged(object sender, SelectionChangedEventArgs e)
+        {
+            Mouse.Capture(null);
+        }
     }
 }

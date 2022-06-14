@@ -22,7 +22,7 @@
         <StackPanel x:Name="CalendarPanel" Grid.Column="1" Grid.Row="1" Orientation="Vertical">
 
 
-            <Calendar Name="Calendar" SelectionMode="MultipleRange" Loaded="Calendar_Loaded" Height="180" Width="260" ToolTip="">
+            <Calendar Name="Calendar" SelectionMode="MultipleRange" Loaded="Calendar_Loaded" SelectedDatesChanged="Calendar_SelectedDatesChanged"  Height="180" Width="260" ToolTip="">
                 <Calendar.CalendarDayButtonStyle>
                     <Style TargetType="CalendarDayButton" BasedOn="{StaticResource {x:Type CalendarDayButton}}">
                         <Style.Triggers>

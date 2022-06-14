@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d"
         Closing="Window_Closing"
-        Title="ForeCast" MinHeight="350" MinWidth="1050" MaxHeight="350" MaxWidth="1050">
+        Title="ForeCast" Height="350" Width="1200">
 
 
     <Grid>
@@ -111,7 +111,7 @@
                     <RowDefinition Height="auto"></RowDefinition>
                     <RowDefinition Height="auto"></RowDefinition>
                     <RowDefinition Height="auto"></RowDefinition>
-                    <RowDefinition Height="auto"></RowDefinition>                    
+                    <RowDefinition Height="auto"></RowDefinition>
                     <RowDefinition Height="auto"></RowDefinition>
                     <RowDefinition Height="auto"></RowDefinition>
                     <RowDefinition Height="auto"></RowDefinition>

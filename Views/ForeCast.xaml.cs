@@ -42,6 +42,7 @@ namespace TableReservation.Views
             Visibility visibility = Visibility.Hidden;
             HeaderGrid.Visibility = visibility;
         }
+
         private void loadList()
         {
             storeyDeskList = resMng.GetResBuildStoryDate(building, storey, DateTime.Today.AddDays(14));
@@ -192,7 +193,7 @@ namespace TableReservation.Views
             label.HorizontalAlignment = horizontalAlignment;
             label.VerticalAlignment = verticalAlignment;
             label.BorderThickness = new Thickness(1);
-            label.Content = gridView[i, j];
+            //label.Content = gridView[i, j];
             ForecastGrid.Children.Add(label);
 
         }
@@ -222,6 +223,10 @@ namespace TableReservation.Views
             ScrollViewer scrollViewer = (ScrollViewer)sender;
             if (scrollViewer.VerticalOffset != 0)
             {
+                for (int i = 0; i < HeaderGrid.ColumnDefinitions.Count; i++)
+                {
+                    HeaderGrid.ColumnDefinitions[i].Width = new GridLength(ForecastGrid.ColumnDefinitions[i].ActualWidth);
+                }
                 Visibility visibility = Visibility.Visible;
                 HeaderGrid.Visibility = visibility;
             }
