@@ -12,16 +12,44 @@
     <None Remove="Database\dB.db" />
     <None Remove="Design\RoomDesing.xml" />
     <None Remove="Icons\B-315.jpg" />
+    <None Remove="Icons\B-315.png" />
+    <None Remove="Icons\B-316.jpg" />
+    <None Remove="Icons\B-316.png" />
     <None Remove="Icons\B-317.jpg" />
+    <None Remove="Icons\B-317.png" />
     <None Remove="Icons\B-318.jpg" />
+    <None Remove="Icons\B-318.png" />
     <None Remove="Icons\B-319.jpg" />
+    <None Remove="Icons\B-319.png" />
     <None Remove="Icons\B-321.jpg" />
+    <None Remove="Icons\B-321.png" />
     <None Remove="Icons\B-322.jpg" />
+    <None Remove="Icons\B-322.png" />
     <None Remove="Icons\B-323.jpg" />
+    <None Remove="Icons\B-323.png" />
     <None Remove="Icons\B-324.jpg" />
+    <None Remove="Icons\B-324.png" />
+    <None Remove="Icons\B-325.png" />
+    <None Remove="Icons\B-326.png" />
+    <None Remove="Icons\Build-A.jpg" />
+    <None Remove="Icons\Build-A.png" />
+    <None Remove="Icons\Build-B.jpg" />
+    <None Remove="Icons\Build-B.png" />
+    <None Remove="Icons\Build-C.jpg" />
+    <None Remove="Icons\Build-C.png" />
     <None Remove="Icons\DeskFixedRes.jpg" />
+    <None Remove="Icons\DeskFixedRes.png" />
     <None Remove="Icons\DeskFree.jpg" />
+    <None Remove="Icons\DeskFree.png" />
     <None Remove="Icons\DeskReserved.jpg" />
+    <None Remove="Icons\DeskReserved.png" />
+    <None Remove="Icons\ELevator.png" />
+    <None Remove="Icons\Floor.jpg" />
+    <None Remove="Icons\Floor.png" />
+    <None Remove="Icons\GroundFloor.jpg" />
+    <None Remove="Icons\GroundFloor.png" />
+    <None Remove="Icons\Property.jpg" />
+    <None Remove="Icons\Property.png" />
   </ItemGroup>
 
   <ItemGroup>
@@ -35,25 +63,106 @@
     <Content Include="Icons\B-315.jpg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="Icons\B-315.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Icons\B-316.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Icons\B-316.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Icons\B-317.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Icons\B-317.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Icons\B-318.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Icons\B-319.jpg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="Icons\B-319.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Icons\B-321.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Icons\B-321.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Icons\B-322.jpg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="Icons\B-322.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Icons\B-323.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Icons\B-323.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Icons\B-324.jpg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="Icons\B-324.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Icons\B-325.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Icons\B-326.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Icons\Build-A.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Icons\Build-A.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Icons\Build-B.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Icons\Build-B.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Icons\Build-C.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Icons\Build-C.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Icons\DeskFixedRes.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Icons\DeskFixedRes.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Icons\DeskFree.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Icons\DeskReserved.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Icons\ELevator.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Icons\Floor.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Icons\GroundFloor.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Icons\GroundFloor.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Icons\Property.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Icons\Property.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
@@ -93,6 +202,12 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Icons\DeskReserved.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="Icons\Floor.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>

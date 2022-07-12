@@ -17,7 +17,6 @@ namespace TableReservation.Views
     /// </summary>
     public partial class ForeCast : Window
     {
-        private readonly UserPage owner;
         private XmlDocument xDoc = new XmlDocument();
         private Settings settings = new Settings();
         private Checks checks = new Checks();
@@ -29,10 +28,8 @@ namespace TableReservation.Views
         private List<StoreyDesk> storeyDeskList = new List<StoreyDesk>();
         string[,] gridView = new string[16,100];
 
-        public ForeCast(Building building, Storey storey, UserPage owner)
+        public ForeCast(Building building, Storey storey)
         {
-            //UserPage.NoOfWindows++;
-            this.owner = owner;
             this.building = building;
             this.storey = storey;
             loadList();
@@ -67,16 +64,20 @@ namespace TableReservation.Views
                                 foreach (XmlNode roomXml in storeyXml)
                                 {
                                     string nameRoom = roomXml.Attributes.GetNamedItem("Name").Value;
-
-                                    if (checks.InputCheck(nameRoom))
+                                    string fixedRoom = roomXml.Attributes.GetNamedItem("Fixed").Value;
+                                    
+                                    if (fixedRoom == "0")
                                     {
-                                        foreach (XmlNode deskXml in roomXml)
+                                        if (checks.InputCheck(nameRoom))
                                         {
-                                            string nameDesk = deskXml.Attributes.GetNamedItem("Name").Value;
-                                            string fixedDesk = deskXml.Attributes.GetNamedItem("Fixed").Value;
-                                            string deskFullName = building.Name + "-" + storey.Name + nameRoom + "-" + nameDesk;
+                                            foreach (XmlNode deskXml in roomXml)
+                                            {
+                                                string nameDesk = deskXml.Attributes.GetNamedItem("Name").Value;
+                                                string fixedDesk = deskXml.Attributes.GetNamedItem("Fixed").Value;
+                                                string deskFullName = building.Name + "-" + storey.Name + nameRoom + "-" + nameDesk;
 
-                                            fillGridArray(ref j, ref i, nameDesk, fixedDesk, deskFullName);
+                                                fillGridArray(ref j, ref i, nameDesk, fixedDesk, deskFullName);
+                                            }
                                         }
                                     }
                                 }
@@ -91,29 +92,31 @@ namespace TableReservation.Views
         private void fillGridArray(ref int j, ref int i, string nameDesk, string fixedDesk, string deskFullName)
         {
             gridView[0, j] = deskFullName;
-
-            if (checks.InputCheck(nameDesk) && checks.InputCheck(fixedDesk))
+            if (storeyDeskList != null)
             {
-                if (fixedDesk == "0")
+                if (checks.InputCheck(nameDesk) && checks.InputCheck(fixedDesk))
                 {
-                    i = 1;
-                    foreach (DateTime day in EachDay(DateTime.Now.Date, DateTime.Now.Date.AddDays(13)))
+                    if (fixedDesk == "0")
                     {
-                        gridView[i, 0] = string.Format(day.ToString("dd/MM/yyyy"));
-
-                        foreach (var item in storeyDeskList)
+                        i = 1;
+                        foreach (DateTime day in EachDay(DateTime.Now.Date, DateTime.Now.Date.AddDays(13)))
                         {
-                            if (item.DeskFullName == deskFullName)
+                            gridView[i, 0] = string.Format(day.ToString("dd/MM/yyyy"));
+
+                            foreach (var item in storeyDeskList)
                             {
-                                if (day.Date == item.ReservedAt)
+                                if (item.DeskFullName == deskFullName)
                                 {
-                                    gridView[i, j] = item.UserFullName;
+                                    if (day.Date == item.ReservedAt)
+                                    {
+                                        gridView[i, j] = item.UserFullName;
+                                    }
                                 }
                             }
+                            i++;
                         }
-                        i++;
+                        j++;
                     }
-                    j++;
                 }
             }
         }
@@ -193,7 +196,7 @@ namespace TableReservation.Views
             label.HorizontalAlignment = horizontalAlignment;
             label.VerticalAlignment = verticalAlignment;
             label.BorderThickness = new Thickness(1);
-            //label.Content = gridView[i, j];
+            label.Content = gridView[i, j];
             ForecastGrid.Children.Add(label);
 
         }

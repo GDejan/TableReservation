@@ -1,52 +1,66 @@
-﻿<Property>
-	<Buidling Name="B">
-		<Storey Name="3">
-			<Room Name="15" Icon="/Icons/B-315.jpg" Column="1" Row="1" ColumnSpan="10" RowSpan="20" Rotation="0">
-				<Desk Name="1"  Column="1" Row="3" ColumnSpan="5" RowSpan="5" Rotation="270" Fixed="1"></Desk>
-				<Desk Name="2"  Column="6" Row="3" ColumnSpan="5" RowSpan="5" Rotation="90" Fixed="1"></Desk>
+﻿<Property Name="Siemens" Icon="/Icons/Property.png" Column="1" Row="1" ColumnSpan="25" RowSpan="25" Rotation="0">
+	<Buidling Name="A" Icon="/Icons/Build-A.png" Column="2" Row="3" ColumnSpan="15" RowSpan="6" Rotation="0">
+	</Buidling>
+	<Buidling Name="B" Icon="/Icons/Build-B.png" Column="2" Row="14" ColumnSpan="15" RowSpan="6" Rotation="0">
+		<Storey Name="0" Icon="/Icons/GroundFloor.png" Column="1" Row="7" ColumnSpan="15" RowSpan="4" Rotation="0">
+		</Storey>
+		<Storey Name="1" Icon="/Icons/Floor.png" Column="1" Row="5" ColumnSpan="15" RowSpan="4" Rotation="0">
+		</Storey>
+		<Storey Name="2" Icon="/Icons/Floor.png" Column="1" Row="3" ColumnSpan="15" RowSpan="4" Rotation="0">
+		</Storey>
+		<Storey Name="3" Icon="/Icons/Floor.png" Column="1" Row="1" ColumnSpan="15" RowSpan="4" Rotation="0">
+			<Room Name="15" Icon="/Icons/B-315.png" Column="1" Row="2" ColumnSpan="11" RowSpan="20" Rotation="0" ColumnS="1" RowS="1" ColumnSpanS="5" RowSpanS="10" RotationS="0" Fixed="1">
 			</Room>
-			<Room Name="17" Icon="/Icons/B-317.jpg" Column="1" Row="1" ColumnSpan="20" RowSpan="20" Rotation="0">
-				<Desk Name="1"  Column="2" Row="3" ColumnSpan="5" RowSpan="5" Rotation="270" Fixed="1"></Desk>
-				<Desk Name="2"  Column="2" Row="14" ColumnSpan="5" RowSpan="5" Rotation="270" Fixed="1"></Desk>
-				<Desk Name="3"  Column="11" Row="3" ColumnSpan="5" RowSpan="5" Rotation="270" Fixed="0"></Desk>
-				<Desk Name="4"  Column="15" Row="3" ColumnSpan="5" RowSpan="5" Rotation="90" Fixed="1"></Desk>
-				<Desk Name="5"  Column="15" Row="10" ColumnSpan="5" RowSpan="5" Rotation="90" Fixed="0"></Desk>
+			<Room Name="16" Icon="/Icons/B-316.png" Column="1" Row="2" ColumnSpan="11" RowSpan="20" Rotation="0" ColumnS="6" RowS="1" ColumnSpanS="5" RowSpanS="10" RotationS="0" Fixed="1">
 			</Room>
-			<Room Name="18" Icon="/Icons/B-318.jpg" Column="1" Row="1" ColumnSpan="20" RowSpan="20" Rotation="0">
-				<Desk Name="1"  Column="2" Row="3" ColumnSpan="5" RowSpan="5" Rotation="270" Fixed="0"></Desk>
-				<Desk Name="2"  Column="4" Row="8" ColumnSpan="5" RowSpan="5" Rotation="90" Fixed="0"></Desk>
-				<Desk Name="3"  Column="15" Row="3" ColumnSpan="5" RowSpan="5" Rotation="90" Fixed="0"></Desk>
+			<Room Name="17" Icon="/Icons/B-317.png" Column="1" Row="1" ColumnSpan="20" RowSpan="20" Rotation="0" ColumnS="11" RowS="1" ColumnSpanS="10" RowSpanS="10" RotationS="0" Fixed="0">
+				<Desk Name="1"  Column="2" Row="4" ColumnSpan="5" RowSpan="4" Rotation="270" Fixed="1"></Desk>
+				<Desk Name="2"  Column="2" Row="14" ColumnSpan="5" RowSpan="4" Rotation="270" Fixed="1"></Desk>
+				<Desk Name="3"  Column="11" Row="4" ColumnSpan="5" RowSpan="4" Rotation="270" Fixed="0"></Desk>
+				<Desk Name="4"  Column="15" Row="4" ColumnSpan="5" RowSpan="4" Rotation="90" Fixed="1"></Desk>
+				<Desk Name="5"  Column="15" Row="12" ColumnSpan="5" RowSpan="4" Rotation="90" Fixed="0"></Desk>
 			</Room>
-			<Room Name="19" Icon="/Icons/B-319.jpg" Column="1" Row="1" ColumnSpan="30" RowSpan="20" Rotation="0">
-				<Desk Name="1"  Column="2" Row="3" ColumnSpan="5" RowSpan="5" Rotation="270" Fixed="0"></Desk>
-				<Desk Name="2"  Column="2" Row="14" ColumnSpan="5" RowSpan="5" Rotation="270" Fixed="0"></Desk>
-				<Desk Name="3"  Column="11" Row="3" ColumnSpan="5" RowSpan="5" Rotation="270" Fixed="0"></Desk>
-				<Desk Name="4"  Column="15" Row="3" ColumnSpan="5" RowSpan="5" Rotation="90" Fixed="0"></Desk>
-				<Desk Name="5"  Column="15" Row="10" ColumnSpan="5" RowSpan="5" Rotation="90" Fixed="0"></Desk>
-				<Desk Name="6"  Column="21" Row="3" ColumnSpan="5" RowSpan="5" Rotation="270" Fixed="0"></Desk>
-				<Desk Name="7"  Column="25" Row="3" ColumnSpan="5" RowSpan="5" Rotation="90" Fixed="0"></Desk>
-				<Desk Name="8"  Column="25" Row="13" ColumnSpan="5" RowSpan="5" Rotation="90" Fixed="0"></Desk>
+			<Room Name="18" Icon="/Icons/B-318.png" Column="1" Row="1" ColumnSpan="20" RowSpan="20" Rotation="0" ColumnS="21" RowS="1" ColumnSpanS="10" RowSpanS="10" RotationS="0" Fixed="0">
+				<Desk Name="1"  Column="2" Row="4" ColumnSpan="5" RowSpan="4" Rotation="270" Fixed="1"></Desk>
+				<Desk Name="2"  Column="4" Row="9" ColumnSpan="5" RowSpan="4" Rotation="90" Fixed="0"></Desk>
+				<Desk Name="3"  Column="15" Row="4" ColumnSpan="5" RowSpan="4" Rotation="90" Fixed="0"></Desk>
 			</Room>
-			<Room Name="21" Icon="/Icons/B-321.jpg" Column="1" Row="1" ColumnSpan="20" RowSpan="20" Rotation="0">
-				<Desk Name="1"  Column="9" Row="3" ColumnSpan="5" RowSpan="5" Rotation="0" Fixed="1"></Desk>
-				<Desk Name="2"  Column="16" Row="3" ColumnSpan="5" RowSpan="5" Rotation="90" Fixed="1"></Desk>
-				<Desk Name="3"  Column="16" Row="15" ColumnSpan="5" RowSpan="5" Rotation="90" Fixed="1"></Desk>
-				<Desk Name="4"  Column="6" Row="15" ColumnSpan="5" RowSpan="5" Rotation="90" Fixed="0"></Desk>
-				<Desk Name="5"  Column="2" Row="15" ColumnSpan="5" RowSpan="5" Rotation="270" Fixed="0"></Desk>
+			<Room Name="19" Icon="/Icons/B-319.png" Column="1" Row="1" ColumnSpan="30" RowSpan="20" Rotation="0" ColumnS="31" RowS="1" ColumnSpanS="15" RowSpanS="10" RotationS="0" Fixed="0">
+				<Desk Name="1"  Column="2" Row="4" ColumnSpan="5" RowSpan="4" Rotation="270" Fixed="0"></Desk>
+				<Desk Name="2"  Column="2" Row="14" ColumnSpan="5" RowSpan="4" Rotation="270" Fixed="0"></Desk>
+				<Desk Name="3"  Column="11" Row="4" ColumnSpan="5" RowSpan="4" Rotation="270" Fixed="0"></Desk>
+				<Desk Name="4"  Column="15" Row="4" ColumnSpan="5" RowSpan="4" Rotation="90" Fixed="0"></Desk>
+				<Desk Name="5"  Column="15" Row="11" ColumnSpan="5" RowSpan="4" Rotation="90" Fixed="0"></Desk>
+				<Desk Name="6"  Column="21" Row="4" ColumnSpan="5" RowSpan="4" Rotation="270" Fixed="0"></Desk>
+				<Desk Name="7"  Column="25" Row="4" ColumnSpan="5" RowSpan="4" Rotation="90" Fixed="0"></Desk>
+				<Desk Name="8"  Column="25" Row="14" ColumnSpan="5" RowSpan="4" Rotation="90" Fixed="0"></Desk>
 			</Room>
-			<Room Name="22" Icon="/Icons/B-322.jpg" Column="1" Row="1" ColumnSpan="10" RowSpan="20" Rotation="0">
-				<Desk Name="1"  Column="1" Row="15" ColumnSpan="5" RowSpan="5" Rotation="270" Fixed="1"></Desk>
-				<Desk Name="2"  Column="6" Row="15" ColumnSpan="5" RowSpan="5" Rotation="90" Fixed="0"></Desk>
+			<Room Name="21" Icon="/Icons/B-321.png" Column="1" Row="1" ColumnSpan="20" RowSpan="20" Rotation="0" ColumnS="36" RowS="11" ColumnSpanS="10" RowSpanS="10" RotationS="0" Fixed="0">
+				<Desk Name="1"  Column="9" Row="3" ColumnSpan="5" RowSpan="4" Rotation="0" Fixed="1"></Desk>
+				<Desk Name="2"  Column="15" Row="3" ColumnSpan="5" RowSpan="4" Rotation="90" Fixed="1"></Desk>
+				<Desk Name="3"  Column="15" Row="15" ColumnSpan="5" RowSpan="4" Rotation="90" Fixed="1"></Desk>
+				<Desk Name="4"  Column="6" Row="15" ColumnSpan="5" RowSpan="4" Rotation="90" Fixed="0"></Desk>
+				<Desk Name="5"  Column="2" Row="15" ColumnSpan="5" RowSpan="4" Rotation="270" Fixed="0"></Desk>
 			</Room>
-			<Room Name="23" Icon="/Icons/B-323.jpg" Column="1" Row="1" ColumnSpan="20" RowSpan="20" Rotation="0">
-				<Desk Name="1"  Column="2" Row="15" ColumnSpan="5" RowSpan="5" Rotation="270" Fixed="0"></Desk>
-				<Desk Name="2"  Column="6" Row="15" ColumnSpan="5" RowSpan="5" Rotation="90" Fixed="0"></Desk>
-				<Desk Name="3"  Column="15" Row="15" ColumnSpan="5" RowSpan="5" Rotation="90" Fixed="1"></Desk>
+			<Room Name="22" Icon="/Icons/B-322.png" Column="1" Row="7" ColumnSpan="11" RowSpan="14" Rotation="0" ColumnS="31" RowS="14" ColumnSpanS="5" RowSpanS="7" RotationS="0" Fixed="0">
+				<Desk Name="1"  Column="2" Row="15" ColumnSpan="5" RowSpan="4" Rotation="270" Fixed="0"></Desk>
+				<Desk Name="2"  Column="6" Row="15" ColumnSpan="5" RowSpan="4" Rotation="90" Fixed="1"></Desk>
 			</Room>
-			<Room Name="24" Icon="/Icons/B-324.jpg" Column="1" Row="1" ColumnSpan="10" RowSpan="20" Rotation="0">
-				<Desk Name="1"  Column="1" Row="15" ColumnSpan="5" RowSpan="5" Rotation="270" Fixed="1"></Desk>
-				<Desk Name="2"  Column="6" Row="15" ColumnSpan="5" RowSpan="5" Rotation="90" Fixed="1"></Desk>
+			<Room Name="23" Icon="/Icons/B-323.png" Column="1" Row="7" ColumnSpan="20" RowSpan="14" Rotation="0" ColumnS="21" RowS="14" ColumnSpanS="10" RowSpanS="7" RotationS="0" Fixed="0">
+				<Desk Name="1"  Column="2" Row="15" ColumnSpan="5" RowSpan="4" Rotation="270" Fixed="0"></Desk>
+				<Desk Name="2"  Column="6" Row="15" ColumnSpan="5" RowSpan="4" Rotation="90" Fixed="0"></Desk>
+				<Desk Name="3"  Column="15" Row="15" ColumnSpan="5" RowSpan="4" Rotation="90" Fixed="1"></Desk>
+			</Room>
+			<Room Name="24" Icon="/Icons/B-324.png" Column="1" Row="7" ColumnSpan="11" RowSpan="14" Rotation="0" ColumnS="16" RowS="14" ColumnSpanS="5" RowSpanS="7" RotationS="0" Fixed="0">
+				<Desk Name="1"  Column="2" Row="15" ColumnSpan="5" RowSpan="4" Rotation="270" Fixed="1"></Desk>
+				<Desk Name="2"  Column="6" Row="15" ColumnSpan="5" RowSpan="4" Rotation="90" Fixed="1"></Desk>
+			</Room>
+			<Room Name="25" Icon="/Icons/B-325.png" Column="1" Row="7" ColumnSpan="11" RowSpan="14" Rotation="0" ColumnS="6" RowS="14" ColumnSpanS="10" RowSpanS="7" RotationS="0" Fixed="1">
+			</Room>
+			<Room Name="26" Icon="/Icons/B-326.png" Column="1" Row="7" ColumnSpan="11" RowSpan="14" Rotation="0" ColumnS="1" RowS="14" ColumnSpanS="5" RowSpanS="7" RotationS="0" Fixed="1">
 			</Room>
 		</Storey>
+	</Buidling>
+	<Buidling Name="C" Icon="/Icons/Build-C.png" Column="2" Row="9" ColumnSpan="6" RowSpan="5" Rotation="0">
 	</Buidling>
 </Property>

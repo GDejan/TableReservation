@@ -5,8 +5,10 @@ using System.IO;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
+using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using System.Windows.Navigation;
 using System.Xml;
 using TableReservation.Helpers;
 using TableReservation.Property;
@@ -14,6 +16,7 @@ using TableReservation.Resevations;
 using TableReservation.Users;
 using TableReservation.ViewModels;
 using TableReservation.Views;
+using System.Linq;
 
 namespace TableReservation
 {
@@ -50,8 +53,8 @@ namespace TableReservation
         private int rowInt;
         private int rowSpanInt;
         private int rotationInt;
-        private string tooltip;
-
+        
+        private int level;
         public static int NoOfWindows = 0;
 
         public UserPage(SessionUser sessionUser)
@@ -62,6 +65,7 @@ namespace TableReservation
             updateListbox();
             LogedUser.Text = "Loged user: \n" + sessionUser.User.FullName();
             Forecast.IsEnabled = false;
+            readXMlBuilding();
         }
 
         private void loadLists()
@@ -83,52 +87,7 @@ namespace TableReservation
                 view.SortDescriptions.Add(new SortDescription("ReservedAtDate", ListSortDirection.Ascending));
             }
         }
-
-        private void buildingBox_loaded(object sender, RoutedEventArgs e)
-        {
-            BuildingBox.Items.Clear();
-            if (buildings != null)
-            {
-                foreach (var item in buildings) BuildingBox.Items.Add(item);
-            }
-        }
-
-        private void storeyBox_loaded(object sender, RoutedEventArgs e)
-        {
-            StoreyBox.Items.Clear();
-            if (storeys != null)
-            {
-                foreach (var item in storeys) StoreyBox.Items.Add(item);
-            }
-        }
-
-        private void roomBox_loaded(object sender, RoutedEventArgs e)
-        {
-            RoomBox.Items.Clear();
-            if (rooms != null)
-            {
-                foreach (var item in rooms) RoomBox.Items.Add(item);
-            }
-        }
-
-        private void buildingBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            building = (Building)BuildingBox.SelectedItem;
-            updateCanvas();
-        }
-
-        private void storeyBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            storey = (Storey)StoreyBox.SelectedItem;
-            updateCanvas();
-        }
-
-        private void roomBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            room = (Room)RoomBox.SelectedItem;
-            updateCanvas();
-        }
-
+       
         private void removeRes_Click(object sender, RoutedEventArgs e)
         {
             if (NoOfWindows == 0)
@@ -171,18 +130,139 @@ namespace TableReservation
             if ((building.Id > 0) && (storey.Id > 0) && (room.Id > 0))
             {
                 GridCanvas.Children.Clear();
-                readXMl();
-            }
-            if ((building.Id > 0) && (storey.Id > 0))
-            {
-                Forecast.IsEnabled = true;
+                xmlRoomDeskRead();
             }
         }
 
-        private void readXMl()
+        private void readXMlBuilding()
+        {
+            level = 1;
+            Forecast.IsEnabled = false;
+            if (File.Exists(settings.XmlRoomSetup))
+            {
+                xDoc.Load(settings.XmlRoomSetup);
+                GridCanvas.Children.Clear();
+
+                string nameProperty = xDoc.DocumentElement.Attributes.GetNamedItem("Name").Value;
+                string iconProperty = xDoc.DocumentElement.Attributes.GetNamedItem("Icon").Value;
+                string columnProperty = xDoc.DocumentElement.Attributes.GetNamedItem("Column").Value;
+                string columnSpanProperty = xDoc.DocumentElement.Attributes.GetNamedItem("ColumnSpan").Value;
+                string rowProperty = xDoc.DocumentElement.Attributes.GetNamedItem("Row").Value;
+                string rowSpanProperty = xDoc.DocumentElement.Attributes.GetNamedItem("RowSpan").Value;
+                string rotationProperty = xDoc.DocumentElement.Attributes.GetNamedItem("Rotation").Value;
+
+                drawProperty(nameProperty, iconProperty, columnProperty, rowProperty, columnSpanProperty, rowSpanProperty, rotationProperty);
+
+                foreach (XmlNode buildingXml in xDoc.DocumentElement.ChildNodes)
+                {
+                    string nameBuilding = buildingXml.Attributes.GetNamedItem("Name").Value;
+                    string iconBuilding = buildingXml.Attributes.GetNamedItem("Icon").Value;
+                    string columnBuilding = buildingXml.Attributes.GetNamedItem("Column").Value;
+                    string columnSpanBuilding = buildingXml.Attributes.GetNamedItem("ColumnSpan").Value;
+                    string rowBuilding = buildingXml.Attributes.GetNamedItem("Row").Value;
+                    string rowSpanBuilding = buildingXml.Attributes.GetNamedItem("RowSpan").Value;
+                    string rotationBuilding = buildingXml.Attributes.GetNamedItem("Rotation").Value;
+
+                    drawBuilding(nameBuilding, iconBuilding, columnBuilding, rowBuilding, columnSpanBuilding, rowSpanBuilding, rotationBuilding);
+                }
+            }
+        }
+
+        private void readXMlFloor(object sender, RoutedEventArgs e)
+        {            
+            Image imgFloor = sender as Image;
+            getBuilding(imgFloor);
+
+            XmlFloorRead();
+        }
+
+        private void XmlFloorRead()
         {
             if (File.Exists(settings.XmlRoomSetup))
             {
+                level = 2;
+                Forecast.IsEnabled = false;
+                xDoc.Load(settings.XmlRoomSetup);
+                foreach (XmlNode buildingXml in xDoc.DocumentElement.ChildNodes)
+                {
+                    if (buildingXml.Attributes.GetNamedItem("Name").Value == building.Name)
+                    {
+                        GridCanvas.Children.Clear();
+                        foreach (XmlNode storeyXml in buildingXml)
+                        {
+                            string nameFloor = storeyXml.Attributes.GetNamedItem("Name").Value;
+                            string iconFloor = storeyXml.Attributes.GetNamedItem("Icon").Value;
+                            string columnFloor = storeyXml.Attributes.GetNamedItem("Column").Value;
+                            string columnSpanFloor = storeyXml.Attributes.GetNamedItem("ColumnSpan").Value;
+                            string rowFloor = storeyXml.Attributes.GetNamedItem("Row").Value;
+                            string rowSpanFloor = storeyXml.Attributes.GetNamedItem("RowSpan").Value;
+                            string rotationFloor = storeyXml.Attributes.GetNamedItem("Rotation").Value;
+
+                            drawFloor(nameFloor, iconFloor, columnFloor, rowFloor, columnSpanFloor, rowSpanFloor, rotationFloor);
+                        }
+                        break;
+                    }
+                }
+            }
+        }
+
+        private void readXMlStorey(object sender, RoutedEventArgs e)
+        {
+            Image imgStorey = sender as Image;
+            getStorey(imgStorey);
+            XMlStoreyRead();
+        }
+
+        private void XMlStoreyRead()
+        {
+            if (File.Exists(settings.XmlRoomSetup))
+            {
+                level = 3;
+                Forecast.IsEnabled = true;
+                xDoc.Load(settings.XmlRoomSetup);
+                foreach (XmlNode buildingXml in xDoc.DocumentElement.ChildNodes)
+                {
+                    if (buildingXml.Attributes.GetNamedItem("Name").Value == building.Name)
+                    {
+                        foreach (XmlNode storeyXml in buildingXml)
+                        {
+                            if (storeyXml.Attributes.GetNamedItem("Name").Value == storey.Name)
+                            {
+                                GridCanvas.Children.Clear();
+                                foreach (XmlNode roomXml in storeyXml)
+                                {
+                                    string nameRoom = roomXml.Attributes.GetNamedItem("Name").Value;
+                                    string iconRoom = roomXml.Attributes.GetNamedItem("Icon").Value;
+                                    string columnRoom = roomXml.Attributes.GetNamedItem("ColumnS").Value;
+                                    string columnSpanRoom = roomXml.Attributes.GetNamedItem("ColumnSpanS").Value;
+                                    string rowRoom = roomXml.Attributes.GetNamedItem("RowS").Value;
+                                    string rowSpanRoom = roomXml.Attributes.GetNamedItem("RowSpanS").Value;
+                                    string rotationRoom = roomXml.Attributes.GetNamedItem("RotationS").Value;
+
+                                    drawStorey(nameRoom, iconRoom, columnRoom, rowRoom, columnSpanRoom, rowSpanRoom, rotationRoom);
+                                }
+                                break;
+                            }
+                        }
+                        break;
+                    }
+                }
+            }
+        }
+
+        private void readXMlRoomDesk(object sender, RoutedEventArgs e)
+        {
+            Image imgRoom = sender as Image;
+            getRoom(imgRoom);
+            xmlRoomDeskRead();
+        }
+
+        private void xmlRoomDeskRead() 
+        {
+            if (File.Exists(settings.XmlRoomSetup))
+            {
+                level = 4;
+                Forecast.IsEnabled = true;
                 xDoc.Load(settings.XmlRoomSetup);
                 foreach (XmlNode buildingXml in xDoc.DocumentElement.ChildNodes)
                 {
@@ -196,6 +276,8 @@ namespace TableReservation
                                 {
                                     if (roomXml.Attributes.GetNamedItem("Name").Value == room.Name)
                                     {
+                                        GridCanvas.Children.Clear();
+
                                         string nameRoom = roomXml.Attributes.GetNamedItem("Name").Value;
                                         string iconRoom = roomXml.Attributes.GetNamedItem("Icon").Value;
                                         string columnRoom = roomXml.Attributes.GetNamedItem("Column").Value;
@@ -203,8 +285,8 @@ namespace TableReservation
                                         string rowRoom = roomXml.Attributes.GetNamedItem("Row").Value;
                                         string rowSpanRoom = roomXml.Attributes.GetNamedItem("RowSpan").Value;
                                         string rotationRoom = roomXml.Attributes.GetNamedItem("Rotation").Value;
-                                        
-                                        drawRoom(iconRoom, columnRoom, rowRoom, columnSpanRoom, rowSpanRoom, rotationRoom);
+
+                                        drawRoom(nameRoom, iconRoom, columnRoom, rowRoom, columnSpanRoom, rowSpanRoom, rotationRoom);
 
                                         foreach (XmlNode deskXml in roomXml)
                                         {
@@ -215,71 +297,143 @@ namespace TableReservation
                                             string rowSpanDesk = deskXml.Attributes.GetNamedItem("RowSpan").Value;
                                             string rotationDesk = deskXml.Attributes.GetNamedItem("Rotation").Value;
                                             string fixedDesk = deskXml.Attributes.GetNamedItem("Fixed").Value;
-                                           
+
                                             drawDesk(nameDesk, columnDesk, rowDesk, columnSpanDesk, rowSpanDesk, rotationDesk, fixedDesk);
                                         }
+                                        break;
                                     }
                                 }
+                                break;
                             }
                         }
+                        break;
                     }
                 }
             }
         }
 
-        private void drawBuilding(string buildingIconPath, string column, string row, string columnSpan, string rowSpan, string rotation)
+        private void drawProperty(string name, string iconPath, string column, string row, string columnSpan, string rowSpan, string rotation)
         {
+            lblStatus.Content = "";
+            RoomCanvas.HorizontalScrollBarVisibility = ScrollBarVisibility.Hidden;
+            RoomCanvas.ScrollToHorizontalOffset(0);
             Image image = new Image();
-            image = drawShape(building.Name, column, row, columnSpan, rowSpan, rotation);
+            image = drawShape(name, iconPath, column, row, columnSpan, rowSpan, rotation);
             if (image != null)
             {
-                image = getBitmap(buildingIconPath, image);
-                image.Stretch = Stretch.Fill;
-                image.Tag = building.Name;
                 GridCanvas.Children.Add(image);
             }
-        }
-        private void drawStorey(string storeyIconPath, string column, string row, string columnSpan, string rowSpan, string rotation)
+        } 
+        
+        private void drawBuilding(string name, string iconPath, string column, string row, string columnSpan, string rowSpan, string rotation)
         {
+            lblStatus.Content = "";
+            RoomCanvas.HorizontalScrollBarVisibility = ScrollBarVisibility.Hidden;
+            RoomCanvas.ScrollToHorizontalOffset(0);
             Image image = new Image();
-            image = drawShape(storey.Name, column, row, columnSpan, rowSpan, rotation);
+            image = drawShape(name, iconPath, column, row, columnSpan, rowSpan, rotation);
             if (image != null)
             {
-                image = getBitmap(storeyIconPath, image);
-                image.Stretch = Stretch.Fill;
-                image.Tag = building.Name + "-" + storey.Name;
+                image.ToolTip = "Building name: " + name;
+                foreach (var item in buildings) 
+                {
+                    if (item.Name== name)
+                    {
+                        image.MouseLeftButtonDown+= readXMlFloor;
+                        image.MouseEnter += zoomInImage;
+                        image.MouseLeave += zoomOutImage;
+                        break;
+                    }
+                }             
                 GridCanvas.Children.Add(image);
+                //drawName(name, image.ToolTip.ToString());
             }
         }
 
-        private void drawRoom(string roomIconPath, string column, string row, string columnSpan, string rowSpan, string rotation)
+        private void drawFloor(string name, string iconPath, string column, string row, string columnSpan, string rowSpan, string rotation)
         {
+            lblStatus.Content = "Building: " + building.Name;
+            RoomCanvas.HorizontalScrollBarVisibility = ScrollBarVisibility.Hidden;
+            RoomCanvas.ScrollToHorizontalOffset(0);
             Image image = new Image();
-            image = drawShape(room.Name, column, row, columnSpan, rowSpan, rotation);
-
+            image = drawShape(name, iconPath, column, row, columnSpan, rowSpan, rotation);
             if (image != null)
             {
-                image = getBitmap(roomIconPath, image);
-                image.Stretch = Stretch.Fill;
+                image.ToolTip = "Floor: " + name;
+                foreach (var item in storeys)
+                {
+                    if (item.Name == name)
+                    {
+                        image.MouseLeftButtonDown += readXMlStorey;
+                        image.MouseEnter += zoomInImage;
+                        image.MouseLeave += zoomOutImage;
+                        break;
+                    }
+                }
+                
+                GridCanvas.Children.Add(image);
+                drawName(name, image.ToolTip.ToString());
+            }
+        }
+
+        private void drawStorey(string name, string iconPath, string column, string row, string columnSpan, string rowSpan, string rotation)
+        {
+            lblStatus.Content = "Building: " + building.Name + " Floor: " + storey.Name;
+            RoomCanvas.HorizontalScrollBarVisibility = ScrollBarVisibility.Auto;
+            Image image = new Image();
+            image = drawShape(name, iconPath, column, row, columnSpan, rowSpan, rotation);
+            if (image != null)
+            {
+                image.ToolTip = "Room: " + name;
+                foreach (var item in rooms)
+                {
+                    if (item.Name == name)
+                    {
+                        image.MouseLeftButtonDown += readXMlRoomDesk;
+                        image.MouseEnter += zoomInImage;
+                        image.MouseLeave += zoomOutImage;
+                        break;
+                    }
+                }
+                
+                GridCanvas.Children.Add(image);
+                //drawName(name, image.ToolTip.ToString());
+            }
+        }
+
+        private void drawRoom(string name, string iconPath, string column, string row, string columnSpan, string rowSpan, string rotation)
+        {
+            lblStatus.Content = "Building: " + building.Name + " Floor: " + storey.Name + " Room: " + room.Name;
+            RoomCanvas.HorizontalScrollBarVisibility = ScrollBarVisibility.Hidden;
+            RoomCanvas.ScrollToHorizontalOffset(0);
+            Image image = new Image();
+            image = drawShape(name, iconPath, column, row, columnSpan, rowSpan, rotation);
+            if (image != null)
+            {
                 image.Tag = building.Name + "-" + storey.Name + room.Name;
+                image.ToolTip = "Room: " + name;
+
                 GridCanvas.Children.Add(image);
+                //drawName(name, image.ToolTip.ToString());
             }
         }
 
         private void drawDesk(string name, string column, string row, string columnSpan, string rowSpan, string rotation, string fixeddesk)
         {
-            if (checks.InputCheck(name) && checks.InputCheck(fixeddesk))
+            string tooltip;
+            Image image = new Image();
+            image = drawShape(name, "", column, row, columnSpan, rowSpan, rotation);
+            getDesk(name);
+            if (image != null)
             {
-                if (getDesk(name) != null)
+                foreach (var item in desks)
                 {
-                    Image image = new Image();
-
-                    image = drawShape(name, column, row, columnSpan, rowSpan, rotation);
-                    if (image != null)
+                    if (item.Name == name)
                     {
+                        tooltip = "";
                         if (fixeddesk == "0")
                         {
-                            image.MouseDown += showCalendar;
+                            image.MouseLeftButtonDown += showCalendar;
                             user = resMng.GetResUser(building, storey, room, desk, DateTime.Now.Date);
                             if (user != null)
                             {
@@ -287,6 +441,8 @@ namespace TableReservation
                                 image.Tag = building.Name + "-" + storey.Name + room.Name + "-" + desk.Name;
                                 tooltip = string.Format("Desk name: {0} \nStatus: Reserved by {1}", image.Tag, user.FullName());
                                 image.ToolTip = tooltip;
+                                image.MouseEnter += zoomInImage;
+                                image.MouseLeave += zoomOutImage;
                             }
                             else
                             {
@@ -294,43 +450,24 @@ namespace TableReservation
                                 image.Tag = building.Name + "-" + storey.Name + room.Name + "-" + desk.Name;
                                 tooltip = string.Format("Desk name: {0} \nStatus: Free", image.Tag);
                                 image.ToolTip = tooltip;
+                                image.MouseEnter += zoomInImage;
+                                image.MouseLeave += zoomOutImage;
                             }
                         }
-                        else 
+                        else
                         {
                             image = getBitmap(settings.DeskFixedResPath, image);
                             image.Tag = building.Name + "-" + storey.Name + room.Name + "-" + desk.Name;
                             tooltip = string.Format("Desk name: {0} \nStatus: Fixed reservation", image.Tag);
                             image.ToolTip = tooltip;
                         }
-                        
                         GridCanvas.Children.Add(image);
-                        drawDeskName();
+
+                        drawName(name,tooltip);
+
                     }
                 }
             }
-        }
-
-        private void drawDeskName()
-        {
-            Label label = new Label();
-            label.SetValue(Grid.RowProperty, rowInt +2 );
-            label.SetValue(Grid.ColumnProperty, columnInt+2 );
-            label.SetValue(Grid.RowSpanProperty, 2);
-            label.SetValue(Grid.ColumnSpanProperty, 2);
-            label.Margin= new Thickness(0,-10,0,0);
-            label.ToolTip = tooltip;
-            label.FontSize = 20;
-            label.Content = desk.Name;
-            label.Foreground = new SolidColorBrush(Color.FromRgb(0, 0, 0));
-
-            GridCanvas.Children.Add(label);
-
-            columnInt = 0;
-            columnSpanInt = 0;
-            rowInt = 0;
-            rowSpanInt = 0;
-            rotationInt = 0;
         }
 
         private Image getBitmap(string url, Image image)
@@ -346,7 +483,7 @@ namespace TableReservation
             return image;
         }
 
-        private Image drawShape(string name, string column, string row, string columnSpan, string rowSpan, string rotation)
+        private Image drawShape(string name, string iconPath, string column, string row, string columnSpan, string rowSpan, string rotation)
         {
             if (checkInput(name, column, row, columnSpan, rowSpan, rotation))
             {
@@ -359,11 +496,39 @@ namespace TableReservation
                 RotateTransform rotateTransform = new RotateTransform(rotationInt);
                 image.RenderTransform = rotateTransform;
                 image.RenderTransformOrigin = new Point(0.5, 0.5);
+                image = getBitmap(iconPath, image);
+
+                image.Stretch = Stretch.Fill;
+                image.Tag = name;
 
                 return image;
             }
             return null;
         }
+
+    
+        private void drawName(string name, string tooltip)
+        {
+            Label label = new Label();
+            label.SetValue(Grid.RowProperty, rowInt + rowSpanInt / 2);
+            label.SetValue(Grid.ColumnProperty, columnInt + columnSpanInt / 2);
+            label.SetValue(Grid.RowSpanProperty, 2);
+            label.SetValue(Grid.ColumnSpanProperty, 2);
+            label.Margin = new Thickness(0, -10, 0, 0);
+            label.ToolTip = tooltip;
+            label.FontSize = 20;
+            label.Content = name;
+            label.Foreground = new SolidColorBrush(Color.FromRgb(0, 0, 0));
+
+            GridCanvas.Children.Add(label);
+
+            columnInt = 0;
+            columnSpanInt = 0;
+            rowInt = 0;
+            rowSpanInt = 0;
+            rotationInt = 0;
+        }
+
 
         private bool checkInput(string name, string column, string row, string columnSpan, string rowSpan, string rotation)
         {
@@ -379,18 +544,48 @@ namespace TableReservation
             return false;
         }
 
-        private Desk getDesk(string name)
+        private void getBuilding(Image image)
         {
-            foreach (var item in desks)
+            foreach (var item in from item in buildings
+                                 where item.Name == image.Tag.ToString()
+                                 select item)
             {
-                if (item.Name == name)
-                {
-                    desk = item;
-                    return desk;
-                }
+                building = item;
+                break;
             }
-            return null;
         }
+        private void getStorey(Image image)
+        {
+            foreach (var item in from item in storeys
+                                 where item.Name == image.Tag.ToString()
+                                 select item)
+            {
+                storey = item;
+                break;
+            }
+        }
+        private void getRoom(Image image)
+        {
+            foreach (var item in from item in rooms
+                                 where item.Name == image.Tag.ToString()
+                                 select item)
+            {
+                room = item;
+                break;
+            }
+        }
+
+        private void getDesk(string name)
+        {
+            foreach (var item in from item in desks
+                                 where item.Name == name
+                                 select item)
+            {
+                desk = item;
+                break;
+            }
+        }
+
         private void changePass_Click(object sender, RoutedEventArgs e)
         {
             if (NoOfWindows == 0)
@@ -413,11 +608,58 @@ namespace TableReservation
 
         private void Forecast_Click(object sender, RoutedEventArgs e)
         {
-          //  if (NoOfWindows == 0)
-          //  {
-                ForeCast foreCast = new ForeCast(building, storey, this);
-                foreCast.Show();
-          //  }
+            //if (NoOfWindows == 0)
+            //{
+            ForeCast foreCast = new ForeCast(building, storey);
+            foreCast.Show();
+            //}
+        }
+        private void zoomInImage(object sender, RoutedEventArgs e)
+        {
+            Image image = sender as Image;            
+            image.SetValue(Grid.RowSpanProperty, Grid.GetRowSpan(image)+1);
+            image.SetValue(Grid.ColumnSpanProperty, Grid.GetColumnSpan(image)+1);
+            image.Margin = new Thickness(-10, -10, 0, 0);
+            Panel.SetZIndex(image, 5);
+        }    
+        private void zoomOutImage(object sender, RoutedEventArgs e)
+        {
+            Image image = sender as Image;            
+            image.SetValue(Grid.RowSpanProperty, Grid.GetRowSpan(image)-1);
+            image.SetValue(Grid.ColumnSpanProperty, Grid.GetColumnSpan(image)-1);
+            image.Margin = new Thickness(0, 0, 0, 0);
+            Panel.SetZIndex(image, 0);
+        }
+
+        void OnNavigating(object sender, NavigatingCancelEventArgs e)
+        {
+            if (e.NavigationMode == NavigationMode.Refresh)
+                e.Cancel = true;
+            if (e.NavigationMode == NavigationMode.Back)
+                e.Cancel = true;
+            if (e.NavigationMode == NavigationMode.Forward)
+                e.Cancel = true;
+        }
+
+        private void goBack_Click(object sender, MouseButtonEventArgs e)
+        {
+            if (NoOfWindows == 0)
+            {
+                switch (level)
+                {
+                    case 2:
+                        readXMlBuilding();
+                        break;
+                    case 3:
+                        XmlFloorRead();
+                        break;
+                    case 4:
+                        XMlStoreyRead();
+                        break;
+                    default:
+                        break;
+                }
+            }
         }
     }
 }
