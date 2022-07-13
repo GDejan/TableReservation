@@ -193,7 +193,7 @@ namespace TableReservation.Views
             label.HorizontalAlignment = horizontalAlignment;
             label.VerticalAlignment = verticalAlignment;
             label.BorderThickness = new Thickness(1);
-            //label.Content = gridView[i, j];
+            label.Content = gridView[i, j];
             ForecastGrid.Children.Add(label);
 
         }
