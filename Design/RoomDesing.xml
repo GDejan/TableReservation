@@ -1,14 +1,14 @@
-﻿<Property Name="Siemens" Icon="/Icons/Property.png" Column="1" Row="1" ColumnSpan="25" RowSpan="25" Rotation="0">
+﻿<Property Name="Property" Icon="/Icons/Property.png" Column="1" Row="1" ColumnSpan="25" RowSpan="25" Rotation="0">
 	<Buidling Name="A" Icon="/Icons/Build-A.png" Column="2" Row="3" ColumnSpan="15" RowSpan="6" Rotation="0">
 	</Buidling>
 	<Buidling Name="B" Icon="/Icons/Build-B.png" Column="2" Row="14" ColumnSpan="15" RowSpan="6" Rotation="0">
-		<Storey Name="0" Icon="/Icons/GroundFloor.png" Column="1" Row="7" ColumnSpan="15" RowSpan="4" Rotation="0">
+		<Storey Name="0" Icon="/Icons/GroundFloor.png" Column="1" Row="10" ColumnSpan="17" RowSpan="4" Rotation="0">
 		</Storey>
-		<Storey Name="1" Icon="/Icons/Floor.png" Column="1" Row="5" ColumnSpan="15" RowSpan="4" Rotation="0">
+		<Storey Name="1" Icon="/Icons/Floor.png" Column="1" Row="7" ColumnSpan="17" RowSpan="4" Rotation="0">
 		</Storey>
-		<Storey Name="2" Icon="/Icons/Floor.png" Column="1" Row="3" ColumnSpan="15" RowSpan="4" Rotation="0">
+		<Storey Name="2" Icon="/Icons/Floor.png" Column="1" Row="4" ColumnSpan="17" RowSpan="4" Rotation="0">
 		</Storey>
-		<Storey Name="3" Icon="/Icons/Floor.png" Column="1" Row="1" ColumnSpan="15" RowSpan="4" Rotation="0">
+		<Storey Name="3" Icon="/Icons/Floor.png" Column="1" Row="1" ColumnSpan="17" RowSpan="4" Rotation="0">
 			<Room Name="15" Icon="/Icons/B-315.png" Column="1" Row="2" ColumnSpan="11" RowSpan="20" Rotation="0" ColumnS="1" RowS="1" ColumnSpanS="5" RowSpanS="10" RotationS="0" Fixed="1">
 			</Room>
 			<Room Name="16" Icon="/Icons/B-316.png" Column="1" Row="2" ColumnSpan="11" RowSpan="20" Rotation="0" ColumnS="6" RowS="1" ColumnSpanS="5" RowSpanS="10" RotationS="0" Fixed="1">
